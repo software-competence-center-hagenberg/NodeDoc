@@ -1,0 +1,33 @@
+@import at.scch.nodedoc.diffengine.DiffContext
+@import at.scch.nodedoc.documentation.diff.DiffDocEntry
+
+@args(DiffDocEntry diffDocEntry)
+
+<p>@diffDocEntry.getTitle()
+@if (!diffDocEntry.hasValue()) {
+    (no text defined)
+}
+</p>
+@if (diffDocEntry.hasValue()) {
+    <div class="diff-doc-entry @diffDocEntry.getDisplayDifferenceType().cssClass()">
+        @if (diffDocEntry.getValue().getDiffType() == DiffContext.ValueDiffType.UNCHANGED) {
+            @with (lines = diffDocEntry.getValue().getBaseOrElseCompareValue().split("\\r?\\n")) {
+                @for (int i = 0; i < lines.length; i++) {
+                    <p style="white-space: pre-wrap; margin-bottom: 0; margin-top: 0;">@lines[i]&nbsp;</p>
+                }
+            }
+        } else {
+            @with (lines = diffDocEntry.getValue().getBaseValue().split("\\r?\\n")) {
+                @for (int i = 0; i < lines.length; i++) {
+                    <p style="white-space: pre-wrap; margin-bottom: 0; margin-top: 0; text-decoration: line-through;">@lines[i]&nbsp;</p>
+                }
+            }
+            <hr>
+            @with (lines = diffDocEntry.getValue().getCompareValue().split("\\r?\\n")) {
+                @for (int i = 0; i < lines.length; i++) {
+                    <p style="white-space: pre-wrap; margin-bottom: 0; margin-top: 0;">@lines[i]&nbsp;</p>
+                }
+            }
+        }
+    </div>
+}

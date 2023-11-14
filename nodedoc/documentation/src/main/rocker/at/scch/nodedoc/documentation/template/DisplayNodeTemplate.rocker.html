@@ -1,0 +1,15 @@
+@import at.scch.nodedoc.documentation.displaymodel.*
+
+@args(DisplayNode node, RockerContent content)
+
+@currentContent => {
+    <div class="node-documentation-wrapper">
+        @node.getDocumentation().template()
+    </div>
+
+    <div class="node-description-wrapper">
+        @node.getDescription().template()
+    </div>
+    @content
+}
+@DisplaySectionTemplate.template(node, currentContent)

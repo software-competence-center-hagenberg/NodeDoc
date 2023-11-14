@@ -1,0 +1,8 @@
+@import com.fizzed.rocker.runtime.DefaultRockerModel
+@import at.scch.nodedoc.documentation.single.SingleDisplayMethod.SingleDisplayArgument
+
+@args(SingleDisplayArgument argument)
+
+<div class="inout">@argument.getDirection().htmlText()</div>
+<div>@argument.getArgumentType().template()</div>
+<div>@argument.getArgumentName().template()</div>

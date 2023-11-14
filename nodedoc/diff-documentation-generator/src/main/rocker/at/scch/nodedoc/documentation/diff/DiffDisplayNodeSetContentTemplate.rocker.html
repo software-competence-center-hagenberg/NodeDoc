@@ -1,0 +1,8 @@
+@import com.fizzed.rocker.runtime.DefaultRockerModel
+@import at.scch.nodedoc.documentation.diff.DiffDisplayNodeSet
+
+@args(DiffDisplayNodeSet.DiffContent nodeSetContent, DefaultRockerModel content)
+
+comparing @nodeSetContent.getModelUri().getBaseValue() (@nodeSetContent.getVersion().getBaseValue()) and @nodeSetContent.getModelUri().getCompareValue() (@nodeSetContent.getVersion().getCompareValue())
+
+@content

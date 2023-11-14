@@ -1,0 +1,13 @@
+@import com.fizzed.rocker.runtime.DefaultRockerModel
+@import at.scch.nodedoc.documentation.diff.table.*
+@import at.scch.nodedoc.diffengine.DiffContext
+@import java.util.function.Function
+
+@args(DiffContext.DiffView<?> cellValue, Function<Object, DefaultRockerModel> valueTemplate)
+
+@if (cellValue.getDiffType() == DiffContext.ValueDiffType.UNCHANGED) {
+    @valueTemplate.apply(cellValue.getBaseOrElseCompareValue())
+} else {
+    <p style="margin: 0; text-decoration: line-through;">@valueTemplate.apply(cellValue.getBaseValue())</p>
+    <p style="margin: 0;">@valueTemplate.apply(cellValue.getCompareValue())</p>
+}

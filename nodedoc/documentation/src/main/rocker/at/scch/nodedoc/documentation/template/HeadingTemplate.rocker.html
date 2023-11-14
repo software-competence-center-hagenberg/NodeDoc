@@ -1,0 +1,8 @@
+
+@args (int level, String id, RockerBody content)
+<a name="@id"></a>
+@if (level <= 6) {
+    <h@level>@content</h@level>
+} else {
+    <h6>@content</h6>
+}

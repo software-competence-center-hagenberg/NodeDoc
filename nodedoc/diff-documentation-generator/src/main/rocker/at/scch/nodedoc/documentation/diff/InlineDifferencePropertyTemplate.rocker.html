@@ -1,0 +1,12 @@
+@import com.fizzed.rocker.runtime.DefaultRockerModel
+@import at.scch.nodedoc.diffengine.DiffContext
+@import java.util.function.Function
+
+@args(DiffContext.DiffView<?> value, Function<Object, DefaultRockerModel> valueTemplate)
+
+@if (value.getDiffType() == DiffContext.ValueDiffType.UNCHANGED) {
+    @valueTemplate.apply(value.getBaseOrElseCompareValue())
+} else {
+    <span style="text-decoration: line-through;">@valueTemplate.apply(value.getBaseValue())</span>
+    &nbsp;@valueTemplate.apply(value.getCompareValue())
+}

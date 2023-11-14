@@ -1,0 +1,11 @@
+@import at.scch.nodedoc.diffengine.DiffContext.DiffView
+@import at.scch.nodedoc.diffengine.DiffContext
+
+@args(DiffView<String> browseName)
+
+@if (browseName.getDiffType().equals(DiffContext.ValueDiffType.CHANGED)) {
+    <span style="text-decoration: line-through">@browseName.getBaseValue()</span><br/>
+    @browseName.getCompareValue()
+} else {
+    @browseName.getBaseOrElseCompareValue()
+}

@@ -1,0 +1,29 @@
+@import com.fizzed.rocker.runtime.DefaultRockerModel
+@import at.scch.nodedoc.documentation.single.SingleDisplayNodeSet
+
+@args(SingleDisplayNodeSet.SingleContent nodeSetContent, DefaultRockerModel content)
+
+<script>initDocEntryEditors();</script>
+<div id="editor-root" data-namespaceuri="@nodeSetContent.getModelUri()" data-version="@nodeSetContent.getVersion()" data-publicationdate="@nodeSetContent.getPublicationDate()"></div>
+
+<h1>Indices of used Namespaces</h1>
+<div class="section-content">
+    @raw(nodeSetContent.getNamespaceIndicesEditor().toString())
+
+    <table class="namespace-table">
+        <tbody>
+            <tr>
+                <th>Index</th>
+                <th>Namespace</th>
+            </tr>
+            @for ((i, namespace) : nodeSetContent.getUsedNamespaces()) {
+                <tr>
+                    <td>@i.index()</td>
+                    <td>@namespace</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@content

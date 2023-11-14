@@ -1,0 +1,3 @@
+nodedoc:
+  couchDb:
+    createDb: false

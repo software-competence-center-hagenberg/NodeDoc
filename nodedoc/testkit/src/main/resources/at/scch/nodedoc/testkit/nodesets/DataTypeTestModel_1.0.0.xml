@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UANodeSet xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
+		   xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd"
+		   xmlns:ua="http://unifiedautomation.com/Configuration/NodeSet.xsd">
+	<NamespaceUris>
+		<Uri>http://test.com/datatype/</Uri>
+	</NamespaceUris>
+	<Models>
+		<Model ModelUri="http://test.com/datatype/" PublicationDate="2020-02-05T14:59:58Z" Version="1.0.0">
+			<RequiredModel ModelUri="http://opcfoundation.org/UA/" PublicationDate="2019-09-09T00:00:00Z" Version="1.04.3"/>
+		</Model>
+	</Models>
+	<Aliases>
+		<Alias Alias="Boolean">i=1</Alias>
+		<Alias Alias="Float">i=10</Alias>
+		<Alias Alias="String">i=12</Alias>
+		<Alias Alias="DateTime">i=13</Alias>
+		<Alias Alias="LocalizedText">i=21</Alias>
+		<Alias Alias="Number">i=26</Alias>
+		<Alias Alias="HasModellingRule">i=37</Alias>
+		<Alias Alias="HasTypeDefinition">i=40</Alias>
+		<Alias Alias="HasSubtype">i=45</Alias>
+		<Alias Alias="HasProperty">i=46</Alias>
+		<Alias Alias="HasComponent">i=47</Alias>
+		<Alias Alias="IdType">i=256</Alias>
+		<Alias Alias="NumericRange">i=291</Alias>
+		<Alias Alias="MouldStatusEnumeration">ns=1;i=3008</Alias>
+		<Alias Alias="StandstillReasonType">ns=1;i=3015</Alias>
+		<Alias Alias="EnumValueType">i=7594</Alias>
+	</Aliases>
+	<Extensions>
+		<Extension>
+			<ua:ModelInfo Tool="UaModeler" Hash="104KkBYZjZ8Um7FcYEGG1A==" Version="1.6.3"/>
+		</Extension>
+	</Extensions>
+
+
+	<UAObjectType NodeId="ns=1;i=1029" BrowseName="1:MouldType">
+		<DisplayName>MouldType</DisplayName>
+		<Description>Description and status of a mould</Description>
+		<References>
+			<Reference ReferenceType="HasProperty">ns=1;i=6125</Reference>
+			<Reference ReferenceType="HasSubtype" IsForward="false">i=58</Reference>
+		</References>
+	</UAObjectType>
+	<UAVariable DataType="MouldStatusEnumeration" ParentNodeId="ns=1;i=1029" NodeId="ns=1;i=6125" BrowseName="1:MouldStatus">
+		<DisplayName>MouldStatus</DisplayName>
+		<Description>Current (physical) status of the mould</Description>
+		<References>
+			<Reference ReferenceType="HasModellingRule">i=78</Reference>
+			<Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=1029</Reference>
+			<Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+		</References>
+		<Value>
+			<uax:Int32>0</uax:Int32>
+		</Value>
+	</UAVariable>
+
+
+	<UADataType NodeId="ns=1;i=3008" BrowseName="1:MouldStatusEnumeration">
+		<DisplayName>MouldStatusEnumeration</DisplayName>
+		<Description>Current (physical) status of the mould</Description>
+		<References>
+			<Reference ReferenceType="HasProperty">ns=1;i=6213</Reference>
+			<Reference ReferenceType="HasSubtype" IsForward="false">i=29</Reference>
+		</References>
+		<Definition Name="1:MouldStatusEnumeration">
+			<Field Name="OTHER" Value="0">
+				<Description>This state is used if none of the other states below apply</Description>
+			</Field>
+			<Field Name="MOULD_NOT_INSTALLED" Value="1">
+				<Description>The mould is not installed on the machine</Description>
+			</Field>
+			<Field Name="MOULD_CHANGE" Value="2">
+				<Description>During installation or changing of the mould</Description>
+			</Field>
+			<Field Name="MOULD_INSTALLED" Value="3">
+				<Description>The mould is installed and ready for production</Description>
+			</Field>
+		</Definition>
+	</UADataType>
+	<UAVariable DataType="EnumValueType" ParentNodeId="ns=1;i=3008" ValueRank="1" NodeId="ns=1;i=6213" ArrayDimensions="4" BrowseName="EnumValues">
+		<DisplayName>EnumValues</DisplayName>
+		<References>
+			<Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=3008</Reference>
+			<Reference ReferenceType="HasModellingRule">i=78</Reference>
+			<Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+		</References>
+		<Value>
+			<uax:ListOfExtensionObject>
+				<uax:ExtensionObject>
+					<uax:TypeId>
+						<uax:Identifier>i=7616</uax:Identifier>
+					</uax:TypeId>
+					<uax:Body>
+						<uax:EnumValueType>
+							<uax:Value>0</uax:Value>
+							<uax:DisplayName>
+								<uax:Text>OTHER</uax:Text>
+							</uax:DisplayName>
+							<uax:Description>
+								<uax:Text>This state is used if none of the other states below apply</uax:Text>
+							</uax:Description>
+						</uax:EnumValueType>
+					</uax:Body>
+				</uax:ExtensionObject>
+				<uax:ExtensionObject>
+					<uax:TypeId>
+						<uax:Identifier>i=7616</uax:Identifier>
+					</uax:TypeId>
+					<uax:Body>
+						<uax:EnumValueType>
+							<uax:Value>1</uax:Value>
+							<uax:DisplayName>
+								<uax:Text>MOULD_NOT_INSTALLED</uax:Text>
+							</uax:DisplayName>
+							<uax:Description>
+								<uax:Text>The mould is not installed on the machine</uax:Text>
+							</uax:Description>
+						</uax:EnumValueType>
+					</uax:Body>
+				</uax:ExtensionObject>
+				<uax:ExtensionObject>
+					<uax:TypeId>
+						<uax:Identifier>i=7616</uax:Identifier>
+					</uax:TypeId>
+					<uax:Body>
+						<uax:EnumValueType>
+							<uax:Value>2</uax:Value>
+							<uax:DisplayName>
+								<uax:Text>MOULD_CHANGE</uax:Text>
+							</uax:DisplayName>
+							<uax:Description>
+								<uax:Text>During installation or changing of the mould</uax:Text>
+							</uax:Description>
+						</uax:EnumValueType>
+					</uax:Body>
+				</uax:ExtensionObject>
+				<uax:ExtensionObject>
+					<uax:TypeId>
+						<uax:Identifier>i=7616</uax:Identifier>
+					</uax:TypeId>
+					<uax:Body>
+						<uax:EnumValueType>
+							<uax:Value>3</uax:Value>
+							<uax:DisplayName>
+								<uax:Text>MOULD_INSTALLED</uax:Text>
+							</uax:DisplayName>
+							<uax:Description>
+								<uax:Text>The mould is installed and ready for production</uax:Text>
+							</uax:Description>
+						</uax:EnumValueType>
+					</uax:Body>
+				</uax:ExtensionObject>
+			</uax:ListOfExtensionObject>
+		</Value>
+	</UAVariable>
+
+
+	<UAObjectType NodeId="ns=1;i=1018" BrowseName="1:MachineMESConfigurationType">
+		<DisplayName>MachineMESConfigurationType</DisplayName>
+		<Description>Current configuration of a machine related to a Manufacturing Execution System (MES)</Description>
+		<References>
+			<Reference ReferenceType="HasSubtype" IsForward="false">i=58</Reference>
+			<Reference ReferenceType="HasProperty">ns=1;i=6196</Reference>
+		</References>
+	</UAObjectType>
+	<UAVariable DataType="StandstillReasonType" ParentNodeId="ns=1;i=1018" ValueRank="1" NodeId="ns=1;i=6196" BrowseName="1:StandstillReasons" AccessLevel="3">
+		<DisplayName>StandstillReasons</DisplayName>
+		<Description>List of the standstill reasons from which one is selected by the operator in the case of a standstill</Description>
+		<References>
+			<Reference ReferenceType="HasModellingRule">i=78</Reference>
+			<Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+			<Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=1018</Reference>
+		</References>
+	</UAVariable>
+
+
+	<UADataType NodeId="ns=1;i=3015" BrowseName="1:StandstillReasonType">
+		<DisplayName>StandstillReasonType</DisplayName>
+		<Description>Description of a standstill reason</Description>
+		<References>
+			<Reference ReferenceType="HasSubtype" IsForward="false">i=22</Reference>
+		</References>
+		<Definition Name="1:StandstillReasonType">
+			<Field DataType="String" Name="Id">
+				<Description>Id of the standstill reason</Description>
+			</Field>
+			<Field DataType="LocalizedText" Name="Text">
+				<Description>Text of the standstill reason</Description>
+			</Field>
+			<Field DataType="Boolean" Name="LockedByMES">
+				<Description>LockedByMES means that this StandstillReason has been set or modified by the MES and so this may not be changed by the machine</Description>
+			</Field>
+		</Definition>
+	</UADataType>
+
+</UANodeSet>

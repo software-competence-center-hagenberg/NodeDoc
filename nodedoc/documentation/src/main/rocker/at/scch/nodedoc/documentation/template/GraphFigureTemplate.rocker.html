@@ -1,0 +1,9 @@
+@import at.scch.nodedoc.documentation.displaymodel.*
+@import com.fasterxml.jackson.databind.ObjectMapper
+
+@args(GraphFigure graphFigure)
+
+<figure class="graph">
+    <figcaption>Figure @graphFigure.getFigureNumber() - @graphFigure.getCaption().template() Overview</figcaption>
+    <script>drawOPCUAGraphHere(@raw(new ObjectMapper().writeValueAsString(graphFigure.getGraphData())));</script>
+</figure>

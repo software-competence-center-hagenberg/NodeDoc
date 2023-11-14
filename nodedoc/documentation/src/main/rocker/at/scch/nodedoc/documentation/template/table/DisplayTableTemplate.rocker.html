@@ -1,0 +1,12 @@
+@import at.scch.nodedoc.documentation.displaymodel.table.*
+
+@args(DisplayTable table, RockerContent content)
+
+<table class="node-table">
+    <caption>Table @table.getTableNumber() - @table.getCaption().template()</caption>
+    <tbody>
+        @for (section : table.getSections()) {
+            @section.template()
+        }
+    </tbody>
+</table>

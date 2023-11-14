@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Gerald (Software Competence Center Hagenberg) -->
+<UANodeSet xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
+           xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd"
+           xmlns:ua="http://unifiedautomation.com/Configuration/NodeSet.xsd">
+    <NamespaceUris>
+        <Uri>http://www.difftest.org/euromap83/</Uri>
+        <Uri>http://opcfoundation.org/UA/DI/</Uri>
+    </NamespaceUris>
+    <Models>
+        <Model ModelUri="http://www.difftest.org/euromap83/" PublicationDate="2020-01-28T08:00:00Z" Version="1.02">
+            <RequiredModel ModelUri="http://opcfoundation.org/UA/" PublicationDate="2018-05-15T00:00:00Z" Version="1.04"/>
+            <RequiredModel ModelUri="http://opcfoundation.org/UA/DI/" PublicationDate="2013-12-02T00:00:00Z" Version="1.01"/>
+        </Model>
+    </Models>
+    <Aliases>
+        <Alias Alias="Boolean">i=1</Alias>
+        <Alias Alias="UInt16">i=5</Alias>
+        <Alias Alias="UInt32">i=7</Alias>
+        <Alias Alias="UInt64">i=9</Alias>
+        <Alias Alias="Double">i=11</Alias>
+        <Alias Alias="String">i=12</Alias>
+        <Alias Alias="DateTime">i=13</Alias>
+        <Alias Alias="ByteString">i=15</Alias>
+        <Alias Alias="LocalizedText">i=21</Alias>
+        <Alias Alias="Enumeration">i=29</Alias>
+        <Alias Alias="HasModellingRule">i=37</Alias>
+        <Alias Alias="HasEncoding">i=38</Alias>
+        <Alias Alias="HasDescription">i=39</Alias>
+        <Alias Alias="HasTypeDefinition">i=40</Alias>
+        <Alias Alias="GeneratesEvent">i=41</Alias>
+        <Alias Alias="HasSubtype">i=45</Alias>
+        <Alias Alias="HasProperty">i=46</Alias>
+        <Alias Alias="HasComponent">i=47</Alias>
+        <Alias Alias="IdType">i=256</Alias>
+        <Alias Alias="Duration">i=290</Alias>
+        <Alias Alias="NumericRange">i=291</Alias>
+        <Alias Alias="LocaleId">i=295</Alias>
+        <Alias Alias="Argument">i=296</Alias>
+        <Alias Alias="Range">i=884</Alias>
+        <Alias Alias="EUInformation">i=887</Alias>
+        <Alias Alias="EnumValueType">i=7594</Alias>
+        <Alias Alias="TimeZoneDataType">i=8912</Alias>
+        <Alias Alias="ControlModeEnumeration">ns=1;i=3001</Alias>
+        <Alias Alias="ProductionDatasetComponentEnumeration">ns=1;i=3002</Alias>
+        <Alias Alias="StorageEnumeration">ns=1;i=3005</Alias>
+        <Alias Alias="ProductionDatasetInformationType">ns=1;i=3006</Alias>
+        <Alias Alias="MouldStatusEnumeration">ns=1;i=3008</Alias>
+        <Alias Alias="LogbookEventsEnumeration">ns=1;i=3009</Alias>
+        <Alias Alias="UserChangeEnumeration">ns=1;i=3010</Alias>
+        <Alias Alias="MachineModeEnumeration">ns=1;i=3011</Alias>
+        <Alias Alias="SequenceChangeEnumeration">ns=1;i=3012</Alias>
+        <Alias Alias="MaintenanceStatusEnumeration">ns=1;i=3013</Alias>
+        <Alias Alias="PageEntryDataType">ns=1;i=3014</Alias>
+        <Alias Alias="StandstillReasonType">ns=1;i=3015</Alias>
+        <Alias Alias="ProductionStatusEnumeration">ns=1;i=3016</Alias>
+        <Alias Alias="JobStatusEnumeration">ns=1;i=3017</Alias>
+        <Alias Alias="EventOriginatorEnumeration">ns=1;i=3018</Alias>
+        <Alias Alias="CycleQualityEnumeration">ns=1;i=3019</Alias>
+        <Alias Alias="CavityCycleQualityEnumeration">ns=1;i=3020</Alias>
+        <Alias Alias="PIDParametersDataType">ns=1;i=3023</Alias>
+        <Alias Alias="TemperatureZoneClassificationEnumeration">ns=1;i=3029</Alias>
+    </Aliases>
+    <Extensions>
+        <Extension>
+            <ua:ModelInfo Tool="UaModeler" Hash="XiZbY7TojNCjwD0NTNp/HA==" Version="1.6.1"/>
+        </Extension>
+    </Extensions>
+    <UAObjectType NodeId="ns=1;i=1021" BrowseName="1:ActiveJobValuesType">
+        <DisplayName>ActiveJobValuesType</DisplayName>
+        <Description>Values of the active job</Description>
+        <References>
+            <Reference ReferenceType="HasSubtype" IsForward="false">i=58</Reference>
+            <Reference ReferenceType="HasProperty">ns=1;i=6219</Reference>
+            <Reference ReferenceType="HasProperty">ns=1;i=6239</Reference>
+            <Reference ReferenceType="HasComponent">ns=1;i=7003</Reference>
+            <Reference ReferenceType="HasProperty">ns=1;i=6243</Reference>
+            <Reference ReferenceType="HasComponent">ns=1;i=7002</Reference>
+        </References>
+    </UAObjectType>
+    <UAVariable DataType="String" ParentNodeId="ns=1;i=1021" NodeId="ns=1;i=6219" BrowseName="1:BoxId" AccessLevel="3">
+        <DisplayName>BoxId</DisplayName>
+        <Description>Id of the box in which the current production is put in</Description>
+        <References>
+            <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=1021</Reference>
+            <Reference ReferenceType="HasModellingRule">i=80</Reference>
+            <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+        </References>
+        <Value>
+            <uax:String/>
+        </Value>
+    </UAVariable>
+    <UAVariable DataType="String" ParentNodeId="ns=1;i=1021" NodeId="ns=1;i=6239" BrowseName="1:CurrentLotName" AccessLevel="3">
+        <DisplayName>CurrentLotName</DisplayName>
+        <Description>Name of the current production lot</Description>
+        <References>
+            <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=1021</Reference>
+            <Reference ReferenceType="HasModellingRule">i=78</Reference>
+            <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+        </References>
+        <Value>
+            <uax:String/>
+        </Value>
+    </UAVariable>
+    <UAMethod ParentNodeId="ns=1;i=1021" NodeId="ns=1;i=7009" BrowseName="1:FinishJob">
+        <DisplayName>FinishJob</DisplayName>
+        <Description>With this Method the client (e.g. MES) requests the machine to change the JobStatus to JOB_FINISHED_8</Description>
+        <References>
+            <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=1021</Reference>
+            <Reference ReferenceType="HasModellingRule">i=78</Reference>
+        </References>
+    </UAMethod>
+    <UAMethod ParentNodeId="ns=1;i=1021" NodeId="ns=1;i=7003" BrowseName="1:InterruptJob">
+        <DisplayName>InterruptJob</DisplayName>
+        <Description>With this Method the client (e.g. MES) requests the machine to change the JobStatus to JOB_INTERRUPTED_7</Description>
+        <References>
+            <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=1021</Reference>
+            <Reference ReferenceType="HasModellingRule">i=78</Reference>
+        </References>
+    </UAMethod>
+    <UAVariable DataType="JobStatusEnumeration" ParentNodeId="ns=1;i=1021" NodeId="ns=1;i=6243" BrowseName="1:JobStatus">
+        <DisplayName>JobStatus</DisplayName>
+        <Description>Current status of the job</Description>
+        <References>
+            <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=1021</Reference>
+            <Reference ReferenceType="HasModellingRule">i=78</Reference>
+            <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+        </References>
+        <Value>
+            <uax:Int32>0</uax:Int32>
+        </Value>
+    </UAVariable>
+    <UAMethod ParentNodeId="ns=1;i=1021" NodeId="ns=1;i=7002" BrowseName="1:StartJob">
+        <DisplayName>StartJob</DisplayName>
+        <Description>With this Method the client (e.g. MES) requests the machine to change the JobStatus to JOB_IN_PRODUCTION_6</Description>
+        <References>
+            <Reference ReferenceType="HasModellingRule">i=78</Reference>
+            <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=1021</Reference>
+        </References>
+    </UAMethod>
+
+    <UAObjectType NodeId="ns=1;i=1004" BrowseName="1:MessageConditionType">
+        <DisplayName>MessageConditionType</DisplayName>
+        <Description>Text messages (incl. error messages) of the control system currently shown on the screen of the machine</Description>
+        <References>
+            <Reference ReferenceType="HasProperty">ns=1;i=6001</Reference>
+            <Reference ReferenceType="HasProperty">ns=1;i=6009</Reference>
+            <Reference ReferenceType="HasProperty">ns=1;i=6015</Reference>
+            <Reference ReferenceType="HasSubtype" IsForward="false">i=2915</Reference>
+        </References>
+    </UAObjectType>
+    <UAVariable DataType="Enumeration" ParentNodeId="ns=1;i=1004" NodeId="ns=1;i=6001" BrowseName="1:Classification">
+        <DisplayName>Classification</DisplayName>
+        <Description>Classification of the message</Description>
+        <References>
+            <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=1004</Reference>
+            <Reference ReferenceType="HasModellingRule">i=78</Reference>
+            <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+        </References>
+    </UAVariable>
+    <UAVariable DataType="String" ParentNodeId="ns=1;i=1004" NodeId="ns=1;i=6009" BrowseName="1:Id">
+        <DisplayName>Id</DisplayName>
+        <Description>Id of the message</Description>
+        <References>
+            <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=1004</Reference>
+            <Reference ReferenceType="HasModellingRule">i=78</Reference>
+            <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+        </References>
+        <Value>
+            <uax:String/>
+        </Value>
+    </UAVariable>
+    <UAVariable DataType="Boolean" ParentNodeId="ns=1;i=1004" NodeId="ns=1;i=6015" BrowseName="1:IsStandstillMessage">
+        <DisplayName>IsStandstillMessage</DisplayName>
+        <Description>Indication if the message has led to a standstill</Description>
+        <References>
+            <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=1004</Reference>
+            <Reference ReferenceType="HasModellingRule">i=78</Reference>
+            <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+        </References>
+        <Value>
+            <uax:Boolean>false</uax:Boolean>
+        </Value>
+    </UAVariable>
+    <UAVariableType NodeId="ns=1;i=6246" BrowseName="1:UISpecialElementType" IsAbstract="false">
+        <DisplayName>UIElementType</DisplayName>
+        <Description>The base type for all UI Element Types.</Description>
+        <Documentation>https://reference.opcfoundation.org/v104/DI/docs/5.4.3</Documentation>
+        <References>
+            <Reference ReferenceType="HasSubtype" IsForward="false">i=63</Reference>
+        </References>
+    </UAVariableType>
+
+    <UAObjectType NodeId="ns=1;i=1048" BrowseName="1:UsersType">
+        <DisplayName>UsersType</DisplayName>
+        <Description>Container for objects of UserType</Description>
+        <References>
+            <Reference ReferenceType="HasProperty">ns=1;i=6063</Reference>
+            <Reference ReferenceType="HasComponent">ns=1;i=5016</Reference>
+            <Reference ReferenceType="HasSubtype" IsForward="false">i=58</Reference>
+        </References>
+    </UAObjectType>
+    <UAVariable DataType="String" ParentNodeId="ns=1;i=1048" NodeId="ns=1;i=6063" BrowseName="NodeVersion">
+        <DisplayName>NodeVersion</DisplayName>
+        <References>
+            <Reference ReferenceType="HasModellingRule">i=78</Reference>
+            <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=1048</Reference>
+            <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+        </References>
+        <Value>
+            <uax:String/>
+        </Value>
+    </UAVariable>
+    <UAObject SymbolicName="User__Nr_" ParentNodeId="ns=1;i=1048" NodeId="ns=1;i=5016" BrowseName="1:User_&lt;Nr>">
+        <DisplayName>User_&lt;Nr></DisplayName>
+        <References>
+            <Reference ReferenceType="HasTypeDefinition">ns=1;i=1045</Reference>
+            <Reference ReferenceType="HasModellingRule">i=11508</Reference>
+        </References>
+    </UAObject>
+    <UAObjectType NodeId="ns=1;i=1045" BrowseName="1:UserType">
+        <DisplayName>UserType</DisplayName>
+        <Description>Information on a operator of the machine</Description>
+        <References>
+            <Reference ReferenceType="HasSubtype" IsForward="false">i=58</Reference>
+        </References>
+    </UAObjectType>
+
+    <UADataType NodeId="ns=1;i=3017" BrowseName="1:JobStatusEnumeration">
+        <DisplayName>JobStatusEnumeration</DisplayName>
+        <Description>Current status of the job</Description>
+        <References>
+            <Reference ReferenceType="HasProperty">ns=1;i=6264</Reference>
+            <Reference ReferenceType="HasSubtype" IsForward="false">i=29</Reference>
+        </References>
+        <Definition Name="1:JobStatusEnumeration">
+            <Field Name="OTHER" Value="0">
+                <Description>This state is used if none of the other states below apply</Description>
+            </Field>
+            <Field Name="TRANSFERRED_ASSIGNED" Value="1">
+                <Description>The job has been transferred to the machine and assigned as current job</Description>
+            </Field>
+            <Field Name="SET_UP_ACTIVE" Value="2">
+                <Description>The operator prepares the machine for the job</Description>
+            </Field>
+            <Field Name="SET_UP_INTERRUPTED" Value="3">
+                <Description>The operator has interrupted but not finished the preparation of the machine for the job</Description>
+            </Field>
+            <Field Name="SET_UP_FINISHED" Value="4">
+                <Description>The operator has finished the preparation of the machine for the job</Description>
+            </Field>
+            <Field Name="START_UP_ACTIVE" Value="5">
+                <Description>The operator is setting the machine in the start-up phase</Description>
+            </Field>
+            <Field Name="JOB_IN_PRODUCTION" Value="6">
+                <Description>The machine is producing parts/products for the job</Description>
+            </Field>
+            <Field Name="JOB_INTERRUPTED" Value="7">
+                <Description>The job is interrupted. The nominal output is not reached</Description>
+            </Field>
+            <Field Name="JOB_FINISHED" Value="8">
+                <Description>Nominal output reached</Description>
+            </Field>
+            <Field Name="TEAR_DOWN_ACTIVE" Value="9">
+                <Description>The operator tears the machine down</Description>
+            </Field>
+            <Field Name="TEAR_DOWN_INTERRUPTED" Value="10">
+                <Description>Tear-down is interrupted but not finished</Description>
+            </Field>
+            <Field Name="TEAR_DOWN_FINISHED" Value="11">
+                <Description>Tear-down is finished</Description>
+            </Field>
+        </Definition>
+    </UADataType>
+    <UAVariable DataType="EnumValueType" ParentNodeId="ns=1;i=3017" ValueRank="1" NodeId="ns=1;i=6264" ArrayDimensions="12" BrowseName="EnumValues">
+        <DisplayName>EnumValues</DisplayName>
+        <References>
+            <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=3017</Reference>
+            <Reference ReferenceType="HasModellingRule">i=78</Reference>
+            <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+        </References>
+        <Value>
+            <uax:ListOfExtensionObject>
+                <uax:ExtensionObject>
+                    <uax:TypeId>
+                        <uax:Identifier>i=7616</uax:Identifier>
+                    </uax:TypeId>
+                    <uax:Body>
+                        <uax:EnumValueType>
+                            <uax:Value>0</uax:Value>
+                            <uax:DisplayName>
+                                <uax:Text>OTHER</uax:Text>
+                            </uax:DisplayName>
+                            <uax:Description>
+                                <uax:Text>This state is used if none of the other states below apply</uax:Text>
+                            </uax:Description>
+                        </uax:EnumValueType>
+                    </uax:Body>
+                </uax:ExtensionObject>
+                <uax:ExtensionObject>
+                    <uax:TypeId>
+                        <uax:Identifier>i=7616</uax:Identifier>
+                    </uax:TypeId>
+                    <uax:Body>
+                        <uax:EnumValueType>
+                            <uax:Value>1</uax:Value>
+                            <uax:DisplayName>
+                                <uax:Text>TRANSFERRED_ASSIGNED</uax:Text>
+                            </uax:DisplayName>
+                            <uax:Description>
+                                <uax:Text>The job has been transferred to the machine and assigned as current job</uax:Text>
+                            </uax:Description>
+                        </uax:EnumValueType>
+                    </uax:Body>
+                </uax:ExtensionObject>
+                <uax:ExtensionObject>
+                    <uax:TypeId>
+                        <uax:Identifier>i=7616</uax:Identifier>
+                    </uax:TypeId>
+                    <uax:Body>
+                        <uax:EnumValueType>
+                            <uax:Value>2</uax:Value>
+                            <uax:DisplayName>
+                                <uax:Text>SET_UP_ACTIVE</uax:Text>
+                            </uax:DisplayName>
+                            <uax:Description>
+                                <uax:Text>The operator prepares the machine for the job</uax:Text>
+                            </uax:Description>
+                        </uax:EnumValueType>
+                    </uax:Body>
+                </uax:ExtensionObject>
+                <uax:ExtensionObject>
+                    <uax:TypeId>
+                        <uax:Identifier>i=7616</uax:Identifier>
+                    </uax:TypeId>
+                    <uax:Body>
+                        <uax:EnumValueType>
+                            <uax:Value>3</uax:Value>
+                            <uax:DisplayName>
+                                <uax:Text>SET_UP_INTERRUPTED</uax:Text>
+                            </uax:DisplayName>
+                            <uax:Description>
+                                <uax:Text>The operator has interrupted but not finished the preparation of the machine for the job</uax:Text>
+                            </uax:Description>
+                        </uax:EnumValueType>
+                    </uax:Body>
+                </uax:ExtensionObject>
+                <uax:ExtensionObject>
+                    <uax:TypeId>
+                        <uax:Identifier>i=7616</uax:Identifier>
+                    </uax:TypeId>
+                    <uax:Body>
+                        <uax:EnumValueType>
+                            <uax:Value>4</uax:Value>
+                            <uax:DisplayName>
+                                <uax:Text>SET_UP_FINISHED</uax:Text>
+                            </uax:DisplayName>
+                            <uax:Description>
+                                <uax:Text>The operator has finished the preparation of the machine for the job</uax:Text>
+                            </uax:Description>
+                        </uax:EnumValueType>
+                    </uax:Body>
+                </uax:ExtensionObject>
+                <uax:ExtensionObject>
+                    <uax:TypeId>
+                        <uax:Identifier>i=7616</uax:Identifier>
+                    </uax:TypeId>
+                    <uax:Body>
+                        <uax:EnumValueType>
+                            <uax:Value>5</uax:Value>
+                            <uax:DisplayName>
+                                <uax:Text>START_UP_ACTIVE</uax:Text>
+                            </uax:DisplayName>
+                            <uax:Description>
+                                <uax:Text>The operator is setting the machine in the start-up phase</uax:Text>
+                            </uax:Description>
+                        </uax:EnumValueType>
+                    </uax:Body>
+                </uax:ExtensionObject>
+                <uax:ExtensionObject>
+                    <uax:TypeId>
+                        <uax:Identifier>i=7616</uax:Identifier>
+                    </uax:TypeId>
+                    <uax:Body>
+                        <uax:EnumValueType>
+                            <uax:Value>6</uax:Value>
+                            <uax:DisplayName>
+                                <uax:Text>JOB_IN_PRODUCTION</uax:Text>
+                            </uax:DisplayName>
+                            <uax:Description>
+                                <uax:Text>The machine is producing parts/products for the job</uax:Text>
+                            </uax:Description>
+                        </uax:EnumValueType>
+                    </uax:Body>
+                </uax:ExtensionObject>
+                <uax:ExtensionObject>
+                    <uax:TypeId>
+                        <uax:Identifier>i=7616</uax:Identifier>
+                    </uax:TypeId>
+                    <uax:Body>
+                        <uax:EnumValueType>
+                            <uax:Value>7</uax:Value>
+                            <uax:DisplayName>
+                                <uax:Text>JOB_INTERRUPTED</uax:Text>
+                            </uax:DisplayName>
+                            <uax:Description>
+                                <uax:Text>The job is interrupted. The nominal output is not reached</uax:Text>
+                            </uax:Description>
+                        </uax:EnumValueType>
+                    </uax:Body>
+                </uax:ExtensionObject>
+                <uax:ExtensionObject>
+                    <uax:TypeId>
+                        <uax:Identifier>i=7616</uax:Identifier>
+                    </uax:TypeId>
+                    <uax:Body>
+                        <uax:EnumValueType>
+                            <uax:Value>8</uax:Value>
+                            <uax:DisplayName>
+                                <uax:Text>JOB_FINISHED</uax:Text>
+                            </uax:DisplayName>
+                            <uax:Description>
+                                <uax:Text>Nominal output reached</uax:Text>
+                            </uax:Description>
+                        </uax:EnumValueType>
+                    </uax:Body>
+                </uax:ExtensionObject>
+                <uax:ExtensionObject>
+                    <uax:TypeId>
+                        <uax:Identifier>i=7616</uax:Identifier>
+                    </uax:TypeId>
+                    <uax:Body>
+                        <uax:EnumValueType>
+                            <uax:Value>9</uax:Value>
+                            <uax:DisplayName>
+                                <uax:Text>TEAR_DOWN_ACTIVE</uax:Text>
+                            </uax:DisplayName>
+                            <uax:Description>
+                                <uax:Text>The operator tears the machine down</uax:Text>
+                            </uax:Description>
+                        </uax:EnumValueType>
+                    </uax:Body>
+                </uax:ExtensionObject>
+                <uax:ExtensionObject>
+                    <uax:TypeId>
+                        <uax:Identifier>i=7616</uax:Identifier>
+                    </uax:TypeId>
+                    <uax:Body>
+                        <uax:EnumValueType>
+                            <uax:Value>10</uax:Value>
+                            <uax:DisplayName>
+                                <uax:Text>TEAR_DOWN_INTERRUPTED</uax:Text>
+                            </uax:DisplayName>
+                            <uax:Description>
+                                <uax:Text>Tear-down is interrupted but not finished</uax:Text>
+                            </uax:Description>
+                        </uax:EnumValueType>
+                    </uax:Body>
+                </uax:ExtensionObject>
+                <uax:ExtensionObject>
+                    <uax:TypeId>
+                        <uax:Identifier>i=7616</uax:Identifier>
+                    </uax:TypeId>
+                    <uax:Body>
+                        <uax:EnumValueType>
+                            <uax:Value>11</uax:Value>
+                            <uax:DisplayName>
+                                <uax:Text>TEAR_DOWN_FINISHED</uax:Text>
+                            </uax:DisplayName>
+                            <uax:Description>
+                                <uax:Text>Tear-down is finished</uax:Text>
+                            </uax:Description>
+                        </uax:EnumValueType>
+                    </uax:Body>
+                </uax:ExtensionObject>
+            </uax:ListOfExtensionObject>
+        </Value>
+    </UAVariable>
+</UANodeSet>

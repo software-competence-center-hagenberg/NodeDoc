@@ -1,0 +1,10 @@
+@import com.fizzed.rocker.runtime.DefaultRockerModel
+@import at.scch.nodedoc.diffengine.DiffContext
+
+@args(DiffDisplayNode.DiffDisplayHeadingText heading, DefaultRockerModel content)
+
+@if (heading.getText().getDiffType() == DiffContext.ValueDiffType.UNCHANGED) {
+    @heading.getText().getBaseOrElseCompareValue()
+} else {
+    <span style="text-decoration: line-through;">@heading.getText().getBaseValue()</span> @heading.getText().getCompareValue()
+}

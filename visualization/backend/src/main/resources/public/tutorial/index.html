@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NodeDoc Tutorial</title>
+    <link rel="stylesheet" href="mvp.css">
+    <style>
+        img {
+            box-shadow: 0px 0px 15px 2px rgba( 92, 92, 92 , 0.6 ) ;
+            max-width: 95% !important;
+            margin: 30px 0px;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>NodeDoc Tutorial</h1>
+        <p>
+            This tutorial gives a brief overview of the functionalities of NodeDoc and guides to use this demo.
+            In this demo, a few selected NodeSets are preloaded, whereas in the full version arbitrary NodeSets can be uploaded.
+        </p>
+        <p>
+            You can either start at <a href="#Documentation-Generation">Documentation Generation and Editing</a> to try the documentation features or skip right to <a href="#Compare-NodeSets">Compare NodeSets</a> to visualize the differences between two NodeSet versions.
+        </p>
+        <h2 id="Documentation-Generation">Documentation Generation and Editing</h2>
+        <h3>Generate HTML</h3>
+        <p>To generate documentations for NodeSets, choose a NodeSet from the NodeSet browser and click on the <em>gear button</em>.</p>
+        <section>
+            <img src="img/gendoc-select.png">
+        </section>
+        <p>
+            In the next dialog the selection of template for the generated documentation. In this demo just click on <em>Generate</em>, the default template will then be used.
+            The full version of NodeDoc supports using custom templates, which are used as a frame for the generated documentation.
+        </p>
+        <section>
+            <img src="img/gendoc-start.png">
+        </section>
+        <p>After the generation finished, a <em>HTML button</em> will appear next to the <em>gear button</em>. Clicking on the <em>HTML button</em> will open the generated documentation in a new tab.</p>
+        <section>
+            <img src="img/gendoc-open.png">
+        </section>
+        <h3>Edit documentation</h3>
+        <p>
+            After opening the generated HTML, the documentation and description of nodes, DataType fields and method arguments (in the following simply called <em>documentation entries</em>) can be freely edited in the highlighted text areas.
+            Furthermore, Markdown is supported, which will be rendered when the textare is out of focus (= not currently edited).
+        </p>
+        <section>
+            <img src="img/doc-md.png">
+        </section>
+        <section>
+            <img src="img/doc-rendered.png">
+        </section>
+
+        <h3>Browse History of documentation entries</h3>
+        <p>
+            If a node has already been documented in other versions of the NodeSets, the history can be shown by clicking on the <em>History button</em>.
+            Now a NodeSet version can be selected and the corresponding text is displayed.
+        </p>
+        <section>
+            <img src="img/history-browse.png">
+        </section>
+        <p>
+            Clicking the <em>Accept</em> will import the selected text into the current NodeSet, if the selected text version should be used.
+            Furthermore, if the original NodeSet XML file contains documentation entries, these texts are also shown in the version selector.
+        </p>
+        <section>
+            <img src="img/history-accept.png">
+        </section>
+        <h3>Re-Export NodeSets</h3>
+        <p>
+            After editing documentation entries of NodeSets, an updated version of the NodeSet XML file can be downloaded, where the current documentation entries are included.
+            This can be done by clicking on the <em>Export</em> button in the NodeSet browser.
+        </p>
+        <section>
+            <img src="img/export.png">
+        </section>
+        <h2 id="Compare-NodeSets">Compare NodeSets</h2>
+        <p>
+            Two versions of the same NodeSet can be compared with each other.
+            Start by selecting the base version for the comparison by clicking on the <em>arrows button</em> of the desired NodeSet version in the NodeSet browser.
+        </p>
+        <section>
+            <img src="img/compare-base.png">
+        </section>
+        <p>
+            A dialog will open. Select the second version for the comparison by clicking on the <em>arrows button</em> of the NodeSet version to be compared.
+        </p>
+        <section>
+            <img src="img/compare-other.png">
+        </section>
+        <p>
+            The diff will be generated and can be viewed by clicking on <em>Open Diff</em> in the <em>Generated Diffs</em> area.
+        </p>
+        <section>
+            <img src="img/compare-open.png">
+        </section>
+    </main>
+</body>
+</html>

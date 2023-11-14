@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        foreignObject .graph-node-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        foreignObject .graph-node-label {
+            width: 100%;
+            max-width: 100%;
+            text-overflow: ellipsis;
+            overflow-x: hidden;
+            white-space: nowrap;
+            padding: 10px;
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+        }
+
+        .italic foreignObject * {
+            font-style: italic;
+        }
+
+        svg a {
+            color: #000000;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>OPC UA Graph Rendering</h1>
+    <div id="paper"></div>
+    <script src="../dist/docscript.js"></script>
+    <script>
+        drawOPCUAGraphHere({
+            "root": {
+                "namespace": "1",
+                "type": "i",
+                "value": 1
+            },
+            "nodes": [
+                {
+                    "nodeClass": "UAObjectType",
+                    "browseName": "<span style=\"text-decoration: line-through\">1:OldRootType</span><br />1:NewRootType",
+                    "chapterAnchor": "1:NewRootType",
+                    "tooltipText": "1:OldRootType ➔ 1:NewRootType",
+                    "nodeId": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 1
+                    },
+                    "color": "default"
+                },
+                {
+                    "nodeClass": "UAObjectType",
+                    "browseName": "<span style=\"text-decoration: line-through\">1:OldBaseTypeA</span><br />1:NewBaseTypeA",
+                    "chapterAnchor": "1:NewBaseTypeA",
+                    "tooltipText": "1:OldBaseTypeA ➔ 1:NewBaseTypeA",
+                    "nodeId": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 2
+                    },
+                    "color": "changed"
+                },
+                {
+                    "nodeClass": "UAObjectType",
+                    "browseName": "<span style=\"text-decoration: line-through\">1:OldBaseTypeB</span><br />1:NewBaseTypeB",
+                    "chapterAnchor": "1:NewBaseTypeB",
+                    "tooltipText": "1:OldBaseTypeB ➔ 1:NewBaseTypeB",
+                    "nodeId": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 3
+                    },
+                    "color": "default"
+                },
+                {
+                    "nodeClass": "UAObjectType",
+                    "browseName": "<span style=\"text-decoration: line-through\">1:OldBaseTypeC</span><br />1:NewBaseTypeC",
+                    "chapterAnchor": "1:NewBaseTypeC",
+                    "tooltipText": "1:OldBaseTypeC ➔ 1:NewBaseTypeC",
+                    "nodeId": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 4
+                    },
+                    "color": "default"
+                },
+                {
+                    "nodeClass": "UAObject",
+                    "browseName": "1:SomeObject",
+                    "chapterAnchor": "1:SomeObject",
+                    "tooltipText": "1:SomeObject",
+                    "nodeId": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 10
+                    },
+                    "color": "default"
+                },
+                {
+                    "nodeClass": "UAVariable",
+                    "browseName": "1:SomeVariable",
+                    "chapterAnchor": "1:SomeVariable",
+                    "tooltipText": "1:SomeVariable",
+                    "nodeId": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 11
+                    },
+                    "dataType": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 21
+                    },
+                    "color": "default"
+                },
+                {
+                    "nodeClass": "UAMethod",
+                    "browseName": "1:SomeMethod",
+                    "chapterAnchor": "1:SomeMethod",
+                    "tooltipText": "1:SomeMethod",
+                    "nodeId": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 12
+                    },
+                    "color": "default"
+                },
+                {
+                    "nodeClass": "UAView",
+                    "browseName": "1:SomeView",
+                    "chapterAnchor": "1:SomeView",
+                    "tooltipText": "1:SomeView",
+                    "nodeId": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 13
+                    },
+                    "color": "default"
+                },
+                {
+                    "nodeClass": "UAObjectType",
+                    "browseName": "1:InstanceA",
+                    "chapterAnchor": "1:InstanceA",
+                    "tooltipText": "1:InstanceA",
+                    "nodeId": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 20
+                    },
+                    "color": "default"
+                },
+                {
+                    "nodeClass": "UAObjectType",
+                    "browseName": "1:InstanceB",
+                    "chapterAnchor": "1:InstanceB",
+                    "tooltipText": "1:InstanceB",
+                    "nodeId": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 22
+                    },
+                    "color": "default"
+                },
+                {
+                    "nodeClass": "UADataType",
+                    "browseName": "1:SomeDataType",
+                    "chapterAnchor": "1:SomeDataType",
+                    "tooltipText": "1:SomeDataType",
+                    "nodeId": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 21
+                    },
+                    "color": "removed"
+                },
+                {
+                    "nodeClass": "UAVariableType",
+                    "browseName": "1:SomeVariableType",
+                    "chapterAnchor": "1:SomeVariableType",
+                    "tooltipText": "1:SomeVariableType",
+                    "nodeId": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 30
+                    },
+                    "color": "added"
+                },
+                {
+                    "nodeClass": "UAObjectType",
+                    "browseName": "1:SomeObjectType",
+                    "chapterAnchor": "1:SomeObjectType",
+                    "tooltipText": "1:SomeObjectType",
+                    "nodeId": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 50
+                    },
+                    "color": "default"
+                },
+                {
+                    "nodeClass": "UAObjectType",
+                    "browseName": "1:SomeObjectTypeA",
+                    "chapterAnchor": "1:SomeObjectTypeA",
+                    "tooltipText": "1:SomeObjectTypeA",
+                    "nodeId": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 60
+                    },
+                    "color": "default"
+                },
+                {
+                    "nodeClass": "UAObjectType",
+                    "browseName": "1:SomeObjectTypeB",
+                    "chapterAnchor": "1:SomeObjectTypeB",
+                    "tooltipText": "1:SomeObjectTypeB",
+                    "nodeId": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 61
+                    },
+                    "color": "default"
+                },
+                {
+                    "nodeClass": "UAObjectType",
+                    "browseName": "1:SomeObjectTypeC",
+                    "chapterAnchor": "1:SomeObjectTypeC",
+                    "tooltipText": "1:SomeObjectTypeC",
+                    "nodeId": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 62
+                    },
+                    "color": "default"
+                },
+                {
+                    "nodeClass": "UAReferenceType",
+                    "browseName": "HasTypeDefinition",
+                    "chapterAnchor": null,
+                    "symmetric": false,
+                    "nodeId": {
+                        "namespace": "http://opcfoundation.org/UA/",
+                        "type": "i",
+                        "value": 40
+                    },
+                    "color": "default"
+                },
+                {
+                    "nodeClass": "UAReferenceType",
+                    "browseName": "GeneratesEvent",
+                    "chapterAnchor": null,
+                    "symmetric": false,
+                    "nodeId": {
+                        "namespace": "http://opcfoundation.org/UA/",
+                        "type": "i",
+                        "value": 41
+                    },
+                    "color": "default"
+                },
+                {
+                    "nodeClass": "UAReferenceType",
+                    "browseName": "HasSubtype",
+                    "chapterAnchor": null,
+                    "symmetric": false,
+                    "nodeId": {
+                        "namespace": "http://opcfoundation.org/UA/",
+                        "type": "i",
+                        "value": 45
+                    },
+                    "color": "default"
+                },
+                {
+                    "nodeClass": "UAReferenceType",
+                    "browseName": "HasProperty",
+                    "chapterAnchor": null,
+                    "symmetric": false,
+                    "nodeId": {
+                        "namespace": "http://opcfoundation.org/UA/",
+                        "type": "i",
+                        "value": 46
+                    },
+                    "color": "default"
+                },
+                {
+                    "nodeClass": "UAReferenceType",
+                    "browseName": "HasComponent",
+                    "chapterAnchor": null,
+                    "symmetric": false,
+                    "nodeId": {
+                        "namespace": "http://opcfoundation.org/UA/",
+                        "type": "i",
+                        "value": 47
+                    },
+                    "color": "default"
+                },
+                {
+                    "nodeClass": "UAReferenceType",
+                    "browseName": "ConnectsTo",
+                    "chapterAnchor": null,
+                    "symmetric": true,
+                    "nodeId": {
+                        "namespace": "http://opcfoundation.org/UA/DI/",
+                        "type": "i",
+                        "value": 6030
+                    },
+                    "color": "default"
+                }
+            ],
+            "references": [
+                {
+                    "referenceType": {
+                        "namespace": "http://opcfoundation.org/UA/",
+                        "type": "i",
+                        "value": 45
+                    },
+                    "source": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 2
+                    },
+                    "target": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 1
+                    },
+                    "color": "default"
+                },
+                {
+                    "referenceType": {
+                        "namespace": "http://opcfoundation.org/UA/",
+                        "type": "i",
+                        "value": 45
+                    },
+                    "source": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 3
+                    },
+                    "target": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 1
+                    },
+                    "color": "default"
+                },
+                {
+                    "referenceType": {
+                        "namespace": "http://opcfoundation.org/UA/",
+                        "type": "i",
+                        "value": 45
+                    },
+                    "source": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 4
+                    },
+                    "target": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 1
+                    },
+                    "color": "added"
+                },
+                {
+                    "referenceType": {
+                        "namespace": "http://opcfoundation.org/UA/",
+                        "type": "i",
+                        "value": 47
+                    },
+                    "source": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 1
+                    },
+                    "target": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 10
+                    },
+                    "color": "default"
+                },
+                {
+                    "referenceType": {
+                        "namespace": "http://opcfoundation.org/UA/",
+                        "type": "i",
+                        "value": 46
+                    },
+                    "source": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 1
+                    },
+                    "target": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 11
+                    },
+                    "color": "added"
+                },
+                {
+                    "referenceType": {
+                        "namespace": "http://opcfoundation.org/UA/",
+                        "type": "i",
+                        "value": 47
+                    },
+                    "source": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 1
+                    },
+                    "target": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 12
+                    },
+                    "color": "default"
+                },
+                {
+                    "referenceType": {
+                        "namespace": "http://opcfoundation.org/UA/",
+                        "type": "i",
+                        "value": 47
+                    },
+                    "source": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 1
+                    },
+                    "target": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 13
+                    },
+                    "color": "default"
+                },
+                {
+                    "referenceType": {
+                        "namespace": "http://opcfoundation.org/UA/",
+                        "type": "i",
+                        "value": 40
+                    },
+                    "source": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 10
+                    },
+                    "target": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 20
+                    },
+                    "color": "added"
+                },
+                {
+                    "referenceType": {
+                        "namespace": "http://opcfoundation.org/UA/",
+                        "type": "i",
+                        "value": 40
+                    },
+                    "source": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 10
+                    },
+                    "target": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 22
+                    },
+                    "color": "default"
+                },
+                {
+                    "referenceType": {
+                        "namespace": "http://opcfoundation.org/UA/",
+                        "type": "i",
+                        "value": 41
+                    },
+                    "source": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 1
+                    },
+                    "target": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 30
+                    },
+                    "color": "default"
+                },
+                {
+                    "referenceType": {
+                        "namespace": "http://opcfoundation.org/UA/DI/",
+                        "type": "i",
+                        "value": 6030
+                    },
+                    "source": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 1
+                    },
+                    "target": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 50
+                    },
+                    "color": "removed"
+                },
+                {
+                    "referenceType": {
+                        "namespace": "http://opcfoundation.org/UA/",
+                        "type": "i",
+                        "value": 45
+                    },
+                    "source": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 1
+                    },
+                    "target": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 60
+                    },
+                    "color": "default"
+                },
+                {
+                    "referenceType": {
+                        "namespace": "http://opcfoundation.org/UA/",
+                        "type": "i",
+                        "value": 45
+                    },
+                    "source": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 1
+                    },
+                    "target": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 61
+                    },
+                    "color": "default"
+                },
+                {
+                    "referenceType": {
+                        "namespace": "http://opcfoundation.org/UA/",
+                        "type": "i",
+                        "value": 45
+                    },
+                    "source": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 1
+                    },
+                    "target": {
+                        "namespace": "1",
+                        "type": "i",
+                        "value": 62
+                    },
+                    "color": "default"
+                }
+            ],
+            "nodeColors": [
+                {
+                    "name": "default",
+                    "backgroundColor": "#e8eef7",
+                    "shadowColor": "#d1ddef",
+                },
+                {
+                    "name": "changed",
+                    "backgroundColor": "hsla(0, 0%, 82%, 1)",
+                    "shadowColor": "hsla(0, 0%, 75%, 1)",
+                },
+                {
+                    "name": "added",
+                    "backgroundColor": "hsla(90, 58%, 70%, 1)",
+                    "shadowColor": "hsla(90, 58%, 63%, 1)",
+                },
+                {
+                    "name": "removed",
+                    "backgroundColor": "hsla(327, 61%, 85%, 1)",
+                    "shadowColor": "hsla(327, 61%, 78%, 1)",
+                },
+            ],
+            "referenceColors": [
+                {
+                    "name": "default",
+                    "color": "#000000",
+                },
+                {
+                    "name": "added",
+                    "color": "hsla(90, 58%, 45%, 1)",
+                },
+                {
+                    "name": "removed",
+                    "color": "hsla(327, 61%, 60%, 1)",
+                },
+            ]
+        })
+    </script>
+</body>
+
+</html>

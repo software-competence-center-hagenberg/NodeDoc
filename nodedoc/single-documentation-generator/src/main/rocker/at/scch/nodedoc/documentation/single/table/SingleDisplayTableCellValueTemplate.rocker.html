@@ -1,0 +1,7 @@
+@import com.fizzed.rocker.runtime.DefaultRockerModel
+@import at.scch.nodedoc.documentation.single.table.*
+@import java.util.function.Function
+
+@args(Object cellValue, Function<Object, DefaultRockerModel> valueTemplate)
+
+@valueTemplate.apply(cellValue)

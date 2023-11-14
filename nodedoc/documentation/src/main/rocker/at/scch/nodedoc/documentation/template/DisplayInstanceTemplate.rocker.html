@@ -1,0 +1,14 @@
+@import at.scch.nodedoc.documentation.displaymodel.*
+
+@args(DisplayInstance node, RockerContent content)
+
+@currentContent => {
+    @if (node.getTypeDefinition().isPresent()) {
+        <p>TypeDefinition: @node.getTypeDefinition().get().template()</p>
+    }
+
+    @content
+}
+
+@DisplayNodeTemplate.template(node, currentContent)
+

@@ -1,0 +1,378 @@
+/* Main layout */
+
+html {
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+    font-size: 12pt;
+}
+
+body {
+    margin: 0;
+}
+
+body > * {
+    padding: 10px 10px 50px 10px;
+}
+
+#table-of-contents {
+    border-right: 2px solid #555;
+    overflow-x: hidden;
+    white-space: nowrap;
+    position: fixed;
+    width: 360px;
+    height: 100vh;
+    box-sizing: border-box;
+    background-color: #ffffff;
+}
+
+#table-of-contents>*:first-child,
+#body>*:first-child {
+    margin-top: 0;
+}
+
+#table-of-contents * {
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+}
+
+#content {
+    padding-left: 380px;
+    box-sizing: border-box;
+}
+
+#content > * {
+    min-width: 1000px;
+    max-width: 1500px;
+}
+
+/* Content styles */
+
+th,
+td {
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: left;
+    border: 1px solid gray;
+}
+
+th {
+    border-bottom: 2px solid gray;
+    border-top: 2px solid gray;
+}
+
+table {
+    width: 90%;
+    border: 2px solid gray;
+    border-collapse: collapse;
+}
+
+table.data-type-table,
+table.arguments-table {
+    width: 80%;
+}
+
+a {
+    margin-top: 1px;
+}
+
+p {
+    margin: 0px;
+    margin-left: 3px;
+    padding: 0px;
+    padding-right: 3px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0px;
+    margin-top: 10px;
+    font-size: 13pt;
+    margin-bottom: 5px;
+    padding: 0px;
+    font-weight: normal;
+    color: darkgreen;
+}
+
+h1 {
+    margin-top: 50px;
+    font-size: 35pt;
+}
+
+h2 {
+    margin-top: 35px;
+    font-size: 27pt;
+}
+
+h3 {
+    margin-top: 20px;
+    font-size: 22pt;
+}
+
+h4 {
+    margin-top: 15px;
+    font-size: 18pt;
+}
+
+h5 {
+    margin-top: 10px;
+    font-size: 15pt;
+}
+
+pre {
+    font-family: "Courier New", Courier, monospace;
+    background-color: rgb(231, 231, 231);
+    width: 80%;
+}
+
+.node-documentation-wrapper, .node-description-wrapper {
+    margin-bottom: 10px;
+}
+
+.predefined-text {
+    border-left: 5px solid #ff7700 !important;
+}
+
+.user-defined-text {
+    border-left: 5px solid #b3ff00 !important;
+}
+
+.no-text-defined {
+    border: 3px solid #ff8000 !important;
+}
+
+.focused {
+    border: 3px solid gray;
+    padding-right: 3px;
+}
+
+.doc-entry-editor .text-area {
+    width: 100%;
+    resize: vertical;
+    overflow: auto;
+    min-height: 55px;
+    height: auto;
+    margin-bottom: 5px;
+    margin-top: 1px;
+}
+
+.original-xml-text {
+    border: 1px solid rgb(72, 106, 255);
+}
+
+.user-defined-text-from-base-version {
+    border: 1px solid rgb(72, 106, 255);
+    border-left: 5px solid #ff7700 !important;
+}
+
+.user-defined-text {
+    border: 1px solid rgb(72, 106, 255);
+    border-left: 5px solid #b3ff00 !important;
+}
+
+.missing-text {
+    border: 1px solid rgb(72, 106, 255);
+    border: 3px solid #ff8000 !important;
+}
+
+.doc-entry-editor .editor-menu {
+    margin-bottom: 5px;
+}
+.doc-entry-editor .editor-menu > * {
+    margin-right: 5px;
+}
+
+.doc-entry-editor .history-box > * {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.doc-entry-editor .history-box {
+    margin-bottom: 40px;
+}
+
+.doc-entry-editor .history-box .preview {
+    width: 100%;
+    border: 1px solid rgb(72, 106, 255);
+}
+
+.node-description-container {
+    display: inline-block;
+    width: 100%;
+}
+
+.node-description-container .version-info {
+    visibility: hidden;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    padding: 5px;
+    border-radius: 6px;
+    position: relative;
+    z-index: 1;
+    top: 30px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.node-description-container:hover .version-info {
+    visibility: visible;
+    opacity: 1;
+}
+
+.node-description {
+    width: 100%;
+    border: 1px solid rgb(72, 106, 255);
+}
+
+.node-documentation {
+    width: 100%;
+    border: 1px solid rgb(72, 106, 255);
+    resize: vertical;
+    overflow: auto;
+    min-height: 55px;
+    height: auto;
+}
+
+.description-history {
+    display: none;
+}
+
+.material-icons.md-18 {
+    font-size: 18px;
+    color: blue;
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
+.material-icons.md-18.warning {
+    color: orange;
+}
+
+.no-text-defined:empty:not(:focus):before {
+    content: attr(data-placeholder)
+}
+
+.toc-subentries {
+    padding-left: 15px;
+}
+
+.section-content {
+    padding-left: 10px;
+}
+
+.method-signature {
+    background-color: rgb(231, 231, 231);
+    font-family: "Courier New", Courier, monospace;
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    padding: 5px 15px;
+}
+
+.method-signature > * {
+    padding-right: 20px;
+}
+
+.diff-method-argument {
+    background-color: var(--diffColor);
+}
+
+.method-signature *:first-child {
+    grid-column: 1 / 4;
+}
+
+.method-signature .inout {
+    padding-left: 20px;
+}
+
+.diff-doc-entry {
+    background-color: var(--diffColor);
+}
+
+figure.graph {
+    display: inline-block;
+}
+
+figure.graph figcaption {
+    text-align: center;
+}
+
+foreignObject .graph-node-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+foreignObject .graph-node-label {
+    width: 100%;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+    white-space: nowrap;
+    padding: 10px;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+}
+
+.italic foreignObject * {
+    font-style: italic;
+}
+
+svg a {
+    color: #000000;
+}
+
+/* Diff styles */
+
+.unchanged {
+    --diffColor: transparent;
+}
+
+.added {
+    --diffColor: hsla(90, 58%, 63%, 1);
+}
+
+.added.light-color {
+    --diffColor: hsla(90, 58%, 70%, 1);
+}
+
+.removed {
+    --diffColor: hsla(327, 61%, 78%, 1);
+}
+
+.removed.light-color {
+    --diffColor: hsla(327, 61%, 85%, 1);
+}
+
+.changed {
+    --diffColor: hsla(0, 0%, 75%, 1);
+}
+
+.changed.light-color {
+    --diffColor: hsla(0, 0%, 82%, 1);
+}
+
+.diff-node {
+    border-left: 20px solid var(--diffColor);
+    margin-left: 3px;
+}
+
+.diff-node-content {
+    padding-left: 10px;
+}
+
+.diff-node h1, .diff-node h2, .diff-node h3, .diff-node h4, .diff-node h5, .diff-node h6 {
+    background-color: var(--diffColor);
+}
+
+.node-table, .uaDataType-table {
+    --diffColor: transparent;
+}
+
+.diff-row, .diff-cell {
+    background-color: var(--diffColor);
+}
+
+.diff-toc-entry .toc-entry-title {
+    background-color: var(--diffColor);
+}

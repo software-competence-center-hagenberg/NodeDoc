@@ -1,0 +1,11 @@
+@import at.scch.nodedoc.documentation.displaymodel.*
+
+@args(DisplayNodeSet.Content nodeSetContent, RockerContent content)
+
+@for (chapter : nodeSetContent.getChapters()) {
+    @chapter.template()
+
+    @if (chapter.getSubSections().isEmpty()) {
+        <p>No @chapter.getHeadingText().template() defined.</p>
+    }
+}

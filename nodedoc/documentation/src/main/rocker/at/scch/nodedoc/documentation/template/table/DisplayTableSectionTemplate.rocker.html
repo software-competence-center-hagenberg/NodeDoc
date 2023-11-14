@@ -1,0 +1,20 @@
+@import at.scch.nodedoc.documentation.displaymodel.table.*
+
+@args(DisplayTable.Section section, RockerContent content)
+
+@if (!section.getRows().isEmpty()) {
+    <tr>
+        @for (columnDefinition : section.getColumnDefinitions()) {
+            <th colspan="@columnDefinition.getColSpan()">@columnDefinition.getName()</th>
+        }
+    </tr>
+
+    @for (row : section.getRows()) {
+        @rowContent => {
+            @for ((i, cell) : row.getCells()) {
+                <td colspan="@section.getColumnDefinitions().get(i.index()).getColSpan()" class="@cell.getCssClass()">@section.getColumnDefinitions().get(i.index()).getCellValueTemplate(cell.getValue())</td>
+            }
+        }
+        @section.getRowTemplate(row, rowContent)
+    }
+}

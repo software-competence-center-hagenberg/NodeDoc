@@ -1,0 +1,25 @@
+@import at.scch.nodedoc.documentation.displaymodel.*
+
+@args(DisplayMethod method, RockerContent content)
+
+@currentContent => {
+    <p>Signature</p>
+
+    <div class="method-signature">
+        <div>@method.getMethodName().template() (@if (method.getArguments().isEmpty()) {);}</div>
+        @for (argument : method.getArguments()) {
+            @argument.template()
+        }
+        @if (!method.getArguments().isEmpty()) {
+            <div>);</div>
+        }
+    </div>
+
+    @if (method.getArguments().isEmpty()) {
+        <p>The method has no <i>Input-</i> or <i>OutputArguments</i>.</p>
+    } else {
+        @method.getMethodArgumentsTable().template()
+    }
+}
+@DisplayInstanceTemplate.template(method, currentContent)
+

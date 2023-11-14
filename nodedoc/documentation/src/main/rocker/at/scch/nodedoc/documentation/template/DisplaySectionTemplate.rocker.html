@@ -1,0 +1,16 @@
+
+@import at.scch.nodedoc.documentation.displaymodel.*
+
+@args(DisplaySection section, RockerContent content)
+
+@HeadingTemplate.template(section.getHeadingNumber().getHeadingNumberComponents().size(), section.getAnchorValue()) -> {
+    @section.getHeadingNumber() @section.getHeadingText().template()
+}
+
+<div class="section-content">
+    @content
+</div>
+
+@for (section : section.getSubSections()) {
+    @section.template()
+}

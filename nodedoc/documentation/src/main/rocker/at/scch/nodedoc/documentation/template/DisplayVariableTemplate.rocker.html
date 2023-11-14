@@ -1,0 +1,12 @@
+@import at.scch.nodedoc.documentation.displaymodel.*
+
+@args(DisplayVariable node, RockerContent content)
+
+@currentContent => {
+    @if (node.getDataType().isPresent()) {
+        <p>DataType: @node.getDataType().get().template()</p>
+    }
+    @content
+}
+
+@DisplayInstanceTemplate.template(node, currentContent)

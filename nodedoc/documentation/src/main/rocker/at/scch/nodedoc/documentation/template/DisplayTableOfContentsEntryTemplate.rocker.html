@@ -1,0 +1,14 @@
+
+@import at.scch.nodedoc.documentation.displaymodel.*
+
+@args(DisplayTableOfContentsEntry entry, RockerContent content)
+
+<p class="toc-entry-title"><a href="#@entry.getDisplaySection().getAnchorValue()">@entry.getHeadingNumber() @entry.getHeadingText().template()</a></p>
+
+@if (!entry.getSubEntries().isEmpty()) {
+    <div class="toc-subentries">
+        @for (subEntry : entry.getSubEntries()) {
+            @subEntry.template()
+        }
+    </div>
+}

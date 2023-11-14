@@ -1,0 +1,7 @@
+@import com.fizzed.rocker.runtime.DefaultRockerModel
+
+@args(DiffDisplayNode node, DefaultRockerModel content)
+
+<div class="diff-node @node.getDisplayDifferenceType().cssClass()">
+    @content
+</div>

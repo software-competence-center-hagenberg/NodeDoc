@@ -1,0 +1,13 @@
+@import at.scch.nodedoc.documentation.displaymodel.*
+@import com.fasterxml.jackson.databind.ObjectMapper
+
+@args(DisplayType node, RockerContent content)
+
+@currentContent => {
+    @node.getGraphFigure().template()
+    @node.getDefinitionTable().template()
+
+    @content
+}
+
+@DisplayNodeTemplate.template(node, currentContent)

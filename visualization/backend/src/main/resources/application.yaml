@@ -1,0 +1,60 @@
+spring:
+  application:
+    name: opc-ua-documentation-generation-visualization-service
+  servlet:
+    multipart:
+      max-file-size: 15000KB
+      max-request-size: 15000KB
+
+nodedoc:
+  couchDbUri: ${dbUri:http://localhost:5984}
+  couchDb:
+    uri: ${nodedoc.couchDbUri}
+    username: admin
+    password: 1234
+    databaseName: opc_nodes
+    createDb: true
+  directory:
+    nodesets: ${nodeset.directory:C:\Docker\opc_ua\data\nodesets}
+    templates: ${templates.directory:C:\Docker\opc_ua\data\templates}
+    diffs: C:\Docker\opc_ua\data\diffs
+  documentationGeneration:
+    couchDbUri: "`${window.location.protocol}//${window.location.hostname}:5984`"
+  motd: ""
+  demo: false
+
+logging:
+  level:
+    org:
+      javers:
+        core:
+          diff:
+            appenders:
+              CorePropertyChangeAppender: OFF
+
+server:
+  port: 5010
+
+application:
+  version: "@project.version@"
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://localhost:8761/eureka/
+#    registerWithEureka: true
+#    fetchRegistry: true
+#  instance:
+#    preferIpAddress: true
+#
+#zuul:
+#  debug:
+#    request: true
+#  host:
+#    connect-timeout-millis: 60000
+#    socket-timeout-millis: 60000
+#  ignored-headers: Access-Control-Allow-Credentials, Access-Control-Allow-Origin
+#  routes:
+#    opc-ua-documentation-generation-visualization-service:
+#      path: /opc-ua-documentation-generation-visualization-service/**
+#      serviceId: opc-ua-documentation-generation-visualization-service
+#      stripPrefix: true

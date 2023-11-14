@@ -1,0 +1,9 @@
+@import com.fizzed.rocker.runtime.DefaultRockerModel
+@import at.scch.nodedoc.documentation.diff.DiffDisplayMethod.DiffDisplayArgument
+@import at.scch.nodedoc.documentation.diff.DisplayDifferenceType
+
+@args(DiffDisplayArgument argument)
+
+<div class="diff-method-argument @argument.getDiffType().cssClass() inout">@argument.getDirection().htmlText()</div>
+<div class="diff-method-argument @argument.getDiffType().cssClass()">@argument.getArgumentType().template()</div>
+<div class="diff-method-argument @argument.getDiffType().cssClass()">@argument.getArgumentName().template()</div>

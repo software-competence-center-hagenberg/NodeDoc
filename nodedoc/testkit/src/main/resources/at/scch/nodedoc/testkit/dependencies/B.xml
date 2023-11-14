@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Gerald (Software Competence Center Hagenberg) -->
+<UANodeSet xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
+           xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd"
+           xmlns:ua="http://unifiedautomation.com/Configuration/NodeSet.xsd">
+    <NamespaceUris>
+        <Uri>http://www.difftest.org/euromap83/</Uri>
+        <Uri>http://opcfoundation.org/UA/DI/</Uri>
+    </NamespaceUris>
+    <Models>
+        <Model ModelUri="http://www.dependencies.org/B/" PublicationDate="2018-10-28T08:00:00Z" Version="1.00">
+            <RequiredModel ModelUri="http://www.dependencies.org/C/" PublicationDate="2018-10-28T08:00:00Z" Version="1.00"/>
+        </Model>
+    </Models>
+</UANodeSet>
