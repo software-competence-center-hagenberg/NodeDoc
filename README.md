@@ -8,7 +8,7 @@ If you want to run the full version yourself, continue reading from [Deployment]
 
 If you want to further develop NodeDoc, continue reading from [Development](#development).
 
-## Setup for Deployment
+## Deployment
 
 ### Prerequisites
 
@@ -45,7 +45,7 @@ docker compose up
 
 See [docker-compose.yml](./docker-compose.yml) for a list of configuration options
 
-## Setup for Development
+## Development
 
 ### Prerequisites
 
