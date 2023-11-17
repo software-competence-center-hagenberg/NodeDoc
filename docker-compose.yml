@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  couchdb:
+    build:
+      context: ./couchdb
+    restart: unless-stopped
+    environment:
+      # Change credentials!
+      COUCHDB_USER: admin
+      COUCHDB_PASSWORD: admin
+    ports:
+      - '127.0.0.1:5985:5984'
+    volumes:
+      - couchdb-data:/opt/couchdb/data
+
+  nodedoc:
+    image: nodedoc:version1.15
+    ports:
+      - '127.0.0.1:5010:5010'
+    volumes:
+      - ./nodedoc-data:/data
+    environment:
+      # Directory where all uploaded NodeSets and generated documentations are stored
+      nodedoc.directory.nodesets: /data/nodesets
+
+      # Directory where all documentation templates are stored
+      nodedoc.directory.templates: /data/templates
+
+      # Directory where generated diffs are stored
+      nodedoc.directory.diffs: /data/diffs
+
+      # URI to the CouchDB
+      nodedoc.couchDb.uri: http://couchdb:5984
+
+      # Credentials for the CouchDB. They have to match the credentials which have been defined in the couchdb service
+      nodedoc.couchDb.username: admin
+      nodedoc.couchDb.password: admin
+
+      # Create DB if it does not exist
+      nodedoc.couchDb.createDb: true
+
+      # Show a Message of the Day (MOTD) text in the Web UI
+      nodedoc.motd: ''
+
+      # Enable the restricted demo mode, which just allows NodeSet documentation and diffing
+      nodedoc.demo: false
+
+volumes:
+  couchdb-data:
