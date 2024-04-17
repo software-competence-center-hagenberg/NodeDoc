@@ -30,6 +30,9 @@ services:
       # Directory where generated diffs are stored
       nodedoc.directory.diffs: /data/diffs
 
+      # Directory where backups are stored
+      nodedoc.directory.backups: /data/backups
+
       # URI to the CouchDB
       nodedoc.couchDb.uri: http://couchdb:5984
 
