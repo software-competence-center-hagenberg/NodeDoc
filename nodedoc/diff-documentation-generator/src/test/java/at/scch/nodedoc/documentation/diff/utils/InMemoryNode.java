@@ -42,7 +42,10 @@ public abstract class InMemoryNode implements UANode {
 
     @Override
     public Collection<UANode> getBackwardReferencedNodes(NodeId<?> referenceTypeId) {
-        throw new UnsupportedOperationException();
+        return universe.getReferencesToNode(nodeId).stream()
+                .filter(reference -> reference.getReferenceType().getNodeId().equals(referenceTypeId))
+                .map(NodeSetUniverse.Reference::getSource)
+                .collect(Collectors.toSet());
     }
 
     @Override

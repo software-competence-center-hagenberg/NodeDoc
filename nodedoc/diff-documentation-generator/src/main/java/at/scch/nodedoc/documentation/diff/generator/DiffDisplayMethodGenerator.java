@@ -8,11 +8,12 @@ import at.scch.nodedoc.documentation.diff.table.DiffTableRow;
 import at.scch.nodedoc.documentation.diff.table.DiffTableUtils;
 import at.scch.nodedoc.documentation.displaymodel.DisplayMethod;
 import at.scch.nodedoc.documentation.displaymodel.table.MethodArgumentsTable;
-import at.scch.nodedoc.nodeset.NodeSetUniverse;
 import at.scch.nodedoc.nodeset.UAMethod;
 import at.scch.nodedoc.nodeset.UANode;
 import at.scch.nodedoc.nodeset.UAVariable;
 import at.scch.nodedoc.uaStandard.BrowseNames;
+import at.scch.nodedoc.uaStandard.Nodes;
+import at.scch.nodedoc.util.StreamUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,9 +22,8 @@ import java.util.stream.Stream;
 public class DiffDisplayMethodGenerator {
 
     public DiffDisplayMethod generateMethod(DiffContext.DiffView<String> headingText, DiffContext.ValueDiffType instanceInnerDiffType, DiffContext.EntryDiffType entryDiffType, String anchorValue, DiffContext.DiffView<String> documentationTextValue, DiffContext.DiffView<String> descriptionTextValue, DiffContext.DiffView<String> typeDefinitionBrowseName, DiffContext.DiffView<? extends UAMethod> methodEntry, RenderMode mode) {
-        var diffReferencesFromNode = methodEntry.getDiffContext().getDiffReferencesFromNode(methodEntry.getKeyProperty(UANode::getNodeId));
-        var inputArguments = generateArgumentList(diffReferencesFromNode.stream(), BrowseNames.ArgumentNames.INPUT_ARGUMENT, DisplayMethod.DisplayArgument.Direction.IN, mode);
-        var outputArguments = generateArgumentList(diffReferencesFromNode.stream(), BrowseNames.ArgumentNames.OUTPUT_ARGUMENT, DisplayMethod.DisplayArgument.Direction.OUT, mode);
+        var inputArguments = generateArgumentList(methodEntry, BrowseNames.ArgumentNames.INPUT_ARGUMENT, DisplayMethod.DisplayArgument.Direction.IN, mode);
+        var outputArguments = generateArgumentList(methodEntry, BrowseNames.ArgumentNames.OUTPUT_ARGUMENT, DisplayMethod.DisplayArgument.Direction.OUT, mode);
         var arguments = Stream.concat(inputArguments.stream(), outputArguments.stream()).collect(Collectors.toList());
 
         var methodArgumentsSection = generateArgumentTableSection(arguments, mode);
@@ -47,14 +47,17 @@ public class DiffDisplayMethodGenerator {
         return new DiffDisplayMethod(methodEntry.getKeyProperty(UANode::getNodeId), headingText, displayDifferenceType, anchorValue, documentationTextValue, descriptionTextValue, headingText, arguments, typeDefinitionBrowseName, methodArgumentsTable, List.of());
     }
 
-    private List<DiffDisplayMethod.DiffDisplayArgument> generateArgumentList(Stream<DiffContext.DiffCollectionEntry<NodeSetUniverse.Reference>> references, String argumentBrowseName, DisplayMethod.DisplayArgument.Direction direction, RenderMode mode) {
-        return references
-                .filter(reference ->
-                        reference.getValue().getProperty(NodeSetUniverse.Reference::getTarget).getKeyProperty(UANode::getBrowseName).equals(argumentBrowseName)
-                )
-                .map(reference -> reference.getValue().getProperty(NodeSetUniverse.Reference::getTarget))
-                .map(node -> node.cast(UAVariable.class).orElseThrow())
-                .flatMap(variable -> variable.getDiffListWithValues(UAVariable::getArguments, UAVariable.Argument::getName, String.class).stream())
+    private static List<UAVariable.Argument> getArgumentsFromMethod(UAMethod method, String argumentBrowseName) {
+        return method.getForwardReferencedNodes(Nodes.ReferenceTypes.HAS_PROPERTY).stream()
+                .flatMap(StreamUtils.filterCast(UAVariable.class))
+                .filter(variable -> variable.getBrowseName().equals(argumentBrowseName))
+                .flatMap(variable -> variable.getArguments().stream())
+                .collect(Collectors.toList());
+    }
+
+    private List<DiffDisplayMethod.DiffDisplayArgument> generateArgumentList(DiffContext.DiffView<? extends UAMethod> methodEntry, String argumentBrowseName, DisplayMethod.DisplayArgument.Direction direction, RenderMode mode) {
+        var argumentDiff = methodEntry.getDiffListWithValues(method -> getArgumentsFromMethod(method, argumentBrowseName), UAVariable.Argument::getName, String.class);
+        return argumentDiff.stream()
                 .filter(argument -> {
                     switch (mode) {
                         case SHOW_CHANGES:
@@ -76,12 +79,15 @@ public class DiffDisplayMethodGenerator {
         var argumentName = mode.apply(argumentEntry.getValue().getProperty(UAVariable.Argument::getName));
         var description = mode.apply(argumentEntry.getValue().getProperty(UAVariable.Argument::getDescription));
 
-        var displayDiffType = DisplayDifferenceType.of(argumentEntry.getEntryDiffType());
-        if (displayDiffType.equals(DisplayDifferenceType.UNCHANGED)) {
-            displayDiffType = DisplayDifferenceType.of(DiffContext.ValueDiffType.getCombinedDiffType(
-                    argumentType.getDiffType(),
-                    argumentName.getDiffType()
-            ));
+        var displayDiffType = DisplayDifferenceType.UNCHANGED;
+        if (mode == RenderMode.SHOW_CHANGES) {
+            displayDiffType = DisplayDifferenceType.of(argumentEntry.getEntryDiffType());
+            if (displayDiffType.equals(DisplayDifferenceType.UNCHANGED)) {
+                displayDiffType = DisplayDifferenceType.of(DiffContext.ValueDiffType.getCombinedDiffType(
+                        argumentType.getDiffType(),
+                        argumentName.getDiffType()
+                ));
+            }
         }
 
         return new DiffDisplayMethod.DiffDisplayArgument(direction, displayDiffType, argumentType, argumentName, description, argumentEntry.getValue());

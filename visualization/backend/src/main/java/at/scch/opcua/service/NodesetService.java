@@ -3,6 +3,7 @@ package at.scch.opcua.service;
 import at.scch.nodedoc.MatchingNodeSetWithMinimumPublicationDateNotFoundException;
 import at.scch.nodedoc.ModelMetaData;
 import at.scch.nodedoc.ModelRepository;
+import at.scch.nodedoc.db.repository.NodeDescriptionRepository;
 import at.scch.nodedoc.documentation.DocumentationGenerator;
 import at.scch.nodedoc.documentation.single.generator.SingleDisplayNodeSetGenerator;
 import at.scch.nodedoc.nodeset.NodeSetUniverse;
@@ -15,20 +16,20 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.GetRequest;
 import lombok.AllArgsConstructor;
-import org.apache.commons.io.FileUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.SAXException;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
 @Component
 @AllArgsConstructor
+@Slf4j
 public class NodesetService {
 
     private final NodeDocConfiguration config;
@@ -39,7 +40,7 @@ public class NodesetService {
     private final DocumentationGenerator documentationGenerator;
     private final NodeSetUniverseService nodeSetUniverseService;
     private final TemplatesService templatesService;
-
+    private final NodeDescriptionRepository nodeDescriptionRepository;
 
     // region save nodeset
 
@@ -51,8 +52,8 @@ public class NodesetService {
      * nodeset could not be saved (invalid files, exception while saving the file, etc.)
      */
     public ModelMetaData saveNodeSetFromMultipartFile(MultipartFile nodeset) {
-        try {
-            return modelRepository.saveNodeSet(nodeset.getInputStream());
+        try (var inputStream = nodeset.getInputStream()) {
+            return modelRepository.saveNodeSet(inputStream);
         } catch (IOException e) {
             throw new NodeDocUserException("Could not save nodesetFile - " + e.getMessage(), e);
         } catch (IllegalArgumentException e) {
@@ -231,48 +232,27 @@ public class NodesetService {
         }
     }
 
-    private void deleteEmptyDocumentationFolder(Path docuPath) {
-        File file = docuPath.toFile();
-        Path js = Paths.get(docuPath.toString(), "js");
-        try {
-            FileUtils.deleteDirectory(js.toFile());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        // file.delete() only deletes a file/directory if it has no children
-        do {
-            file.delete();
-            file = file.getParentFile();
-        } while (!file.getPath().equals(config.getDirectory().getNodesets()));
-    }
-
     /**
-     * Deletes a nodeset file specified by its path. Also deletes all parent folders that are empty.
+     * Deletes a NodeSet specified by its path. Also deletes all parent folders that are empty.
+     * If this is the last NodeSet with this ModelUri, all Doc-Entries with this ModelUri will be deleted from the DB.
      *
      * @param relativePath - the path to a nodeset consisting of the URI, version and publication date
      * @return - returns whether the file could be deleted or not
      */
-    public boolean deleteNodesetFileByRelativePath(String relativePath) {
-        Path path = Paths.get(config.getDirectory().getNodesets(), relativePath);
-        File file = path.toFile();
-        if (file.exists() && !file.getPath().equals(config.getDirectory().getNodesets())) {
-            try {
-                if (!file.isFile())
-                    FileUtils.deleteDirectory(file);
-                do {
-                    file.delete();
-                    file = file.getParentFile();
-                } while (!file.getPath().equals(config.getDirectory().getNodesets()));
-            } catch (IOException e) {
-                e.printStackTrace();
-                return false;
-            }
+    public boolean deleteFileOrDirectoryByRelativePath(String relativePath) {
+        var sanitizedPath = relativePath.replaceAll("\\.\\.", "");
+        log.info("Deleting file structure starting at {}", sanitizedPath);
+        var deletionResult = modelRepository.deleteAllNodeSetsStartingAt(sanitizedPath);
 
-            // file.delete() only deletes a file/directory if it has no children
-
-            return !path.toFile().exists();
-        }
-        return false;
+        deletionResult.getValue1().stream()
+                .filter(modelMetaData -> !modelRepository.nodeSetWithModelUriExists(modelMetaData))
+                .map(ModelMetaData::getModelUri)
+                .distinct()
+                .forEach(namespaceUri -> {
+                    log.info("Deleting NodeSet texts of {}", namespaceUri);
+                    nodeDescriptionRepository.deleteAllNodeSetTextsForNamespaceUri(namespaceUri);
+                });
+        return deletionResult.getValue0();
     }
 
     /**

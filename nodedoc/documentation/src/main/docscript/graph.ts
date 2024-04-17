@@ -318,8 +318,8 @@ function drawDataType(rootNode: joint.dia.Cell, dt: ModelNode, xPos: number, yPo
  * A new graph and paper gets created. All nodes and links are created, positioned and
  * added to the graph. If the graph is to broad or long it is scaled to the maximum height
  * or width. In this function the pan and zoom functionalities are also defined.
- * @param {string} selector
- * @param {JSON-object} graphData
+ * @param {string} selector 
+ * @param {JSON-object} graphData 
  */
 export function getOPCUAGraph(selector: string, graphData: ModelNode) {
     var graph = new joint.dia.Graph();

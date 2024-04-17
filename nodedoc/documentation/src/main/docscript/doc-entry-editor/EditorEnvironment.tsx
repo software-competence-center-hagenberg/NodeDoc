@@ -175,6 +175,7 @@ export class EditorEnvironment extends React.Component <EditorEnvironmentProps, 
                     { entry.currentTextDocument ?
                         <Editor
                             textId={entry.textId}
+                            nodeSetPublicationDate={this.props.publicationDate}
                             textDisplayStyle={entry.textDisplayStyle}
                             key={entry.editorDiv.dataset.textid}
                             title={entry.editorDiv.dataset.title!}

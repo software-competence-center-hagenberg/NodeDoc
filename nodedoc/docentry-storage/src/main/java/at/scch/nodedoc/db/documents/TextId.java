@@ -2,15 +2,13 @@ package at.scch.nodedoc.db.documents;
 
 import at.scch.nodedoc.nodeset.DefinitionField;
 import at.scch.nodedoc.nodeset.UAVariable;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
 @EqualsAndHashCode
 @ToString
+@NoArgsConstructor // For JSON support
 public class TextId {
     public static class Type {
         public static final String DOCUMENTATION = "documentation";

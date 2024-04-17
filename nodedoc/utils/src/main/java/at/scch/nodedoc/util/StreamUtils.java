@@ -14,4 +14,8 @@ public class StreamUtils {
             }
         };
     }
+
+    public static <T> Iterable<T> toIterable(Stream<T> stream) {
+        return stream::iterator;
+    }
 }

@@ -15,6 +15,7 @@ public class NodeDocConfiguration {
         private String templates;
         private String nodesets;
         private String diffs;
+        private String backups;
     }
 
     @Getter

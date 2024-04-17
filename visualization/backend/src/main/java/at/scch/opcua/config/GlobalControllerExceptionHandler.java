@@ -11,6 +11,7 @@ public class GlobalControllerExceptionHandler {
 
     @ExceptionHandler(NodeDocUserException.class)
     public ResponseEntity<String> handleNodeDocUserException(NodeDocUserException e) {
+        e.printStackTrace();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 

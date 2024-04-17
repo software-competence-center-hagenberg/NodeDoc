@@ -34,7 +34,7 @@ public class NodesetController {
     @ApiOperation(value = "Deletes a specified nodeset by its relative path")
     @DeleteMapping("/nodeset/")
     public ResponseEntity deleteNodesetByRelativePath(@RequestParam String path) {
-        boolean deleted = nodesetService.deleteNodesetFileByRelativePath(path);
+        boolean deleted = nodesetService.deleteFileOrDirectoryByRelativePath(path);
         if (deleted)
             return ResponseEntity.ok("File deleted");
         else

@@ -1,0 +1,98 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>Euromap83</title>
+    <meta name="description" content="Euromap83 Specification Documentation">
+    <meta name="author" content="at.scch.nodedoc">
+
+</head>
+
+<body>
+
+<div id="table-of-contents">
+    <h1>Contents</h1>
+</div>
+
+<div id="content">
+    This EUROMAP was prepared by the Technical Commission of EUROMAP.
+    Copyright by EUROMAP
+
+    <h1 id="1._Introduction">1. Introduction</h1>
+    <h2 id="1.1._Scope_and_Application">1.1. Scope and Application</h2>
+    <p>
+        For the communication between different machines, manufacturer independent information models are required. For
+        plastics and rubber machinery, these information models are based on OPC UA, a communication framework developed
+        and provided by the OPC Foundation. While OPC UA provides the technology for the transfer of information, the
+        definition which information is transferred in which form is fixed in Companion Specifications.
+    </p>
+    <p>
+        This recommendation defines a Companion Specification for general information regarding plastics and rubber
+        machines. The intention is that ObjectTypes which can be used for several machines and applications are defined
+        only once. For specific applications (e.g. connection of injection moulding machines to MES), it is extended by
+        specific Companion Specifications (e.g. EUROMAP 77).
+    </p>
+    <p>
+        NOTE: Not all machines will support all <i>ObjectTypes</i>, e.g. <i>TemperatureZoneType, MouldType</i>.
+    </p>
+    <h2 id="1.2._OPC_Unified_Architecture">1.2. OPC Unified Architecture</h2>
+    <h2 id="1.3._References">1.3. References</h2>
+    <h2 id="1.4._Namespaces">1.4. Namespaces</h2>
+    <h3 id="1.4.1._Namespace_and_identifiers_for_EUROMAP77_Information_Model">1.4.1. Namespace and identifiers for
+        EUROMAP77 Information Model</h3>
+    <h3 id="1.4.2._Namespace_Metadata">1.4.2. Namespace Metadata</h3>
+    <h3 id="1.4.3._Handling_of_OPC_UA_namespaces">1.4.3. Handling of OPC UA namespaces</h3>
+    <h1 id="2._Conventions_for_definitions">2. Conventions for definitions</h1>
+    <p>
+        The general OPC UA conventions for the definitions in tables are defined in IEC 62541-5:2015. In addition, in
+        EUROMAP 83 the abbreviations defined in Table 3 are used for the definitions of object types.
+    </p>
+    <table border="1">
+        <caption>Table 3 - Abbreviations for Modelling Rule</caption>
+        <tr>
+            <th>Abbreviation</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>O</td>
+            <td>Modelling Rule Optional</td>
+        </tr>
+        <tr>
+            <td>M</td>
+            <td>Modelling Rule Mandatory</td>
+        </tr>
+        <tr>
+            <td>OP</td>
+            <td>Modelling Rule OptionalPlaceholder</td>
+        </tr>
+        <tr>
+            <td>MP</td>
+            <td>Modelling Rule MandatoryPlaceholder</td>
+        </tr>
+        <tr>
+            <td>R</td>
+            <td>AccessLevel Readable</td>
+        </tr>
+        <tr>
+            <td>W</td>
+            <td>AccessLevel Writeable</td>
+        </tr>
+        <tr>
+            <td>RW</td>
+            <td> AccessLevel Readable and Writable</td>
+        </tr>
+        <tr>
+            <td>HRR</td>
+            <td> AccessLevel History Readable and Readable</td>
+        </tr>
+    </table>
+    <h1 id="3._General_requirements">3. General requirements</h1>
+    <h2 id="3.1._NodeIds">3.1. NodeIds</h2>
+    <h2 id="3.2._AnalogItemType">3.2. AnalogItemType</h2>
+    <h2 id="3.3._EventNotifier">3.3. EventNotifier</h2>
+    <h2 id="3.4._Severity_of_events">3.4. Severity of events</h2>
+</div>
+</body>
+</html>

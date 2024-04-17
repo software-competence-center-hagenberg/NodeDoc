@@ -27,9 +27,15 @@ export async function updateTextAndSaveDocument(namespaceUri: string, version: s
             && isTextIdEqual(document.textId, textId);
     })!;
 
+    if (oldTextDocument.userText === newText) {
+        return;
+    }
+
+    const oldHistory = oldTextDocument.userTextHistory ?? [];
     let newDocument = {
         ...oldTextDocument,
         userText: newText,
+        userTextHistory: [...oldHistory, {date: new Date().toISOString(), text: newText}],
     }
 
     const newAllDocuments = allDocuments.map(oldTextDocument => {

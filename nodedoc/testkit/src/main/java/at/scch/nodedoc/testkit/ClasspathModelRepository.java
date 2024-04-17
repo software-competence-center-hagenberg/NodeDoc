@@ -5,12 +5,14 @@ import at.scch.nodedoc.ModelRepository;
 import at.scch.nodedoc.parser.NodeSetXMLParser;
 import at.scch.nodedoc.parser.rawModel.RawNodeSet;
 import at.scch.nodedoc.uaStandard.Namespaces;
+import org.javatuples.Pair;
 import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.OffsetDateTime;
+import java.util.Collection;
 import java.util.Map;
 
 public class ClasspathModelRepository implements ModelRepository {
@@ -84,6 +86,16 @@ public class ClasspathModelRepository implements ModelRepository {
 
     @Override
     public File getFileForNodeSet(ModelMetaData metaData) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean nodeSetWithModelUriExists(ModelMetaData modelMetaData) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Pair<Boolean, Collection<ModelMetaData>> deleteAllNodeSetsStartingAt(String relativePath) {
         throw new UnsupportedOperationException();
     }
 }

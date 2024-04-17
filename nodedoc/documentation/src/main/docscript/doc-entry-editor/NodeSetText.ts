@@ -1,3 +1,4 @@
+import { HistoryEntry } from "./HistoryEntry";
 import { TextId } from "./TextId";
 
 export type NodeSetText = {
@@ -9,4 +10,5 @@ export type NodeSetText = {
 	textId: TextId,
 	xmlText?: string,
 	userText?: string,
+	userTextHistory?: HistoryEntry[],
 }

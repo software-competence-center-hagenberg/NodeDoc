@@ -5,7 +5,7 @@
     <parent>
         <groupId>at.scch.codeanalytics.opcua</groupId>
         <artifactId>nodedoc</artifactId>
-        <version>1.15</version>
+        <version>1.16</version>
     </parent>
 
     <artifactId>single-documentation-generator</artifactId>
@@ -14,43 +14,43 @@
         <dependency>
             <groupId>at.scch.codeanalytics.opcua</groupId>
             <artifactId>documentation</artifactId>
-            <version>1.15</version>
+            <version>1.16</version>
         </dependency>
         <dependency>
             <groupId>at.scch.codeanalytics.opcua</groupId>
             <artifactId>nodeset</artifactId>
-            <version>1.15</version>
+            <version>1.16</version>
         </dependency>
         <dependency>
             <groupId>at.scch.codeanalytics.opcua</groupId>
             <artifactId>ua-standard-constants</artifactId>
-            <version>1.15</version>
+            <version>1.16</version>
         </dependency>
         <dependency>
             <groupId>at.scch.codeanalytics.opcua</groupId>
             <artifactId>utils</artifactId>
-            <version>1.15</version>
+            <version>1.16</version>
         </dependency>
         <dependency>
             <groupId>com.fizzed</groupId>
             <artifactId>rocker-runtime</artifactId>
-            <version>1.3.0</version>
+            <version>1.4.0</version>
         </dependency>
         <dependency>
             <groupId>at.scch.codeanalytics.opcua</groupId>
             <artifactId>docentry-storage</artifactId>
-            <version>1.15</version>
+            <version>1.16</version>
         </dependency>
         <dependency>
             <groupId>at.scch.codeanalytics.opcua</groupId>
             <artifactId>testkit</artifactId>
-            <version>1.15</version>
+            <version>1.16</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>at.scch.codeanalytics.opcua</groupId>
             <artifactId>model-resolver</artifactId>
-            <version>1.15</version>
+            <version>1.16</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

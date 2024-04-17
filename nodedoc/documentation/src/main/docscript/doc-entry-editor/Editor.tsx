@@ -16,6 +16,7 @@ export enum TextDisplayStyle {
 
 type EditorProps = {
     textId: TextId,
+    nodeSetPublicationDate: string,
     textDisplayStyle: TextDisplayStyle,
     title: string,
     placeholderText: string,
@@ -186,6 +187,7 @@ export class Editor extends React.Component<EditorProps, EditorState> {
                 <TextHistory
                     allDocuments={this.props.allDocuments}
                     textId={this.props.textId}
+                    nodeSetPublicationDate={this.props.nodeSetPublicationDate}
                     initialHeadingLevel={this.props.initialHeadingLevel}
                     onSelectText={this.handleHistoryTextUpdate}
                 /> : <></>}

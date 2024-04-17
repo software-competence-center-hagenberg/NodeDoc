@@ -47,6 +47,10 @@ public class RawNodeSet extends DOMProxy {
                 })
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
+
+        this.models = query("Models", "Model")
+                .map(RawModel::new)
+                .collect(Collectors.toList());
     }
 
     public Document getXMLDocument() {
@@ -58,11 +62,8 @@ public class RawNodeSet extends DOMProxy {
 
     // TODO: ServerUris?
 
-    public List<RawModel> getModels() {
-        return query("Models", "Model")
-                .map(RawModel::new)
-                .collect(Collectors.toList());
-    }
+    @Getter
+    private List<RawModel> models;
 
     public List<RawAlias> getAliases() {
         return query("Aliases", "Alias")

@@ -1,10 +1,12 @@
 package at.scch.nodedoc;
 
 import at.scch.nodedoc.parser.rawModel.RawNodeSet;
+import org.javatuples.Pair;
 
 import java.io.File;
 import java.io.InputStream;
 import java.time.OffsetDateTime;
+import java.util.Collection;
 
 public interface ModelRepository {
 
@@ -18,5 +20,9 @@ public interface ModelRepository {
 
     @Deprecated
     File getFileForNodeSet(ModelMetaData metaData);
+
+    boolean nodeSetWithModelUriExists(ModelMetaData modelMetaData);
+
+    Pair<Boolean, Collection<ModelMetaData>> deleteAllNodeSetsStartingAt(String relativePath);
 
 }

@@ -1,5 +1,6 @@
 package at.scch.nodedoc.documentation.single.generator;
 
+import at.scch.nodedoc.db.documents.HistoryEntry;
 import at.scch.nodedoc.db.documents.NodeSetText;
 import at.scch.nodedoc.db.documents.TextId;
 import at.scch.nodedoc.db.repository.NodeDescriptionRepository;
@@ -151,14 +152,26 @@ public class SingleDisplayNodeSetGenerator {
     }
 
     private void addNodeSetTextIfNotExists(UANodeSet nodeSet, TextId textId, String xmlText, List<NodeSetText> existingDocEntries, List<NodeSetText> docEntriesToInsert) {
-        var textAlreadyExistsInDb = existingDocEntries.stream()
-                .anyMatch(docEntry -> docEntry.getTextId().equals(textId));
+        var nodeSetText = existingDocEntries.stream()
+                .filter(docEntry -> docEntry.getTextId().equals(textId))
+                .findAny();
 
-        if (!textAlreadyExistsInDb) {
+        if (nodeSetText.isPresent()) {
+            // if history does not exist yet, add it to the node.
+            var nd = nodeSetText.get();
+            if (nd.getUserTextHistory() == null) {
+                var history = nd.getUserText() == null
+                        ? List.<HistoryEntry>of()
+                        : List.of(new HistoryEntry(nodeSet.getPublicationDate().toString(), nd.getUserText()));
+                nd.setUserTextHistory(history);
+                docEntriesToInsert.add(nd);
+            }
+        } else {
             NodeSetText nd = new NodeSetText();
             nd.setTextId(textId);
             nd.setXmlText(xmlText);
             nd.setUserText(null);
+            nd.setUserTextHistory(List.of());
             nd.setNamespaceUri(nodeSet.getModelUri());
             nd.setVersion(nodeSet.getVersion());
             nd.setPublicationDate(nodeSet.getPublicationDate().toString());
