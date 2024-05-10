@@ -80,6 +80,21 @@ mvn install -f visualization
 mvn exec:java -f visualization -pl backend
 ```
 
+## Example from a generated documentation
+
+The following screenshots were taken from the generated documentation of the version 1.00 (PublicationDate = 20218-05-07) of http://www.euromap.org/euromap83/
+
+![](./doc/img/example-documentation-1.png)
+![](./doc/img/example-documentation-2.png)
+![](./doc/img/example-documentation-3.png)
+
+## Example from a generated diff
+
+The following screenshots were taken from the diff, which compared the versions 1.02 (PublicationDate = 2020-06-01) and 1.03 (PublicationDate = 2021-05-10) of http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/
+
+![](./doc/img/example-diff-1.png)
+![](./doc/img/example-diff-2.png)
+
 ## Publications
 
 ### Documenting and Comparing OPC UA Information Models
