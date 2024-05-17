@@ -4,7 +4,7 @@
 
     <groupId>at.scch.codeanalytics.opcua</groupId>
     <artifactId>nodedoc</artifactId>
-    <version>1.16</version>
+    <version>1.17</version>
 
     <modules>
         <module>common</module>
@@ -32,7 +32,7 @@
 
     <scm>
 	<developerConnection>scm:git:https://git.scch.at/scm/reeds/engel_opc_ua_documentation_generation.git/</developerConnection>
-	<tag>v1.16</tag>
+	<tag>v1.17</tag>
     </scm>
 
     <repositories>

@@ -50,7 +50,7 @@ public class NodeSetUniverseImpl implements NodeSetUniverse {
         return getAllNodes().stream()
                 .filter(uaNode -> uaNode.getNodeId().equals(nodeId))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Node with id " + nodeId.toString() + " not found."));
+                .orElseThrow(() -> new NodeNotFoundException("Node with id " + nodeId.toString() + " not found."));
     }
 
     @Override

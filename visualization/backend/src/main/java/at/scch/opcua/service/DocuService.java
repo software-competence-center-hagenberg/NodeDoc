@@ -1,6 +1,7 @@
 package at.scch.opcua.service;
 
 import at.scch.opcua.config.NodeDocConfiguration;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Component
+@Slf4j
 public class DocuService {
 
     @Autowired
@@ -27,6 +29,7 @@ public class DocuService {
      * @return - response containing information about whether the documentation could be deleted or not.
      */
     public ResponseEntity deleteDocumentationFileByRelativePath(String relativePath) {
+        log.info("Delete documentation at {}", relativePath);
         Path path = Paths.get(config.getDirectory().getNodesets(), relativePath);
         File file = path.toFile();
         String message = "documentation deleted";

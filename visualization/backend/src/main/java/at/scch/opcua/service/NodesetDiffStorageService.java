@@ -2,22 +2,24 @@ package at.scch.opcua.service;
 
 import at.scch.opcua.config.NodeDocConfiguration;
 import at.scch.opcua.dto.DiffInfo;
+import at.scch.opcua.exception.InternalException;
 import at.scch.opcua.metadata.DiffMetadata;
 import at.scch.opcua.util.PathUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
+@Slf4j
 public class NodesetDiffStorageService {
 
     private final String METADATA_FILENAME = "metadata.json";
@@ -30,6 +32,7 @@ public class NodesetDiffStorageService {
     private ObjectMapper objectMapper;
 
     public List<DiffInfo> getStoredDiffs() {
+        log.info("Load stored diffs");
         return Arrays.stream(getDiffDirectory().listFiles())
                 .filter(File::isDirectory)
                 .flatMap(directory -> {
@@ -57,6 +60,7 @@ public class NodesetDiffStorageService {
     }
 
     public File createNewDiff() {
+        log.info("Create new diff");
         var directory = createRandomDirectory();
         return new File(directory, DIFF_FILENAME);
     }
@@ -72,6 +76,7 @@ public class NodesetDiffStorageService {
     }
 
     public void saveMetadataForDiff(File diffFile, DiffMetadata metadata) {
+        log.info("Save meta data for diff {}", diffFile);
         var metadataFile = new File(diffFile.getParentFile(), METADATA_FILENAME);
         writeMetadata(metadata, metadataFile);
     }
@@ -80,7 +85,7 @@ public class NodesetDiffStorageService {
         try {
             return objectMapper.readValue(file, DiffMetadata.class);
         } catch (IOException e) {
-            throw new RuntimeException(e); // TODO: handle exception
+            throw new InternalException("Cannot access meta data file " + file, e);
         }
     }
 
@@ -88,7 +93,7 @@ public class NodesetDiffStorageService {
         try {
             objectMapper.writeValue(file, metadata);
         } catch (IOException e) {
-            throw new RuntimeException(e); // TODO: handle exception
+            throw new InternalException("Cannot write meta data for diff to " + file, e);
         }
     }
 }

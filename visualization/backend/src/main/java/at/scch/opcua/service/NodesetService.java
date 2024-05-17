@@ -7,6 +7,8 @@ import at.scch.nodedoc.db.repository.NodeDescriptionRepository;
 import at.scch.nodedoc.documentation.DocumentationGenerator;
 import at.scch.nodedoc.documentation.single.generator.SingleDisplayNodeSetGenerator;
 import at.scch.nodedoc.nodeset.NodeSetUniverse;
+import at.scch.nodedoc.parser.NodeSetSchemaValidationException;
+import at.scch.nodedoc.parser.NodeSetValidationException;
 import at.scch.nodedoc.parser.NodeSetXMLParser;
 import at.scch.nodedoc.parser.rawModel.RawNodeSet;
 import at.scch.opcua.config.NodeDocConfiguration;
@@ -52,8 +54,11 @@ public class NodesetService {
      * nodeset could not be saved (invalid files, exception while saving the file, etc.)
      */
     public ModelMetaData saveNodeSetFromMultipartFile(MultipartFile nodeset) {
+        log.info("Save NodeSet from multipart file");
         try (var inputStream = nodeset.getInputStream()) {
             return modelRepository.saveNodeSet(inputStream);
+        } catch (NodeSetValidationException e) {
+            throw mapException(e);
         } catch (IOException e) {
             throw new NodeDocUserException("Could not save nodesetFile - " + e.getMessage(), e);
         } catch (IllegalArgumentException e) {
@@ -61,8 +66,22 @@ public class NodesetService {
         }
     }
 
+    private NodeDocUserException mapException(NodeSetValidationException exception) {
+        if (exception instanceof NodeSetSchemaValidationException) {
+            var e = ((NodeSetSchemaValidationException) exception);
+            return new NodeDocUserException("Invalid XML file, error in line " + e.getLineNumber() + ", column " + e.getColumnNumber() + ": " + e.getMessage());
+        } else {
+            return new NodeDocUserException("Invalid XML file: " + exception.getMessage());
+        }
+    }
+
     public ModelMetaData saveNodeSetFromFileContent(String fileContent) {
-        return modelRepository.saveNodeSet(new ByteArrayInputStream(fileContent.getBytes()));
+        log.info("Save NodeSet from file content");
+        try {
+            return modelRepository.saveNodeSet(new ByteArrayInputStream(fileContent.getBytes()));
+        } catch (NodeSetValidationException e) {
+            throw mapException(e);
+        }
     }
 
     /**
@@ -73,6 +92,7 @@ public class NodesetService {
      * @return whether the file could be saved or not
      */
     public ModelMetaData saveNodeSetFromUrl(String url, String authorization) {
+        log.info("Save NodeSet from URL {}", url);
         if (!url.endsWith(".xml")) {
             throw new NodeDocUserException("URL does not end with .xml");
         }
@@ -99,11 +119,13 @@ public class NodesetService {
     // region generate documentation from nodeset url
 
     public Map<String, String> generateDocumentationFromNodeSetUrl(String nodeSetUrl, String authorization, String htmlTemplatePath) {
+        log.info("Generate documentation from NodeSet URL {} with template {}", nodeSetUrl, htmlTemplatePath);
         InputStream templateStream = templatesService.getTemplateStreamFromTemplatePath(htmlTemplatePath);
         return generateDocumentationFromNodeSetUrl(nodeSetUrl, authorization, templateStream);
     }
 
     public Map<String, String> generateDocumentationFromNodeSetUrl(String nodeSetUrl, String authorization, MultipartFile htmlTemplateFile) {
+        log.info("Generate documentation from NodeSetURL {} with template from multipart file", nodeSetUrl);
         InputStream templateStream = getTemplateStreamFromTemplateFile(htmlTemplateFile);
         return generateDocumentationFromNodeSetUrl(nodeSetUrl, authorization, templateStream);
     }
@@ -126,6 +148,7 @@ public class NodesetService {
      * @return - a response with info if a documentation could be generated or not (and why)
      */
     public Map<String, String> generateDocumentationFromNewNodeSetWithExistingTemplate(MultipartFile nodeset, String htmlTemplatePath) {
+        log.info("Generate documentation for NodeSet from multipart file with template {}", htmlTemplatePath);
         return generateDocumentationFromNewNodeSet(nodeset, templatesService.getTemplateStreamFromTemplatePath(htmlTemplatePath));
     }
 
@@ -137,6 +160,7 @@ public class NodesetService {
      * @return - whether the documentation could be generated or not (and why)
      */
     public Map<String, String> generateDocumentationFromNewNodeSetWithNewTemplate(MultipartFile nodeset, MultipartFile htmlTemplateFile) {
+        log.info("Generate documentation for NodeSet from multipart file with template from multipart file");
         return generateDocumentationFromNewNodeSet(nodeset, getTemplateStreamFromTemplateFile(htmlTemplateFile));
     }
 
@@ -168,6 +192,7 @@ public class NodesetService {
      * @return - whether the documentation could be generated or not (and why)
      */
     public Map<String, String> generateDocumentationFromExistingNodeSetWithNewTemplate(String relativePath, MultipartFile htmlTemplateFile) {
+        log.info("Generate documentation for NodeSet {} with template from multipart file", relativePath);
         return generateDocumentationFromExistingNodeSet(getModelMetaDataFromRelativePath(relativePath), getTemplateStreamFromTemplateFile(htmlTemplateFile));
     }
 
@@ -179,10 +204,12 @@ public class NodesetService {
      * @return - whether the documentation could be generated or not (and why)
      */
     public Map<String, String> generateDocumentationFromExistingNodeSetWithExistingTemplate(String relativePath, String htmlTemplatePath) {
+        log.info("Generate documentation for NodeSet {} with template {}", relativePath, htmlTemplatePath);
         return generateDocumentationFromExistingNodeSet(getModelMetaDataFromRelativePath(relativePath), templatesService.getTemplateStreamFromTemplatePath(htmlTemplatePath));
     }
 
     public Map<String, String> generateDocumentationFromExistingNodeSet(ModelMetaData modelMetaData, InputStream htmlTemplateStream) {
+        log.info("Generate documentation for NodeSet {} with template from InputStream", modelMetaData);
         NodeSetUniverse nodeSetUniverse = null;
         try {
             nodeSetUniverse = nodeSetUniverseService.loadNodeSetUniverse(modelMetaData);
@@ -210,10 +237,11 @@ public class NodesetService {
 
     // TODO: remove workaround from relative path
     public ModelMetaData getModelMetaDataFromRelativePath(String relativePath) {
+        log.info("Get meta data from NodeSet {}", relativePath);
         RawNodeSet rawNodeSet;
 
         try {
-            rawNodeSet = nodeSetXmlParser.parseXML(Files.newInputStream(Paths.get(config.getDirectory().getNodesets(), relativePath)));
+            rawNodeSet = nodeSetXmlParser.parseAndValidateXML(Files.newInputStream(Paths.get(config.getDirectory().getNodesets(), relativePath)));
         } catch (IOException | SAXException e) {
             throw new NodeDocUserException("Could not read NodeSet");
         }
@@ -240,6 +268,7 @@ public class NodesetService {
      * @return - returns whether the file could be deleted or not
      */
     public boolean deleteFileOrDirectoryByRelativePath(String relativePath) {
+        log.info("Delete file or directory at {}", relativePath);
         var sanitizedPath = relativePath.replaceAll("\\.\\.", "");
         log.info("Deleting file structure starting at {}", sanitizedPath);
         var deletionResult = modelRepository.deleteAllNodeSetsStartingAt(sanitizedPath);

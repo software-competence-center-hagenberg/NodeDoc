@@ -4,13 +4,14 @@
       {{ item.name }}
     </div>
     <div v-if="!item.children" class="actions">
-      <v-btn class="xml-btn" small @click="showCompareDialog(item)">
+      <v-chip v-if="showSelectedForDiff" style="margin-right: 3px" color="primary">Selected as base</v-chip>
+      <v-btn v-if="!showSelectedForDiff" class="xml-btn" small @click="showCompareDialog(item)">
         <font-awesome-icon icon="exchange-alt" />
       </v-btn>
       <v-btn
         small
         class="xml-btn"
-        v-if="item.nodesetPath"
+        v-if="showNonDiffOptions && item.nodesetPath"
         @click="getRawNodeset(item)"
       >
         XML
@@ -22,7 +23,7 @@
       <v-btn
         class="xml-btn"
         small
-        v-if="item.nodesetPath"
+        v-if="showNonDiffOptions && item.nodesetPath"
         @click.stop="generateDocumentation(item)"
       >
         <font-awesome-icon icon="cogs" />
@@ -31,7 +32,7 @@
       <v-btn
         class="docu-btn"
         small
-        v-if="item.docuPath"
+        v-if="showNonDiffOptions && item.docuPath"
         @click="getDocumentation(item)"
         >HTML
         <v-divider vertical class="mx-2" />
@@ -42,13 +43,13 @@
       <v-btn
         class="docu-btn"
         small
-        v-if="item.docuPath"
+        v-if="showNonDiffOptions && item.docuPath"
         @click="openNodeSetXMLWithExportedDocumentation(item)"
         >
           Export
       </v-btn>
     </div>
-    <div v-if="item.children" class="actions folder-actions">
+    <div v-if="showNonDiffOptions && item.children" class="actions folder-actions">
       <v-btn :disabled="this.$store.state.isDemo" icon @click.stop="deleteFolder(item)">
         <font-awesome-icon icon="trash" />
       </v-btn>
@@ -65,6 +66,14 @@ export default {
   name: "NodesetOptions",
   props: {
     item: null,
+    showSelectedForDiff: {
+      type: Boolean,
+      default: false,
+    },
+    showNonDiffOptions: {
+      type: Boolean,
+      default: true,
+    }
   },
   methods: {
     /**
@@ -142,17 +151,15 @@ export default {
 }
 
 .actions {
-  float: left;
+  display: flex;
   margin-bottom: 0.2rem;
 }
 
 .xml-btn {
   margin: 3px 3px;
-  float: left;
 }
 
 .docu-btn {
   margin: 3px 3px;
-  float: left;
 }
 </style>

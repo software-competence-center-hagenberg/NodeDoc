@@ -24,8 +24,9 @@ class NodeSetXMLParserTest {
 
     @BeforeAll
     public static void parseXML() throws IOException, SAXException {
-        var parser = new NodeSetXMLParser();
-        nodeSet = parser.parseXML(NodeSetXMLParserTest.class.getResourceAsStream("/nodesets/Euromap_test_1_00.xml"));
+        var nodeSetXMLValidator = new SimpleNodeIdValidator();
+        var parser = new NodeSetXMLParser(nodeSetXMLValidator);
+        nodeSet = parser.parseAndValidateXML(NodeSetXMLParserTest.class.getResourceAsStream("/nodesets/Euromap_test_1_00.xml"));
     }
 
     @Test

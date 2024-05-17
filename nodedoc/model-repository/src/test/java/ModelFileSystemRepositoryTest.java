@@ -2,6 +2,7 @@ import at.scch.nodedoc.ModelFileSystemRepository;
 import at.scch.nodedoc.ModelMetaData;
 import at.scch.nodedoc.ModelRepository;
 import at.scch.nodedoc.parser.NodeSetXMLParser;
+import at.scch.nodedoc.parser.SimpleNodeIdValidator;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +23,8 @@ public class ModelFileSystemRepositoryTest {
 
     @BeforeEach
     public void setup() throws IOException {
-        var parser = new NodeSetXMLParser();
+        var nodeSetXMLValidator = new SimpleNodeIdValidator();
+        var parser = new NodeSetXMLParser(nodeSetXMLValidator);
         nodeSetDirectory = Files.createTempDirectory("nodeset").toFile();
         repository = new ModelFileSystemRepository(parser, nodeSetDirectory);
     }

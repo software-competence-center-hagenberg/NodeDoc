@@ -30,6 +30,8 @@
           <template slot="label" slot-scope="{ item }">
             <nodeset-options
               :item="item"
+              :show-selected-for-diff="selectedNodeSetForDiff && (item.nodesetPath === selectedNodeSetForDiff)"
+              :show-non-diff-options="showNonDiffOptions"
               @delete-item="deleteItem"
               @generate-documentation="generateDocumentation"
               @show-compare-dialog="onShowCompareDialog"
@@ -60,6 +62,14 @@ export default {
     loading: false,
   }),
   props: {
+    selectedNodeSetForDiff: {
+      type: String,
+      default: null,
+    },
+    showNonDiffOptions: {
+      type: Boolean,
+      default: true,
+    }
   },
   computed: {
     treeviewHeight: function () {

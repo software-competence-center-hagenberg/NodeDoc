@@ -2,6 +2,7 @@ package at.scch.nodedoc.documentation;
 
 import at.scch.nodedoc.documentation.displaymodel.DisplayNodeSet;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -10,6 +11,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class DocumentationGenerator {
 
     @Getter
@@ -22,6 +24,7 @@ public class DocumentationGenerator {
     }
 
     public void generateDocumentation(DisplayNodeSet displayNodeSet, Config config, OutputStream output, InputStream htmlTemplate) throws IOException {
+        log.info("Generate documentation for NodeSet");
         Document htmlDoc = Jsoup.parse(htmlTemplate, null, "");
 
         Element tableOfContents = htmlDoc.body().getElementById("table-of-contents");

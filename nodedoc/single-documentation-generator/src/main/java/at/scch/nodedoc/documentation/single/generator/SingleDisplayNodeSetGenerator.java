@@ -12,12 +12,14 @@ import at.scch.nodedoc.uaStandard.BrowseNames;
 import at.scch.nodedoc.uaStandard.Namespaces;
 import at.scch.nodedoc.util.StreamUtils;
 import at.scch.nodedoc.util.UAModelUtils;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Slf4j
 public class SingleDisplayNodeSetGenerator {
 
     private final SingleDisplayTypeGenerator singleDisplayTypeGenerator;
@@ -34,6 +36,7 @@ public class SingleDisplayNodeSetGenerator {
     private static final String NAMESPACE_INDEX_FREETEXT_ID = "Indices_of_used_Namespaces";
 
     public SingleDisplayNodeSet generateSingleDocumentation(NodeSetUniverse universe, String namespaceUri) {
+        log.info("Generate single documentation for {} from NodeSetUniverse", namespaceUri);
         var nodeSet = universe.getNodeSetByNamespaceUri(namespaceUri);
 
         importDocEntries(nodeSet);

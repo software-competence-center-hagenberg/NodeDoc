@@ -1,18 +1,16 @@
 package at.scch.nodedoc.modelresolver;
 
 import at.scch.nodedoc.nodeset.NodeId;
+import at.scch.nodedoc.uaStandard.NodeIdDefinition;
 
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class NodeIdParser {
 
-    private static final Pattern NODE_ID_REGEX = Pattern.compile("(?:ns=(?<ns>\\d+);)?(?<type>[igsb])=(?<id>.+)");
-
     public NodeId<?> parseNodeId(String nodeId, List<String> namespaceUris) {
-        var matcher = NODE_ID_REGEX.matcher(nodeId);
+        var matcher = NodeIdDefinition.NODE_ID_REGEX.matcher(nodeId);
         if (!matcher.find()) {
-            throw new RuntimeException("invalid node id");
+            throw new NodeSetResolveException("Invalid NodeId detected " + nodeId);
         }
 
         var namespaceId = matcher.group("ns") != null
@@ -34,12 +32,11 @@ public class NodeIdParser {
             case "b":
                 return new NodeId.OpaqueNodeId(namespaceUri, idValue);
             default:
-                // TODO
-                throw new RuntimeException("unreachable");
+                throw new RuntimeException("Unreachable because of previous regex check");
         }
     }
 
     public boolean isNodeId(String text) {
-        return NODE_ID_REGEX.matcher(text).find();
+        return NodeIdDefinition.NODE_ID_REGEX.matcher(text).find();
     }
 }

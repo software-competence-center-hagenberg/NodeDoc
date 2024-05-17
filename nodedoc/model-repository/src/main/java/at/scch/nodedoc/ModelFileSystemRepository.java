@@ -46,20 +46,22 @@ public class ModelFileSystemRepository implements ModelRepository {
 
     @Override
     public RawNodeSet loadNodeSet(ModelMetaData metaData) {
+        log.info("Load NodeSet with requested meta data {}", metaData);
         try {
             var nodeSetFile = getNodeSetFileFromMetaData(metaData);
             var inputStream = new FileInputStream(nodeSetFile);
-            return parser.parseXML(inputStream);
+            return parser.parseAndValidateXML(inputStream);
         } catch (IOException | SAXException e) {
-            throw new RuntimeException(e);
+            throw new NodeSetNotFoundException("Required NodeSet " + metaData.getModelUriNoHttp() + " (" + metaData.getVersion() + " / " + metaData.getPublicationDate() + ") not found", e);
         }
     }
 
     @Override
     public ModelMetaData saveNodeSet(InputStream contents) {
+        log.info("Save NodeSet from InputStream");
         try {
             var contentString = IOUtils.toString(contents);
-            var uaNodeSet = parser.parseXML(IOUtils.toInputStream(contentString));
+            var uaNodeSet = parser.parseAndValidateXML(IOUtils.toInputStream(contentString));
             var model = uaNodeSet.getModels().get(0);
             var modelMetaData = new ModelMetaData(model.getModelUri(), model.getVersion(), model.getPublicationDate());
             var targetDirectory = getNodeSetDirectory(modelMetaData);
@@ -72,7 +74,7 @@ public class ModelFileSystemRepository implements ModelRepository {
             }
             return modelMetaData;
         } catch (IOException | SAXException e) {
-            throw new RuntimeException(e);
+            throw new NodeSetSaveException("Unable to save NodeSet", e);
         }
     }
 
@@ -104,6 +106,7 @@ public class ModelFileSystemRepository implements ModelRepository {
 
     @Override
     public File getFileForNodeSet(ModelMetaData metaData) {
+        log.info("Load NodeSet file for meta data {}", metaData);
         return getNodeSetFileFromMetaData(metaData);
     }
 
@@ -128,6 +131,7 @@ public class ModelFileSystemRepository implements ModelRepository {
 
     @Override
     public Pair<Boolean, Collection<ModelMetaData>> deleteAllNodeSetsStartingAt(String relativePath) {
+        log.info("Delete all NodeSets starting at {}", relativePath);
         var result = new ArrayList<ModelMetaData>();
         var file = new File(nodeSetRootDirectory, relativePath);
         deleteFileRecursively(file, result);
@@ -158,7 +162,7 @@ public class ModelFileSystemRepository implements ModelRepository {
 
     private ModelMetaData getModelMetaDataFromFile(File file) {
         try (var inputStream = new FileInputStream(file)) {
-            RawNodeSet rawNodeSet = parser.parseXML(inputStream);
+            RawNodeSet rawNodeSet = parser.parseAndValidateXML(inputStream);
             return new ModelMetaData(
                     rawNodeSet.getModels().get(0).getModelUri(),
                     rawNodeSet.getModels().get(0).getVersion(),

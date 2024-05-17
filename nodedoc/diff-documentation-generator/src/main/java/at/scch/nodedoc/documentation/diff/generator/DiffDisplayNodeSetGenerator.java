@@ -6,12 +6,14 @@ import at.scch.nodedoc.documentation.diff.graph.DiffGraphDisplayDataBuilder;
 import at.scch.nodedoc.documentation.displaymodel.graph.GraphDisplayData;
 import at.scch.nodedoc.nodeset.*;
 import at.scch.nodedoc.util.UAModelUtils;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Slf4j
 public class DiffDisplayNodeSetGenerator {
 
     private final DiffDisplayTypeGenerator diffDisplayTypeGenerator;
@@ -23,6 +25,7 @@ public class DiffDisplayNodeSetGenerator {
     }
 
     public DiffDisplayNodeSet generateDiffDocumentation(DiffContext diffContext, String namespaceUri) {
+        log.info("Generate Diff from DiffContext for Namespace URI {}", namespaceUri);
         var diffContent = generateDiffContent(diffContext, namespaceUri);
         return new DiffDisplayNodeSet(diffContent);
     }

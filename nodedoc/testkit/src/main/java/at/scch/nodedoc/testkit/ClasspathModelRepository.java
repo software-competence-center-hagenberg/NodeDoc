@@ -3,6 +3,7 @@ package at.scch.nodedoc.testkit;
 import at.scch.nodedoc.ModelMetaData;
 import at.scch.nodedoc.ModelRepository;
 import at.scch.nodedoc.parser.NodeSetXMLParser;
+import at.scch.nodedoc.parser.SimpleNodeIdValidator;
 import at.scch.nodedoc.parser.rawModel.RawNodeSet;
 import at.scch.nodedoc.uaStandard.Namespaces;
 import org.javatuples.Pair;
@@ -73,7 +74,8 @@ public class ClasspathModelRepository implements ModelRepository {
             if (pathToModel == null) {
                 throw new RuntimeException("Model not found in classpath: " + metaData.getModelUri() + " (" + metaData.getVersion() + " / " + metaData.getPublicationDate() + ")");
             }
-            return new NodeSetXMLParser().parseXML(ClasspathModelRepository.class.getResourceAsStream(pathToModel));
+            var nodeSetXMLValidator = new SimpleNodeIdValidator();
+            return new NodeSetXMLParser(nodeSetXMLValidator).parseAndValidateXML(ClasspathModelRepository.class.getResourceAsStream(pathToModel));
         } catch (IOException | SAXException e) {
             throw new RuntimeException(e);
         }

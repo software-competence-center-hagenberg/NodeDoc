@@ -87,12 +87,16 @@ public class GraphDisplayData {
         }
 
         public static <T> NodeId<T> from(at.scch.nodedoc.nodeset.NodeId<T> nodeId) {
-            if (nodeId.getId() instanceof Integer) {
+            if (nodeId instanceof at.scch.nodedoc.nodeset.NodeId.IntNodeId) {
                 return new GraphDisplayData.NodeId<>(nodeId.getNamespaceUri(), "i", nodeId.getId());
-            } else if (nodeId.getId() instanceof String) {
+            } else if (nodeId instanceof at.scch.nodedoc.nodeset.NodeId.StringNodeId) {
                 return new GraphDisplayData.NodeId<>(nodeId.getNamespaceUri(), "s", nodeId.getId());
+            } else if (nodeId instanceof at.scch.nodedoc.nodeset.NodeId.OpaqueNodeId) {
+                return new GraphDisplayData.NodeId<>(nodeId.getNamespaceUri(), "o", nodeId.getId());
+            } else if (nodeId instanceof at.scch.nodedoc.nodeset.NodeId.GuidNodeId) {
+                return new GraphDisplayData.NodeId<>(nodeId.getNamespaceUri(), "g", nodeId.getId());
             } else {
-                throw new RuntimeException("not implemented");
+                throw new RuntimeException("Unsupported NodeId class " + nodeId.getClass());
             }
         }
     }

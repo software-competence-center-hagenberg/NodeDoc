@@ -4,6 +4,7 @@ import at.scch.opcua.config.NodeDocConfiguration;
 import at.scch.opcua.data.TemplateInfo;
 import at.scch.opcua.exception.NodeDocUserException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 @Component
+@Slf4j
 public class TemplatesService {
 
     public static final String DEFAULT_TEMPLATE_NAME = "defaultTemplate.html";
@@ -29,6 +31,7 @@ public class TemplatesService {
     private NodeDocConfiguration config;
 
     public ResponseEntity getTemplates() {
+        log.info("Get templates");
         try {
             return ResponseEntity.ok(getTemplatesArray());
         } catch (IOException e) {
@@ -38,6 +41,7 @@ public class TemplatesService {
     }
 
     public ResponseEntity saveTemplate(MultipartFile file, String description) {
+        log.info("Save template from multipart file with description \"{}\"", description);
         Path saveFile = Paths.get(config.getDirectory().getTemplates(), file.getOriginalFilename());
         boolean exists = saveFile.toFile().exists();
 
@@ -74,6 +78,7 @@ public class TemplatesService {
     }
 
     public ResponseEntity deleteTemplateByRelativePath(String templateName) {
+        log.info("Delete template at {}", templateName);
         Path path = Paths.get(config.getDirectory().getTemplates(), templateName);
         File file = path.toFile();
         if (file.exists()) {
@@ -118,6 +123,7 @@ public class TemplatesService {
     }
 
     public InputStream getTemplateStreamFromTemplatePath(String htmlTemplatePath) {
+        log.info("Get template from path {}", htmlTemplatePath);
         try {
             return Files.newInputStream(Paths.get(config.getDirectory().getTemplates(), htmlTemplatePath));
         } catch (IOException e) {
@@ -126,6 +132,7 @@ public class TemplatesService {
     }
 
     public InputStream getDefaultTemplateStream() {
+        log.info("Get default template");
         return getTemplateStreamFromTemplatePath(DEFAULT_TEMPLATE_NAME);
     }
 }

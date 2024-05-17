@@ -4,15 +4,18 @@ import at.scch.opcua.dto.FilestructureDirectoryNode;
 import at.scch.opcua.dto.FilestructureFileNode;
 import at.scch.opcua.dto.FilestructureNode;
 import at.scch.opcua.util.PathUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
+@Slf4j
 public class FileStructureService {
 
     private final ThreadLocal<Integer> currentId = new ThreadLocal<>();
@@ -36,6 +39,7 @@ public class FileStructureService {
      * @return                  tree structure of the nodeset directory
      */
     public FilestructureDirectoryNode getFileStructure(File rootDirectory) {
+        log.info("Load file structure starting at {}", rootDirectory);
         resetId();
         var structure = buildDirectoryStructure(rootDirectory, rootDirectory);
         removeEmptyDirectories(structure);

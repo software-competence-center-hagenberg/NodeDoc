@@ -52,13 +52,13 @@ public class ReferenceResolver {
         return node.getRawNode().getReferences().stream().map(rawReference -> {
             var referenceTypeUncasted = resolveReference(rawReference.getReferenceType(), resolveContext);
             if (!(referenceTypeUncasted instanceof UAReferenceType)) {
-                throw new RuntimeException("Invalid reference type"); // TODO
+                throw new NodeSetResolveException("Non-ReferenceType " + referenceTypeUncasted.getBrowseName() + " (" + referenceTypeUncasted.getNodeId() + ") used as ReferenceType in references of " + node.getBrowseName() + "(" + node.getNodeId() + ")");
             }
 
             var referencedNode = resolveReference(rawReference.getReferencedId(), resolveContext);
 
             if (referencedNode == null) {
-                throw new RuntimeException("referenced node: (" + rawReference.getReferencedId() + " referenced in " + node.getNodeSet().getModelUri() + ") does not exist"); // TODO
+                throw new NodeSetResolveException("Referenced node (" + rawReference.getReferencedId() + ") referenced in " + node.getBrowseName() + "(" + node.getNodeId() + ")" + " does not exist");
             }
 
             var referenceType = ((UAReferenceType) referenceTypeUncasted);
@@ -75,7 +75,7 @@ public class ReferenceResolver {
         var dataTypeReference = node.getRawNode().getDataType();
         var dataType = resolveReference(dataTypeReference, resolveContext);
         if (!(dataType instanceof UADataType)) {
-            throw new RuntimeException("Invalid data type"); // TODO
+            throw new NodeSetResolveException("Non-DataType " + dataType.getBrowseName() + "(" + dataType.getNodeId() + ") referenced as DataType in " + node.getBrowseName() + "(" + node.getNodeId() + ")");
         }
         node.setDataType(((UADataType) dataType));
     }
@@ -91,7 +91,7 @@ public class ReferenceResolver {
         if (dataTypeReference != null) {
             var dataType = resolveReference(dataTypeReference, resolveContext);
             if (!(dataType instanceof UADataType)) {
-                throw new RuntimeException("Invalid data type"); // TODO
+                throw new NodeSetResolveException("Non-DataType " + dataType.getBrowseName() + "(" + dataType.getNodeId() + ") referenced as DataType in field " + definitionField.getName());
             }
             definitionField.setDataType((UADataType) dataType);
         }

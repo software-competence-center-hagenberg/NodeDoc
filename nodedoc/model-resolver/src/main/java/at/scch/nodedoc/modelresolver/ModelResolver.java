@@ -6,6 +6,7 @@ import at.scch.nodedoc.nodeset.NodeSetUniverse;
 import at.scch.nodedoc.nodeset.UANodeSet;
 import at.scch.nodedoc.parser.rawModel.*;
 import at.scch.nodedoc.uaStandard.Namespaces;
+import lombok.extern.slf4j.Slf4j;
 import org.javatuples.Quintet;
 
 import java.time.OffsetDateTime;
@@ -13,6 +14,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Slf4j
 public class ModelResolver {
 
     private final ModelRepository modelRepository;
@@ -27,6 +29,7 @@ public class ModelResolver {
 
     @Deprecated
     public UANodeSet resolveModel(String modelUri, String version, OffsetDateTime publicationDate) {
+        log.info("Resolve model {} ({} / {})", modelUri, version, publicationDate);
         var dependencyResolver = new DependencyResolver(modelRepository);
         var currentModelMetaData = new ModelMetaData(modelUri, version, publicationDate);
         var dependencies = dependencyResolver.collectDependencies(currentModelMetaData);
@@ -37,6 +40,7 @@ public class ModelResolver {
     }
 
     public NodeSetUniverse loadNodeSetUniverse(Collection<ModelMetaData> models) {
+        log.info("Load NodeSetUniverse with NodeSets {}", models);
         var rawNodeSets = models.stream()
                 .map(metaData -> {
                     var rawNodeSet = modelRepository.loadNodeSet(metaData);
@@ -109,7 +113,7 @@ public class ModelResolver {
         } else if (rawNode instanceof RawReferenceType) {
             return new UAReferenceTypeImpl((RawReferenceType) rawNode, nodeId);
         } else {
-            throw new RuntimeException("unreachable");
+            throw new RuntimeException("Unknown RawNode class " + rawNode.getClass());
         }
     }
 

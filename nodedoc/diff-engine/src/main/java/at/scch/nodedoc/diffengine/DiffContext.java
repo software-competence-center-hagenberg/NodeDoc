@@ -4,12 +4,14 @@ import at.scch.nodedoc.nodeset.NodeId;
 import at.scch.nodedoc.nodeset.NodeSetUniverse;
 import at.scch.nodedoc.nodeset.UANode;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class DiffContext {
 
     private final Map<NodeId<?>, DiffView<? extends UANode>> nodes = new HashMap<>();
@@ -32,6 +34,7 @@ public class DiffContext {
     }
 
     public DiffContext(NodeSetUniverse baseUniverse, NodeSetUniverse compareUniverse) {
+        log.info("Create DiffContext");
         this.universe = new DiffView<>(baseUniverse, compareUniverse);
         var diffNodes = this.universe.getDiffSetWithValues(NodeSetUniverse::getAllNodes, UANode::getNodeId, NodeId.class);
         diffNodes.forEach(entry -> {
@@ -209,7 +212,7 @@ public class DiffContext {
                 } else if (entry instanceof Utils.EntryUnchanged) {
                     return new DiffCollectionEntry<>(EntryDiffType.UNCHANGED, new DiffView<>(((Utils.EntryUnchanged<R>) entry).getBaseValue(), ((Utils.EntryUnchanged<R>) entry).getCompareValue()));
                 } else {
-                    throw new RuntimeException("unreachable");
+                    throw new RuntimeException("Unsupported DiffEntry class " + entry.getClass());
                 }
             }).collect(Collectors.toSet());
         }
@@ -231,7 +234,7 @@ public class DiffContext {
                 } else if (entry instanceof Utils.EntryUnchanged) {
                     return new DiffCollectionEntry<>(EntryDiffType.UNCHANGED, (DiffView<Node>) getNodeById(((Utils.EntryUnchanged<Node>) entry).getBaseValue().getNodeId()));
                 } else {
-                    throw new RuntimeException("unreachable");
+                    throw new RuntimeException("Unsupported DiffEntry class " + entry.getClass());
                 }
             }).collect(Collectors.toSet());
         }
@@ -252,7 +255,7 @@ public class DiffContext {
                 } else if (entry instanceof Utils.EntryUnchanged) {
                     return new DiffCollectionEntry<>(EntryDiffType.UNCHANGED, new DiffView<>(((Utils.EntryUnchanged<R>) entry).getBaseValue(), ((Utils.EntryUnchanged<R>) entry).getCompareValue()));
                 } else {
-                    throw new RuntimeException("unreachable");
+                    throw new RuntimeException("Unsupported DiffEntry class " + entry.getClass());
                 }
             }).collect(Collectors.toList());
         }

@@ -1,6 +1,7 @@
 package at.scch.opcua.controller;
 
 import at.scch.opcua.demomode.RestrictInDemoMode;
+import at.scch.opcua.exception.InternalException;
 import at.scch.opcua.service.BackupService;
 import at.scch.opcua.service.RestoreService;
 import io.swagger.annotations.ApiOperation;
@@ -43,7 +44,7 @@ public class BackupController {
         try (var out = response.getOutputStream(); FileInputStream in = new FileInputStream(zipFile)) {
             IOUtils.copy(in, out);
         } catch (IOException e) {
-            throw new RuntimeException("Failed to write file " + zipFile.getName() + " to HttpServletResponse", e);
+            throw new InternalException("Failed to write file " + zipFile.getName() + " to HttpServletResponse", e);
         }
     }
 
@@ -87,7 +88,7 @@ public class BackupController {
         try {
             zipFile.transferTo(destination);
         } catch (IOException e) {
-            throw new RuntimeException("Unable to save ZIP file at " + destination, e);
+            throw new InternalException("Unable to save ZIP file at " + destination, e);
         }
     }
 

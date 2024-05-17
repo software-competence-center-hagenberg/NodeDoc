@@ -40,7 +40,7 @@ public class Utilities {
         );
         // 255 - all bits are set
         if (accessLevel > 255) {
-            throw new RuntimeException("AccessLevel " + accessLevel + " out of bounds");
+            throw new InvalidAccessLevelException("AccessLevel " + accessLevel + " out of bounds");
         }
         List<String> setAccessLevels = new ArrayList<>();
         for (int i = 0; accessLevel != 0; ++i, accessLevel >>>= 1) {
@@ -102,7 +102,7 @@ public class Utilities {
             return "node:" + nodeId.getNamespaceUri()
                     + ";b=" + nodeId.getId();
         } else {
-            throw new RuntimeException("unreachable");
+            throw new RuntimeException("Unknown NodeId class " + nodeId.getClass());
         }
     }
 

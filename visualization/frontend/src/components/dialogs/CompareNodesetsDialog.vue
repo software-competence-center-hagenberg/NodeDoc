@@ -1,14 +1,26 @@
 <template>
   <v-dialog v-model="showDialog" width="700">
-    <nodeset-tree-view style="height: 50vh"
-      @show-compare-dialog="onCompareNodes"
-    />
-    <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn @click="hideDialog">Cancel</v-btn>
-    </v-card-actions>
+    <v-card>
+      <v-card-title>Select second NodeSet for Diff</v-card-title>
+      <nodeset-tree-view style="height: 50vh"
+        :selected-node-set-for-diff="baseFile?.nodesetPath"
+        :show-non-diff-options="false"
+        @show-compare-dialog="onCompareNodes"
+      />
+      <v-card-actions>
+        <v-card-text>Selected base version:<br>{{baseFile?.nodesetPath}}</v-card-text>
+        <v-spacer></v-spacer>
+        <v-btn @click="hideDialog">Cancel</v-btn>
+      </v-card-actions>
+    </v-card>
   </v-dialog>
 </template>
+
+<style>
+  .treeview-card {
+    box-shadow: none !important; /* Hide shadow of inner card */
+  }
+</style>
 
 <script>
 import NodesetTreeView from "../treeview/NodesetTreeView.vue";
@@ -36,8 +48,12 @@ export default {
 
     onCompareNodes: async function (item) {
       this.hideDialog();
-      await nodesetDiffRestResourceService.generateDiff(this.baseFile.nodesetPath, item.nodesetPath)
-      this.$emit("generation-done");
+      try {
+        await nodesetDiffRestResourceService.generateDiff(this.baseFile.nodesetPath, item.nodesetPath);
+        this.$emit("generation-done");
+      } catch (e) {
+        this.$emit("generation-failed", e.response.data);
+      }
     },
   },
 };

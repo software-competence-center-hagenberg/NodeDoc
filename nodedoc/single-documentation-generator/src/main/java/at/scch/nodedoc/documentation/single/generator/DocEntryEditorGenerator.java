@@ -5,6 +5,7 @@ import at.scch.nodedoc.nodeset.UANode;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import org.jsoup.nodes.Element;
 
 import java.nio.charset.StandardCharsets;
@@ -12,16 +13,12 @@ import java.util.Base64;
 
 public class DocEntryEditorGenerator {
 
+    @SneakyThrows({JsonProcessingException.class}) // writeValueAsString should never throw it (according to docs), but it's declared
     private static String encodeTextIdBase64(TextId textId) {
         var objectMapper = new ObjectMapper();
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
-        String textIdAsJson;
-        try {
-            textIdAsJson = objectMapper.writeValueAsString(textId);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        String textIdAsJson = objectMapper.writeValueAsString(textId);
 
         return Base64.getEncoder().encodeToString(textIdAsJson.getBytes(StandardCharsets.UTF_8));
     }

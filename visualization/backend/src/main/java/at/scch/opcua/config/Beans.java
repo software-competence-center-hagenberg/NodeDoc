@@ -15,6 +15,8 @@ import at.scch.nodedoc.modelresolver.ModelResolver;
 import at.scch.nodedoc.modelresolver.NodeIdParser;
 import at.scch.nodedoc.modelresolver.ReferenceResolver;
 import at.scch.nodedoc.parser.NodeSetXMLParser;
+import at.scch.nodedoc.parser.SimpleNodeIdValidator;
+import at.scch.opcua.exception.InternalException;
 import com.cloudant.client.api.ClientBuilder;
 import com.cloudant.client.api.CloudantClient;
 import com.cloudant.client.api.Database;
@@ -40,6 +42,7 @@ public class Beans {
     public void registerBeans() {
         context.registerBean(DocumentationGenerator.class);
         context.registerBean(NodeSetXMLParser.class);
+        context.registerBean(SimpleNodeIdValidator.class);
         context.registerBean(NodeIdParser.class);
         context.registerBean(ReferenceResolver.class);
         context.registerBean(ModelResolver.class);
@@ -78,7 +81,7 @@ public class Beans {
                     .build();
             return client.database(config.getCouchDb().getDatabaseName(), config.getCouchDb().shouldCreateDb());
         } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
+            throw new InternalException("Invalid CouchDB URI " + config.getCouchDb().getUri(), e);
         }
     }
 }

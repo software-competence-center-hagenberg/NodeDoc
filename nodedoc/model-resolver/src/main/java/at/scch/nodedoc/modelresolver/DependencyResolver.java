@@ -3,6 +3,7 @@ package at.scch.nodedoc.modelresolver;
 import at.scch.nodedoc.ModelMetaData;
 import at.scch.nodedoc.ModelRepository;
 import at.scch.nodedoc.parser.rawModel.RawModel;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -13,6 +14,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Slf4j
 public class DependencyResolver {
     private final ModelRepository modelRepository;
 
@@ -64,6 +66,7 @@ public class DependencyResolver {
      * @return Collection of referenced NodeSet dependencies
      */
     public Collection<ModelMetaData> collectDependencies(ModelMetaData metaData) {
+        log.info("Collect NodeSet dependencies for {}", metaData);
         return collectDependenciesRecursive(metaData, new HashMap<>()).values();
     }
 

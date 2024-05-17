@@ -5,7 +5,7 @@
     <parent>
         <groupId>at.scch.codeanalytics.opcua</groupId>
         <artifactId>nodedoc</artifactId>
-        <version>1.16</version>
+        <version>1.17</version>
     </parent>
 
     <artifactId>model-repository</artifactId>
@@ -14,7 +14,7 @@
         <dependency>
             <groupId>at.scch.codeanalytics.opcua</groupId>
             <artifactId>xml-parser</artifactId>
-            <version>1.16</version>
+            <version>1.17</version>
         </dependency>
     </dependencies>
 </project>

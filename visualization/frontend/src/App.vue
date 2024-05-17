@@ -60,6 +60,7 @@
         :baseFile="compareBaseFile"
         @hide-dialog="compareBaseFile = null"
         @generation-done="$refs.diffList.loadDiffs()"
+        @generation-failed="onDiffError"
       />
       <info-dialog
         :title="infoDialog.title"
@@ -196,6 +197,10 @@ export default {
       this.setInfoDialogValues("Error", data, true, color);
     },
 
+    onDiffError: function (data) {
+      this.setInfoDialogValues("Error", data, true, "red lighten-3");
+    },
+
     /**
      * Creates an array containing a standard replacement string and all
      * nodesets that where not available in the publication date but in another
@@ -249,7 +254,6 @@ export default {
 
     onShowCompareDialog: function (file) {
       this.compareBaseFile = file;
-      console.log(file);
     },
   },
 };

@@ -12,6 +12,7 @@ import at.scch.opcua.config.NodeDocConfiguration;
 import at.scch.opcua.exception.NodeDocUserException;
 import at.scch.opcua.metadata.DiffMetadata;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
@@ -28,6 +29,7 @@ import java.util.stream.Stream;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class NodesetDiffService {
 
     private final NodeDocConfiguration config;
@@ -41,6 +43,7 @@ public class NodesetDiffService {
     private final TemplatesService templatesService;
 
     public void generateDiff(String baseFilePath, String compareFilePath) {
+        log.info("Generate diff between {} and {}", baseFilePath, compareFilePath);
         var baseNodeSetMetaData = getModelMetaDataFromPath(baseFilePath);
         var compareNodeSetMetaData = getModelMetaDataFromPath(compareFilePath);
 
@@ -92,7 +95,7 @@ public class NodesetDiffService {
         RawNodeSet nodeSet;
 
         try {
-            nodeSet = nodeSetXmlParser.parseXML(nodesetStream);
+            nodeSet = nodeSetXmlParser.parseAndValidateXML(nodesetStream);
         } catch (IOException | SAXException e) {
             throw new NodeDocUserException("Could not access nodeset", e); // TODO
         }

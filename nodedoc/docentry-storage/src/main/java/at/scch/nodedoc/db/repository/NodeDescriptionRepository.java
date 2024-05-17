@@ -7,6 +7,7 @@ import com.cloudant.client.api.Database;
 import com.cloudant.client.api.query.QueryBuilder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -20,6 +21,7 @@ import static com.cloudant.client.api.query.Expression.eq;
 import static com.cloudant.client.api.query.Expression.exists;
 import static com.cloudant.client.api.query.Operation.and;
 
+@Slf4j
 public class NodeDescriptionRepository {
 
     private final Database db;
@@ -33,10 +35,12 @@ public class NodeDescriptionRepository {
     }
 
     public void save(List<NodeSetText> nodeSetTexts) {
+        log.info("Save {}", nodeSetTexts.size());
         this.db.bulk(nodeSetTexts);
     }
 
     public List<NodeSetText> getUserDescriptionsForNodeSet(String namespaceUri, String version, OffsetDateTime publicationDate) {
+        log.info("Load user descriptions for NodeSet {} ({} / {})", namespaceUri, version, publicationDate);
         String query = new QueryBuilder(and(
                 eq("namespaceUri", namespaceUri),
                 eq("version", version),
@@ -51,6 +55,7 @@ public class NodeDescriptionRepository {
     }
 
     public List<NodeSetText> getAllNodeSetTextsForNodeSet(String namespaceUri, String version, OffsetDateTime publicationDate) {
+        log.info("Load all NodeSet texts for NodeSet {} ({} / {})", namespaceUri, version, publicationDate);
         String query = new QueryBuilder(and(
                 eq("namespaceUri", namespaceUri),
                 eq("version", version)))
@@ -82,6 +87,7 @@ public class NodeDescriptionRepository {
     }
 
     public void deleteAllNodeSetTextsForNamespaceUri(String namespaceUri) {
+        log.info("Delete all NodeSet texts for Namespace URI {}", namespaceUri);
         String query = new QueryBuilder(
                 eq("namespaceUri", namespaceUri)
         ).limit(Integer.MAX_VALUE).build();
@@ -91,6 +97,7 @@ public class NodeDescriptionRepository {
     }
 
     public long deleteAllNodeSetTexts(int pageSize) {
+        log.info("Delete all NodeSet texts");
         long[] docsDeleted = {0}; // array wrapper for modification inside of lambda
         Stream.generate(() -> CouchDbUtils.fetchAllDocIdsAndRevsPaginated(db, pageSize).findFirst())
                 .takeWhile(Optional::isPresent)

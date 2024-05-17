@@ -8,9 +8,11 @@ import at.scch.nodedoc.nodeset.UANodeSet;
 import at.scch.nodedoc.nodeset.UAVariable;
 import at.scch.nodedoc.uaStandard.Nodes;
 import at.scch.nodedoc.util.StreamUtils;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
+@Slf4j
 public class NodeSetAnnotator {
 
     private final NodeDescriptionRepository nodeDescriptionRepository;
@@ -20,6 +22,7 @@ public class NodeSetAnnotator {
     }
 
     public void annotateNodeSetWithCurrentDocumentation(UANodeSet nodeSet) {
+        log.info("Annotate NodeSet {} with current documentation from database", nodeSet.getModelUriNoHttp());
         var allDescriptions = nodeDescriptionRepository.getUserDescriptionsForNodeSet(nodeSet.getModelUri(), nodeSet.getVersion(), nodeSet.getPublicationDate());
 
         nodeSet.getAllNodes().forEach(node -> {
