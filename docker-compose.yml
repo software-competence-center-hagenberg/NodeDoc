@@ -15,7 +15,7 @@ services:
       - couchdb-data:/opt/couchdb/data
 
   nodedoc:
-    image: nodedoc:version1.15
+    image: registry.gitlab.com/scch-reeds/opc-doc:latest
     ports:
       - '127.0.0.1:5010:5010'
     volumes:
