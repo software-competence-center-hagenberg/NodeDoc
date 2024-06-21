@@ -22,7 +22,7 @@ If you want to further develop NodeDoc, continue reading from [Development](#dev
 #### Build NodeDoc
 
 ```
-mvn package -f visualization -P dockerImage
+mvn package -f visualization -P buildDockerImage
 ```
 
 #### Create data directories
