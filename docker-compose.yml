@@ -33,8 +33,11 @@ services:
       # Directory where backups are stored
       nodedoc.directory.backups: /data/backups
 
-      # URI to the CouchDB
+      # URI to the CouchDB (reachable from the server)
       nodedoc.couchDb.uri: http://couchdb:5984
+
+      # URI to the CouchDB (reachable from the browser)
+      nodedoc.documentationGeneration.couchDbUri: "`$${window.location.protocol}//$${window.location.hostname}:5985`"
 
       # Credentials for the CouchDB. They have to match the credentials which have been defined in the couchdb service
       nodedoc.couchDb.username: admin
