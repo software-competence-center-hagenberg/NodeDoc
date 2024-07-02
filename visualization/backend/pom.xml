@@ -127,12 +127,27 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>at.scch.opcua.DocuGenerationMain</mainClass>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
     <profiles>
         <profile>
-            <id>buildDockerImage</id>
+            <id>dockerImage</id>
             <build>
                 <plugins>
                     <plugin>
@@ -141,7 +156,7 @@
                         <version>3.0.0</version>
                         <configuration>
                             <to>
-                                <image>registry.gitlab.com/scch-reeds/opc-doc</image>
+                                <image>nodedoc</image>
                                 <tags>
                                     <tag>version${project.version}</tag>
                                     <tag>latest</tag>
@@ -156,44 +171,6 @@
                                 <phase>package</phase>
                                 <goals>
                                     <goal>dockerBuild</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-
-            </build>
-        </profile>
-        <profile>
-            <id>pushDockerImage</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.google.cloud.tools</groupId>
-                        <artifactId>jib-maven-plugin</artifactId>
-                        <version>3.0.0</version>
-                        <configuration>
-                            <to>
-                                <image>dali.scch.at:8444/reeds/opc_ua/opc.ua.nodedoc.visu.service</image>
-                                <auth>
-                                    <username>dev</username>
-                                    <password>dev</password>
-                                </auth>
-                                <tags>
-                                    <tag>${project.version}</tag>
-                                    <tag>latest</tag>
-                                </tags>
-                            </to>
-                            <container>
-                                <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
-                            </container>
-                            <allowInsecureRegistries>true</allowInsecureRegistries>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>build</goal>
                                 </goals>
                             </execution>
                         </executions>
