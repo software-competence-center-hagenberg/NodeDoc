@@ -92,3 +92,57 @@ A dialog will open. Select the second version for the comparison by clicking on 
 The diff will be generated and can be viewed by clicking on *Open Diff* in the *Generated Diffs* area.
 
 ![](img/compare-open.png)
+
+## Integration via API
+
+NodeDoc can be integrated via an API, which can be used in CI/CD environments, for example.
+This section covers how NodeSets can be uploaded to NodeDoc, how documentation can be generated and how the generated documentation can be downloaded.
+
+The API usage is shown in the following examples using `curl`. However, any HTTP client can be used to interact with the API.
+
+### Upload a NodeSet from a local file
+
+```
+curl -X POST <host>/nodeset/ -F nodeset=@<path/to/local/file>
+
+# for example like this
+curl -X POST http://localhost:5010/nodeset/ -F nodeset=@nodeset.xml
+```
+
+NodeDoc derives a `<nodeset path>` from the NodeSet using the following schema:
+
+```
+<uri>/versions/<version>/<publication date>
+
+# for example
+www.euromap.org/euromap83/versions/1.01/2019-01-28
+```
+
+This `<nodeset path>` will be used in the following examples when referencing a given uploaded NodeSet.
+
+## Generate HTML documentation for a NodeSet on the server
+
+```
+curl -X POST <host>/nodeset/generate-for-existing-nodeset/default-html-template/ -d relativePath=<nodeset path>/nodeset.xml
+
+# for example like this:
+curl -X POST http://localhost:5010/nodeset/generate-for-existing-nodeset/default-html-template/ -d relativePath=www.euromap.org/euromap83/versions/1.01/2019-01-28/nodeset.xml
+```
+
+## Upload and HTML documentation generation in one request
+
+```
+curl -X POST <host>/nodeset/generate/default-html-template/ -F nodeset=@<path/to/local/file>
+
+# for example like this
+curl -X POST http://localhost:5010/nodeset/generate/default-html-template/ -F nodeset=@nodeset.xml
+```
+
+## Download the generated HTML documentation
+
+```
+curl <host>/documentation/<nodeset path>/nodeset.html
+
+# for example like this
+curl http://localhost:5010/documentation/www.euromap.org/euromap83/versions/1.01/2019-01-28/nodeset.html
+```
