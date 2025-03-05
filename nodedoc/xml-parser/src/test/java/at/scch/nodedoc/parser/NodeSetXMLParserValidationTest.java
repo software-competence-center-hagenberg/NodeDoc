@@ -17,7 +17,8 @@ public class NodeSetXMLParserValidationTest {
     void testXMLError(String file) {
         assertThatThrownBy(() -> {
             var nodeSetXMLValidator = new SimpleNodeIdValidator();
-            var parser = new NodeSetXMLParser(nodeSetXMLValidator);
+            var modelValidator = new ModelValidator();
+            var parser = new NodeSetXMLParser(nodeSetXMLValidator, modelValidator);
             parser.parseAndValidateXML(NodeSetXMLParserTest.class.getResourceAsStream("/nodesets/invalid/" + file));
         }).isInstanceOf(NodeSetSchemaValidationException.class);
     }
@@ -39,7 +40,8 @@ public class NodeSetXMLParserValidationTest {
     void testInvalidNamespaceIndex(String file) {
         assertThatThrownBy(() -> {
             var nodeSetXMLValidator = new SimpleNodeIdValidator();
-            var parser = new NodeSetXMLParser(nodeSetXMLValidator);
+            var modelValidator = new ModelValidator();
+            var parser = new NodeSetXMLParser(nodeSetXMLValidator, modelValidator);
             parser.parseAndValidateXML(NodeSetXMLParserTest.class.getResourceAsStream("/nodesets/invalid/" + file));
         }).isInstanceOf(NodeSetNodeIdValidationException.class);
     }
@@ -48,7 +50,8 @@ public class NodeSetXMLParserValidationTest {
     void testInvalidNamespaceIndexCombined() {
         var exception = catchThrowableOfType(() -> {
             var nodeSetXMLValidator = new SimpleNodeIdValidator();
-            var parser = new NodeSetXMLParser(nodeSetXMLValidator);
+            var modelValidator = new ModelValidator();
+            var parser = new NodeSetXMLParser(nodeSetXMLValidator, modelValidator);
             parser.parseAndValidateXML(NodeSetXMLParserTest.class.getResourceAsStream("/nodesets/invalid/invalid-namespace-index-combined.xml"));
         }, NodeSetNodeIdValidationException.class);
         assertThat(exception.getInvalidNodeIds()).hasSize(10);
@@ -70,7 +73,8 @@ public class NodeSetXMLParserValidationTest {
     void testUnknownAlias(String file) {
         Assertions.assertThatThrownBy(() -> {
             var nodeSetXMLValidator = new SimpleNodeIdValidator();
-            var parser = new NodeSetXMLParser(nodeSetXMLValidator);
+            var modelValidator = new ModelValidator();
+            var parser = new NodeSetXMLParser(nodeSetXMLValidator, modelValidator);
             parser.parseAndValidateXML(NodeSetXMLParserTest.class.getResourceAsStream("/nodesets/invalid/" + file));
         }).isInstanceOf(NodeSetNodeIdValidationException.class);
     }
@@ -79,9 +83,26 @@ public class NodeSetXMLParserValidationTest {
     void testUnknownAliasCombined() {
         var exception = catchThrowableOfType(() -> {
             var nodeSetXMLValidator = new SimpleNodeIdValidator();
-            var parser = new NodeSetXMLParser(nodeSetXMLValidator);
+            var modelValidator = new ModelValidator();
+            var parser = new NodeSetXMLParser(nodeSetXMLValidator, modelValidator);
             parser.parseAndValidateXML(NodeSetXMLParserTest.class.getResourceAsStream("/nodesets/invalid/unknown-alias-combined.xml"));
         }, NodeSetNodeIdValidationException.class);
         assertThat(exception.getInvalidNodeIds()).hasSize(9);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "missing-version.xml",
+            "missing-publicationdate.xml",
+            "missing-version-in-requiredmodel.xml",
+            "missing-publicationdate-in-requiredmodel.xml"
+    })
+    void testMissingModelData(String file) {
+        assertThatThrownBy(() -> {
+            var nodeSetXMLValidator = new SimpleNodeIdValidator();
+            var modelValidator = new ModelValidator();
+            var parser = new NodeSetXMLParser(nodeSetXMLValidator, modelValidator);
+            parser.parseAndValidateXML(NodeSetXMLParserTest.class.getResourceAsStream("/nodesets/invalid/" + file));
+        }).isInstanceOf(NodeSetModelValidationException.class);
     }
 }
