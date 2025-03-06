@@ -19,6 +19,7 @@ public class NodeSetXMLParser {
 
     private final DocumentBuilder documentBuilder;
     private final SimpleNodeIdValidator simpleNodeIdValidator;
+    private final ModelValidator modelValidator;
 
     public static final String XSD_PATH = "/at/scch/nodedoc/parser/UANodeSet.xsd";
 
@@ -41,8 +42,9 @@ public class NodeSetXMLParser {
         }
     }
 
-    public NodeSetXMLParser(SimpleNodeIdValidator simpleNodeIdValidator) {
+    public NodeSetXMLParser(SimpleNodeIdValidator simpleNodeIdValidator, ModelValidator modelValidator) {
         this.simpleNodeIdValidator = simpleNodeIdValidator;
+        this.modelValidator = modelValidator;
         var documentBuilderFactory = DocumentBuilderFactory.newInstance();
         documentBuilderFactory.setNamespaceAware(true);
         var schemaFactory = SchemaFactory.newDefaultInstance();
@@ -62,6 +64,7 @@ public class NodeSetXMLParser {
         var document = documentBuilder.parse(inputStream);
         var rawNodeSet = new RawNodeSet(document.getDocumentElement());
         simpleNodeIdValidator.validateOrThrow(rawNodeSet);
+        modelValidator.validateOrThrow(rawNodeSet);
         return rawNodeSet;
     }
 

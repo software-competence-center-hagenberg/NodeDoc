@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UANodeSet xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
+	<NamespaceUris>
+		<Uri>http://www.example.com/example/</Uri>
+	</NamespaceUris>
+	<Models>
+		<Model ModelUri="http://www.example.com/example/" PublicationDate="2019-01-28T08:00:00Z">
+
+		</Model>
+	</Models>
+</UANodeSet>

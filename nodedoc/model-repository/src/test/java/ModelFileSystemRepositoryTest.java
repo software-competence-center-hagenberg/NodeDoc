@@ -1,6 +1,7 @@
 import at.scch.nodedoc.ModelFileSystemRepository;
 import at.scch.nodedoc.ModelMetaData;
 import at.scch.nodedoc.ModelRepository;
+import at.scch.nodedoc.parser.ModelValidator;
 import at.scch.nodedoc.parser.NodeSetXMLParser;
 import at.scch.nodedoc.parser.SimpleNodeIdValidator;
 import org.apache.commons.io.FileUtils;
@@ -24,7 +25,8 @@ public class ModelFileSystemRepositoryTest {
     @BeforeEach
     public void setup() throws IOException {
         var nodeSetXMLValidator = new SimpleNodeIdValidator();
-        var parser = new NodeSetXMLParser(nodeSetXMLValidator);
+        var modelValidator = new ModelValidator();
+        var parser = new NodeSetXMLParser(nodeSetXMLValidator, modelValidator);
         nodeSetDirectory = Files.createTempDirectory("nodeset").toFile();
         repository = new ModelFileSystemRepository(parser, nodeSetDirectory);
     }

@@ -14,6 +14,7 @@ import at.scch.nodedoc.modelresolver.DependencyResolver;
 import at.scch.nodedoc.modelresolver.ModelResolver;
 import at.scch.nodedoc.modelresolver.NodeIdParser;
 import at.scch.nodedoc.modelresolver.ReferenceResolver;
+import at.scch.nodedoc.parser.ModelValidator;
 import at.scch.nodedoc.parser.NodeSetXMLParser;
 import at.scch.nodedoc.parser.SimpleNodeIdValidator;
 import at.scch.opcua.exception.InternalException;
@@ -43,6 +44,7 @@ public class Beans {
         context.registerBean(DocumentationGenerator.class);
         context.registerBean(NodeSetXMLParser.class);
         context.registerBean(SimpleNodeIdValidator.class);
+        context.registerBean(ModelValidator.class);
         context.registerBean(NodeIdParser.class);
         context.registerBean(ReferenceResolver.class);
         context.registerBean(ModelResolver.class);
