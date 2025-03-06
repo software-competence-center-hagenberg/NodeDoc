@@ -2,10 +2,7 @@ package at.scch.nodedoc.testkit;
 
 import at.scch.nodedoc.ModelMetaData;
 import at.scch.nodedoc.ModelRepository;
-import at.scch.nodedoc.parser.BrowseNameValidator;
-import at.scch.nodedoc.parser.ModelValidator;
-import at.scch.nodedoc.parser.NodeSetXMLParser;
-import at.scch.nodedoc.parser.SimpleNodeIdValidator;
+import at.scch.nodedoc.parser.*;
 import at.scch.nodedoc.parser.rawModel.RawNodeSet;
 import at.scch.nodedoc.uaStandard.Namespaces;
 import org.javatuples.Pair;
@@ -16,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.OffsetDateTime;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 public class ClasspathModelRepository implements ModelRepository {
@@ -76,10 +74,12 @@ public class ClasspathModelRepository implements ModelRepository {
             if (pathToModel == null) {
                 throw new RuntimeException("Model not found in classpath: " + metaData.getModelUri() + " (" + metaData.getVersion() + " / " + metaData.getPublicationDate() + ")");
             }
-            var nodeSetXMLValidator = new SimpleNodeIdValidator();
-            var modelValidator = new ModelValidator();
-            var browseNameValidator = new BrowseNameValidator();
-            return new NodeSetXMLParser(nodeSetXMLValidator, modelValidator, browseNameValidator).parseAndValidateXML(ClasspathModelRepository.class.getResourceAsStream(pathToModel));
+            var validator = new RawNodeSetValidator(List.of(
+                    new SimpleNodeIdValidator(),
+                    new ModelValidator(),
+                    new BrowseNameValidator()
+            ));
+            return new NodeSetXMLParser(validator).parseAndValidateXML(ClasspathModelRepository.class.getResourceAsStream(pathToModel));
         } catch (IOException | SAXException e) {
             throw new RuntimeException(e);
         }

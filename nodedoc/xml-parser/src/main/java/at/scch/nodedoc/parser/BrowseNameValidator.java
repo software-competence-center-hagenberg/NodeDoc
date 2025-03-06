@@ -4,7 +4,7 @@ import at.scch.nodedoc.parser.rawModel.RawNodeSet;
 
 import java.util.regex.Pattern;
 
-public class BrowseNameValidator {
+public class BrowseNameValidator implements Validator {
 
     private static final String BROWSENAME_PATTERN = "(?:(?<index>[0-9]+):)?(?<name>.+)";
 

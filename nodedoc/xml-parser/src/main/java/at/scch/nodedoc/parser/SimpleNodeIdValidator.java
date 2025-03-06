@@ -10,7 +10,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class SimpleNodeIdValidator {
+public class SimpleNodeIdValidator implements Validator {
 
     public void validateOrThrow(RawNodeSet nodeSet) {
         validatedUsedNamespaceIndices(nodeSet);

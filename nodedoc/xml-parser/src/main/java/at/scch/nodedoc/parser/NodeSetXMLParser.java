@@ -18,9 +18,7 @@ import java.io.InputStream;
 public class NodeSetXMLParser {
 
     private final DocumentBuilder documentBuilder;
-    private final SimpleNodeIdValidator simpleNodeIdValidator;
-    private final ModelValidator modelValidator;
-    private final BrowseNameValidator browseNameValidator;
+    private final RawNodeSetValidator validator;
 
     public static final String XSD_PATH = "/at/scch/nodedoc/parser/UANodeSet.xsd";
 
@@ -43,10 +41,8 @@ public class NodeSetXMLParser {
         }
     }
 
-    public NodeSetXMLParser(SimpleNodeIdValidator simpleNodeIdValidator, ModelValidator modelValidator, BrowseNameValidator browseNameValidator) {
-        this.simpleNodeIdValidator = simpleNodeIdValidator;
-        this.modelValidator = modelValidator;
-        this.browseNameValidator = browseNameValidator;
+    public NodeSetXMLParser(RawNodeSetValidator validator) {
+        this.validator = validator;
         var documentBuilderFactory = DocumentBuilderFactory.newInstance();
         documentBuilderFactory.setNamespaceAware(true);
         var schemaFactory = SchemaFactory.newDefaultInstance();
@@ -65,9 +61,7 @@ public class NodeSetXMLParser {
         log.info("Parse and validate XML");
         var document = documentBuilder.parse(inputStream);
         var rawNodeSet = new RawNodeSet(document.getDocumentElement());
-        simpleNodeIdValidator.validateOrThrow(rawNodeSet);
-        modelValidator.validateOrThrow(rawNodeSet);
-        browseNameValidator.validateOrThrow(rawNodeSet);
+        validator.validateOrThrow(rawNodeSet);
         return rawNodeSet;
     }
 

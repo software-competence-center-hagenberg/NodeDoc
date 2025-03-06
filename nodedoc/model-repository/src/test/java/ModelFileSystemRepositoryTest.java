@@ -1,10 +1,7 @@
 import at.scch.nodedoc.ModelFileSystemRepository;
 import at.scch.nodedoc.ModelMetaData;
 import at.scch.nodedoc.ModelRepository;
-import at.scch.nodedoc.parser.BrowseNameValidator;
-import at.scch.nodedoc.parser.ModelValidator;
-import at.scch.nodedoc.parser.NodeSetXMLParser;
-import at.scch.nodedoc.parser.SimpleNodeIdValidator;
+import at.scch.nodedoc.parser.*;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.time.OffsetDateTime;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -25,10 +23,12 @@ public class ModelFileSystemRepositoryTest {
 
     @BeforeEach
     public void setup() throws IOException {
-        var nodeSetXMLValidator = new SimpleNodeIdValidator();
-        var modelValidator = new ModelValidator();
-        var browseNameValidator = new BrowseNameValidator();
-        var parser = new NodeSetXMLParser(nodeSetXMLValidator, modelValidator, browseNameValidator);
+        var validator = new RawNodeSetValidator(List.of(
+                new SimpleNodeIdValidator(),
+                new ModelValidator(),
+                new BrowseNameValidator()
+        ));
+        var parser = new NodeSetXMLParser(validator);
         nodeSetDirectory = Files.createTempDirectory("nodeset").toFile();
         repository = new ModelFileSystemRepository(parser, nodeSetDirectory);
     }

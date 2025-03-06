@@ -9,6 +9,7 @@ import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.time.OffsetDateTime;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,10 +25,12 @@ class NodeSetXMLParserTest {
 
     @BeforeAll
     public static void parseXML() throws IOException, SAXException {
-        var nodeSetXMLValidator = new SimpleNodeIdValidator();
-        var modelValidator = new ModelValidator();
-        var browseNameValidator = new BrowseNameValidator();
-        var parser = new NodeSetXMLParser(nodeSetXMLValidator, modelValidator, browseNameValidator);
+        var validator = new RawNodeSetValidator(List.of(
+                new SimpleNodeIdValidator(),
+                new ModelValidator(),
+                new BrowseNameValidator()
+        ));
+        var parser = new NodeSetXMLParser(validator);
         nodeSet = parser.parseAndValidateXML(NodeSetXMLParserTest.class.getResourceAsStream("/nodesets/Euromap_test_1_00.xml"));
     }
 
