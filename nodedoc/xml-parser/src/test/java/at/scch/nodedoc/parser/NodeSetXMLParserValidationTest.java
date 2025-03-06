@@ -14,7 +14,8 @@ public class NodeSetXMLParserValidationTest {
     private void parseAndValidateXML(String file) {
         var nodeSetXMLValidator = new SimpleNodeIdValidator();
         var modelValidator = new ModelValidator();
-        var parser = new NodeSetXMLParser(nodeSetXMLValidator, modelValidator);
+        var browseNameValidator = new BrowseNameValidator();
+        var parser = new NodeSetXMLParser(nodeSetXMLValidator, modelValidator, browseNameValidator);
         parser.parseAndValidateXML(NodeSetXMLParserTest.class.getResourceAsStream("/nodesets/invalid/" + file));
     }
 
@@ -95,5 +96,16 @@ public class NodeSetXMLParserValidationTest {
         assertThatThrownBy(() -> {
             parseAndValidateXML(file);
         }).isInstanceOf(NodeSetModelValidationException.class);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "invalid-browsename-empty.xml",
+            "invalid-browsename-missingindex.xml"
+    })
+    void testInvalidBrowseName(String file) {
+        assertThatThrownBy(() -> {
+            parseAndValidateXML(file);
+        }).isInstanceOf(NodeSetBrowseNameValidationException.class);
     }
 }
