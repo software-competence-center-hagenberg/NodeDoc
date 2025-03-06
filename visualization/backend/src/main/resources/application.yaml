@@ -10,11 +10,11 @@ spring:
       matching-strategy: ANT_PATH_MATCHER
 
 nodedoc:
-  couchDbUri: ${dbUri:http://localhost:5984}
+  couchDbUri: ${dbUri:http://localhost:5985}
   couchDb:
     uri: ${nodedoc.couchDbUri}
     username: admin
-    password: 1234
+    password: admin
     databaseName: opc_nodes
     createDb: true
   directory:
@@ -23,7 +23,7 @@ nodedoc:
     diffs: C:\Docker\opc_ua\data\diffs
     backups: C:\Docker\opc_ua\data\backups
   documentationGeneration:
-    couchDbUri: "`${window.location.protocol}//${window.location.hostname}:5984`"
+    couchDbUri: "`${window.location.protocol}//${window.location.hostname}:5985`"
   motd: ""
   demo: false
 
