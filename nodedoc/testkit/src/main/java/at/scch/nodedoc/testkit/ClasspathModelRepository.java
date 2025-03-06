@@ -39,6 +39,9 @@ public class ClasspathModelRepository implements ModelRepository {
         public static ModelMetaData D = new ModelMetaData("http://www.dependencies.org/D/", "1.00", OffsetDateTime.parse("2018-10-28T08:00:00Z"));
         public static ModelMetaData E = new ModelMetaData("http://www.dependencies.org/E/", "1.00", OffsetDateTime.parse("2018-10-28T08:00:00Z"));
 
+        public static ModelMetaData METHODS_MAIN = new ModelMetaData("http://methods.org/Main/", "1.00", OffsetDateTime.parse("2025-01-01T00:00:00Z"));
+        public static ModelMetaData METHODS_DEPENDENCY = new ModelMetaData("http://methods.org/Dependency/", "1.00", OffsetDateTime.parse("2025-01-01T00:00:00Z"));
+
     }
 
     @Override
@@ -60,7 +63,9 @@ public class ClasspathModelRepository implements ModelRepository {
                 Map.entry(Models.C, "/at/scch/nodedoc/testkit/dependencies/C.xml"),
                 Map.entry(Models.C2, "/at/scch/nodedoc/testkit/dependencies/C2.xml"),
                 Map.entry(Models.D, "/at/scch/nodedoc/testkit/dependencies/D.xml"),
-                Map.entry(Models.E, "/at/scch/nodedoc/testkit/dependencies/E.xml")
+                Map.entry(Models.E, "/at/scch/nodedoc/testkit/dependencies/E.xml"),
+                Map.entry(Models.METHODS_MAIN, "/at/scch/nodedoc/testkit/methods/main.xml"),
+                Map.entry(Models.METHODS_DEPENDENCY, "/at/scch/nodedoc/testkit/methods/dependency.xml")
         );
 
         try {
