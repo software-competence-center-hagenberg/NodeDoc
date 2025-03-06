@@ -1,11 +1,10 @@
 package at.scch.nodedoc.modelresolver;
 
-import at.scch.nodedoc.nodeset.NodeId;
-import at.scch.nodedoc.nodeset.UANode;
-import at.scch.nodedoc.nodeset.UANodeSet;
-import at.scch.nodedoc.nodeset.UAReferenceType;
+import at.scch.nodedoc.nodeset.*;
 import at.scch.nodedoc.parser.rawModel.RawNode;
+import at.scch.nodedoc.uaStandard.Namespaces;
 import at.scch.nodedoc.uaStandard.Nodes;
+import at.scch.nodedoc.util.BrowseNameParser;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -96,6 +95,20 @@ public abstract class UANodeImpl<Node extends RawNode> implements UANode {
     @Override
     public String getBrowseName() {
         return rawNode.getBrowseName();
+    }
+
+    @Override
+    public StructuredBrowseName getStructuredBrowseName() {
+        var rawBrowseName = BrowseNameParser.parseBrowseName(getBrowseName()).get();
+        var namespaceUriInBrowseName = rawBrowseName.getNamespaceIndex()
+                .filter(index -> index > 0)
+                .map(index -> getNodeSet().getNamespaceIndexTable().get(index - 1))
+                .orElse(Namespaces.UA);
+        return new StructuredBrowseName(
+                rawBrowseName.getNamespaceIndex(),
+                namespaceUriInBrowseName,
+                rawBrowseName.getBrowseName()
+        );
     }
 
     @Override

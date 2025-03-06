@@ -21,6 +21,7 @@ public interface UANode {
     String getDocumentation();
     void setDocumentation(String documentation);
     String getBrowseName();
+    StructuredBrowseName getStructuredBrowseName();
     int getWriteMask();
     int getUserWriteMask();
     String getSymbolicName();

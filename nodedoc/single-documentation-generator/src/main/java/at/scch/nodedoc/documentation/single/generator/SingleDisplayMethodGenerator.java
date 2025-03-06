@@ -8,6 +8,7 @@ import at.scch.nodedoc.documentation.single.table.SingleMethodArgumentTableSecti
 import at.scch.nodedoc.documentation.single.table.SingleTableCell;
 import at.scch.nodedoc.documentation.single.table.SingleTableRow;
 import at.scch.nodedoc.documentation.template.StringTemplate;
+import at.scch.nodedoc.nodeset.UADataType;
 import at.scch.nodedoc.nodeset.UAMethod;
 import at.scch.nodedoc.nodeset.UANode;
 import at.scch.nodedoc.nodeset.UAVariable;
@@ -28,8 +29,8 @@ public class SingleDisplayMethodGenerator {
 
     public SingleDisplayMethod generateMethod(String headingText, String anchorValue, String typeDefinitionBrowseName, UAMethod method, Element documentationEditor, Element descriptionEditor) {
         var referencedNodes = method.getForwardReferences().values();
-        var inputArguments = generateArgumentList(referencedNodes.stream(), BrowseNames.ArgumentNames.INPUT_ARGUMENT, DisplayMethod.DisplayArgument.Direction.IN);
-        var outputArguments = generateArgumentList(referencedNodes.stream(), BrowseNames.ArgumentNames.OUTPUT_ARGUMENT, DisplayMethod.DisplayArgument.Direction.OUT);
+        var inputArguments = generateArgumentList(referencedNodes.stream(), BrowseNames.ArgumentNames.INPUT_ARGUMENT, DisplayMethod.DisplayArgument.Direction.IN, method.getNodeSet().getNamespaceIndexTable());
+        var outputArguments = generateArgumentList(referencedNodes.stream(), BrowseNames.ArgumentNames.OUTPUT_ARGUMENT, DisplayMethod.DisplayArgument.Direction.OUT, method.getNodeSet().getNamespaceIndexTable());
         var arguments = Stream.concat(inputArguments.stream(), outputArguments.stream()).collect(Collectors.toList());
 
         var methodArgumentsSection = generateArgumentTableSection(method, arguments);
@@ -38,21 +39,26 @@ public class SingleDisplayMethodGenerator {
         return new SingleDisplayMethod(method.getNodeId(), headingText, anchorValue, documentationEditor, descriptionEditor, headingText, arguments, typeDefinitionBrowseName, methodArgumentsTable, List.of());
     }
 
-    private List<SingleDisplayMethod.SingleDisplayArgument> generateArgumentList(Stream<UANode> referencedNodes, String argumentBrowseName, DisplayMethod.DisplayArgument.Direction direction) {
+    private List<SingleDisplayMethod.SingleDisplayArgument> generateArgumentList(Stream<UANode> referencedNodes, String argumentBrowseName, DisplayMethod.DisplayArgument.Direction direction, List<String> namespaceIndices) {
         return referencedNodes
                 .filter(node -> node.getBrowseName().equals(argumentBrowseName))
                 .map(node -> (UAVariable) node)
                 .flatMap(variable -> variable.getArguments().stream())
-                .map(argument -> generateArgument(direction, argument))
+                .map(argument -> generateArgument(direction, argument, namespaceIndices))
                 .collect(Collectors.toList());
     }
 
-    private SingleDisplayMethod.SingleDisplayArgument generateArgument(DisplayMethod.DisplayArgument.Direction direction, UAVariable.Argument argument) {
-        var argumentType = argument.getDataType().getBrowseName();
+    private SingleDisplayMethod.SingleDisplayArgument generateArgument(DisplayMethod.DisplayArgument.Direction direction, UAVariable.Argument argument, List<String> namespaceIndices) {
+        var argumentType = formatArgumentType(argument.getDataType(), namespaceIndices);
         var argumentName = argument.getName();
         var description = argument.getDescription();
 
         return new SingleDisplayMethod.SingleDisplayArgument(direction, argumentType, argumentName, description, argument);
+    }
+
+    private String formatArgumentType(UADataType dataType, List<String> namespaceIndices) {
+        var structuredBrowseName = dataType.getStructuredBrowseName();
+        return structuredBrowseName.computeNamespaceIndex(namespaceIndices) + ":" + structuredBrowseName.getBrowseName();
     }
 
     private SingleMethodArgumentTableSection generateArgumentTableSection(UAMethod method, List<SingleDisplayMethod.SingleDisplayArgument> arguments) {

@@ -2,9 +2,7 @@ package at.scch.nodedoc.testkit;
 
 import at.scch.nodedoc.ModelMetaData;
 import at.scch.nodedoc.ModelRepository;
-import at.scch.nodedoc.parser.ModelValidator;
-import at.scch.nodedoc.parser.NodeSetXMLParser;
-import at.scch.nodedoc.parser.SimpleNodeIdValidator;
+import at.scch.nodedoc.parser.*;
 import at.scch.nodedoc.parser.rawModel.RawNodeSet;
 import at.scch.nodedoc.uaStandard.Namespaces;
 import org.javatuples.Pair;
@@ -15,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.OffsetDateTime;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 public class ClasspathModelRepository implements ModelRepository {
@@ -40,6 +39,9 @@ public class ClasspathModelRepository implements ModelRepository {
         public static ModelMetaData D = new ModelMetaData("http://www.dependencies.org/D/", "1.00", OffsetDateTime.parse("2018-10-28T08:00:00Z"));
         public static ModelMetaData E = new ModelMetaData("http://www.dependencies.org/E/", "1.00", OffsetDateTime.parse("2018-10-28T08:00:00Z"));
 
+        public static ModelMetaData METHODS_MAIN = new ModelMetaData("http://methods.org/Main/", "1.00", OffsetDateTime.parse("2025-01-01T00:00:00Z"));
+        public static ModelMetaData METHODS_DEPENDENCY = new ModelMetaData("http://methods.org/Dependency/", "1.00", OffsetDateTime.parse("2025-01-01T00:00:00Z"));
+
     }
 
     @Override
@@ -61,7 +63,9 @@ public class ClasspathModelRepository implements ModelRepository {
                 Map.entry(Models.C, "/at/scch/nodedoc/testkit/dependencies/C.xml"),
                 Map.entry(Models.C2, "/at/scch/nodedoc/testkit/dependencies/C2.xml"),
                 Map.entry(Models.D, "/at/scch/nodedoc/testkit/dependencies/D.xml"),
-                Map.entry(Models.E, "/at/scch/nodedoc/testkit/dependencies/E.xml")
+                Map.entry(Models.E, "/at/scch/nodedoc/testkit/dependencies/E.xml"),
+                Map.entry(Models.METHODS_MAIN, "/at/scch/nodedoc/testkit/methods/main.xml"),
+                Map.entry(Models.METHODS_DEPENDENCY, "/at/scch/nodedoc/testkit/methods/dependency.xml")
         );
 
         try {
@@ -75,9 +79,12 @@ public class ClasspathModelRepository implements ModelRepository {
             if (pathToModel == null) {
                 throw new RuntimeException("Model not found in classpath: " + metaData.getModelUri() + " (" + metaData.getVersion() + " / " + metaData.getPublicationDate() + ")");
             }
-            var nodeSetXMLValidator = new SimpleNodeIdValidator();
-            var modelValidator = new ModelValidator();
-            return new NodeSetXMLParser(nodeSetXMLValidator, modelValidator).parseAndValidateXML(ClasspathModelRepository.class.getResourceAsStream(pathToModel));
+            var validator = new RawNodeSetValidator(List.of(
+                    new SimpleNodeIdValidator(),
+                    new ModelValidator(),
+                    new BrowseNameValidator()
+            ));
+            return new NodeSetXMLParser(validator).parseAndValidateXML(ClasspathModelRepository.class.getResourceAsStream(pathToModel));
         } catch (IOException | SAXException e) {
             throw new RuntimeException(e);
         }

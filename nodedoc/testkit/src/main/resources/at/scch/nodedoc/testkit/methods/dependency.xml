@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UANodeSet xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
+    <NamespaceUris>
+        <Uri>http://methods.org/Dependency/</Uri>
+    </NamespaceUris>
+    <Models>
+        <Model ModelUri="http://methods.org/Dependency/" PublicationDate="2025-01-01T00:00:00Z" Version="1.00">
+            <RequiredModel ModelUri="http://opcfoundation.org/UA/" PublicationDate="2019-09-09T00:00:00Z" Version="1.04.3"/>
+        </Model>
+    </Models>
+    <Aliases>
+        <Alias Alias="HasSubtype">i=45</Alias>
+    </Aliases>
+
+    <UADataType NodeId="ns=1;i=3003" BrowseName="1:StructureInDependency">
+        <DisplayName>StructureInDependency</DisplayName>
+        <References>
+            <Reference ReferenceType="HasSubtype" IsForward="false">i=22</Reference>
+        </References>
+        <Definition Name="1:StructureInBase">
+        </Definition>
+    </UADataType>
+</UANodeSet>

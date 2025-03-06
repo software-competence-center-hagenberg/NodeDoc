@@ -89,6 +89,11 @@ public abstract class InMemoryNode implements UANode {
     }
 
     @Override
+    public StructuredBrowseName getStructuredBrowseName() {
+        return null; // implement when needed
+    }
+
+    @Override
     public int getWriteMask() {
         throw new UnsupportedOperationException();
     }
