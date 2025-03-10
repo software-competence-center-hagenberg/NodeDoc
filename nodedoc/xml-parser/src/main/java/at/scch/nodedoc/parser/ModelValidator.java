@@ -3,7 +3,7 @@ package at.scch.nodedoc.parser;
 import at.scch.nodedoc.parser.rawModel.RawModel;
 import at.scch.nodedoc.parser.rawModel.RawNodeSet;
 
-public class ModelValidator {
+public class ModelValidator implements Validator {
 
     public void validateOrThrow(RawNodeSet nodeSet) {
         nodeSet.getModels().forEach(this::validateOrThrow);

@@ -6,15 +6,20 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.*;
 
 public class NodeSetXMLParserValidationTest {
 
     @SneakyThrows
     private void parseAndValidateXML(String file) {
-        var nodeSetXMLValidator = new SimpleNodeIdValidator();
-        var modelValidator = new ModelValidator();
-        var parser = new NodeSetXMLParser(nodeSetXMLValidator, modelValidator);
+        var validator = new RawNodeSetValidator(List.of(
+                new SimpleNodeIdValidator(),
+                new ModelValidator(),
+                new BrowseNameValidator()
+        ));
+        var parser = new NodeSetXMLParser(validator);
         parser.parseAndValidateXML(NodeSetXMLParserTest.class.getResourceAsStream("/nodesets/invalid/" + file));
     }
 
@@ -95,5 +100,16 @@ public class NodeSetXMLParserValidationTest {
         assertThatThrownBy(() -> {
             parseAndValidateXML(file);
         }).isInstanceOf(NodeSetModelValidationException.class);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "invalid-browsename-empty.xml",
+            "invalid-browsename-missingindex.xml"
+    })
+    void testInvalidBrowseName(String file) {
+        assertThatThrownBy(() -> {
+            parseAndValidateXML(file);
+        }).isInstanceOf(NodeSetBrowseNameValidationException.class);
     }
 }
