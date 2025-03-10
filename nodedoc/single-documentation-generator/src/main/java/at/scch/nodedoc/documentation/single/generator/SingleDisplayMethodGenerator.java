@@ -13,6 +13,7 @@ import at.scch.nodedoc.nodeset.UAMethod;
 import at.scch.nodedoc.nodeset.UANode;
 import at.scch.nodedoc.nodeset.UAVariable;
 import at.scch.nodedoc.uaStandard.BrowseNames;
+import at.scch.nodedoc.util.UAModelUtils;
 import org.jsoup.nodes.Element;
 
 import java.util.List;
@@ -58,7 +59,12 @@ public class SingleDisplayMethodGenerator {
 
     private String formatArgumentType(UADataType dataType, List<String> namespaceIndices) {
         var structuredBrowseName = dataType.getStructuredBrowseName();
-        return structuredBrowseName.computeNamespaceIndex(namespaceIndices) + ":" + structuredBrowseName.getBrowseName();
+        var namespaceIndex = structuredBrowseName.computeNamespaceIndex(namespaceIndices);
+        if (namespaceIndex > 0) {
+            return namespaceIndex + ":" + structuredBrowseName.getBrowseName();
+        } else {
+            return structuredBrowseName.getBrowseName();
+        }
     }
 
     private SingleMethodArgumentTableSection generateArgumentTableSection(UAMethod method, List<SingleDisplayMethod.SingleDisplayArgument> arguments) {
@@ -70,6 +76,9 @@ public class SingleDisplayMethodGenerator {
                     );
                     return new SingleTableRow(List.of(
                             new SingleTableCell<>(displayArgument.getArgument().getName()),
+                            new SingleTableCell<>(formatArgumentType(displayArgument.getArgument().getDataType(), method.getNodeSet().getNamespaceIndexTable())),
+                            new SingleTableCell<>(UAModelUtils.valueRankAsString(displayArgument.getArgument().getValueRank())),
+                            new SingleTableCell<>(displayArgument.getArgument().getArrayDimension()),
                             new SingleTableCell<>(editor)
                     ));
                 }).collect(Collectors.toList());
