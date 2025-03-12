@@ -7,6 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -103,7 +104,7 @@ public class DiffContextTest {
         dataTypeC2 = createMock(UADataType.class, 3, "NewDataTypeC");
 
         dataTypeD1 = createMock(UADataType.class, 4, "DataTypeD");
-        var definitionFields1 = Set.of(
+        var definitionFields1 = List.of(
                 createDefinitionFieldMock("DefFieldA", dataTypeA1),
                 createDefinitionFieldMock("DefFieldB", dataTypeB),
                 createDefinitionFieldMock("DefFieldC", dataTypeC1),
@@ -111,7 +112,7 @@ public class DiffContextTest {
         );
         when(dataTypeD1.getDefinition()).thenReturn(definitionFields1);
         dataTypeD2 = createMock(UADataType.class, 4, "DataTypeD");
-        var definitionFields2 = Set.of(
+        var definitionFields2 = List.of(
                 createDefinitionFieldMock("DefFieldA", dataTypeA2),
                 createDefinitionFieldMock("DefFieldC", dataTypeC2),
                 createDefinitionFieldMock("DefFieldD", dataTypeA2),
@@ -231,7 +232,7 @@ public class DiffContextTest {
     @Test
     void getDefinitionFieldDiffSetForNode() {
         var diffNode = diffContext.getNodeById(nodeId(4), UADataType.class);
-        var definitionFields = diffNode.getDiffSetWithValues(UADataType::getDefinition, DefinitionField::getName, String.class);
+        var definitionFields = diffNode.getDiffSetWithValues((UADataType dataType) -> new HashSet<>(dataType.getDefinition()), DefinitionField::getName, String.class);
 
         assertThat(definitionFields).hasSize(5);
         assertThat(definitionFields)

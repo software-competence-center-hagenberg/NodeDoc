@@ -5,7 +5,7 @@ import at.scch.nodedoc.nodeset.NodeClass;
 import at.scch.nodedoc.nodeset.NodeId;
 import at.scch.nodedoc.nodeset.UADataType;
 
-import java.util.Set;
+import java.util.List;
 
 public class InMemoryDataType extends InMemoryType implements UADataType {
 
@@ -19,7 +19,7 @@ public class InMemoryDataType extends InMemoryType implements UADataType {
     }
 
     @Override
-    public Set<DefinitionField> getDefinition() {
-        return Set.of();
+    public List<DefinitionField> getDefinition() {
+        return List.of();
     }
 }
