@@ -41,10 +41,14 @@ public class DiffDisplayDataTypeTableSectionGenerator {
     }
 
     private <T extends Comparable<T>> List<DiffTableRow> buildRows(DiffContext.DiffView<UADataType> typeEntry, boolean showAllRowsAsUnchanged, List<Function<DiffContext.DiffView<DefinitionField>, DiffContext.DiffView<String>>> cellDiffViewExtractors, Function<DefinitionField, T> sortingKeyExtractor) {
-        return typeEntry.getDiffSetWithValues((UADataType dataType) -> new HashSet<>(dataType.getDefinition()), DefinitionField::getName, String.class).stream()
+        var definitionFields = sortingKeyExtractor == null
+                ? typeEntry.getDiffSetWithValues((UADataType dataType) -> new HashSet<>(dataType.getDefinition()), DefinitionField::getName, String.class).stream()
                 .sorted(Comparator.comparing(
                         entry -> entry.getValue().getProperty(sortingKeyExtractor).getBaseOrElseCompareValue())
                 )
+                : typeEntry.getDiffListWithValues(UADataType::getDefinition, DefinitionField::getName, String.class).stream();
+
+        return definitionFields
                 .map(entry -> {
                     var definitionFieldDiffView = entry.getValue();
                     var rowDisplayDifferenceType = showAllRowsAsUnchanged ? DisplayDifferenceType.UNCHANGED : DisplayDifferenceType.of(entry.getEntryDiffType());

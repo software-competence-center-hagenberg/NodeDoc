@@ -7,7 +7,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -232,9 +231,9 @@ public class DiffContextTest {
     @Test
     void getDefinitionFieldDiffSetForNode() {
         var diffNode = diffContext.getNodeById(nodeId(4), UADataType.class);
-        var definitionFields = diffNode.getDiffSetWithValues((UADataType dataType) -> new HashSet<>(dataType.getDefinition()), DefinitionField::getName, String.class);
+        var definitionFields = diffNode.getDiffListWithValues(UADataType::getDefinition, DefinitionField::getName, String.class);
 
-        assertThat(definitionFields).hasSize(5);
+        assertThat(definitionFields).hasSize(6);
         assertThat(definitionFields)
                 .extracting(
                         DiffContext.DiffCollectionEntry::getEntryDiffType,
@@ -242,7 +241,8 @@ public class DiffContextTest {
                 .containsExactlyInAnyOrder(
                         tuple(DiffContext.EntryDiffType.UNCHANGED, "DefFieldA"),
                         tuple(DiffContext.EntryDiffType.REMOVED, "DefFieldB"),
-                        tuple(DiffContext.EntryDiffType.UNCHANGED, "DefFieldC"),
+                        tuple(DiffContext.EntryDiffType.ADDED, "DefFieldC"),
+                        tuple(DiffContext.EntryDiffType.REMOVED, "DefFieldC"),
                         tuple(DiffContext.EntryDiffType.ADDED, "DefFieldD"),
                         tuple(DiffContext.EntryDiffType.UNCHANGED, "DefFieldE")
                 );
