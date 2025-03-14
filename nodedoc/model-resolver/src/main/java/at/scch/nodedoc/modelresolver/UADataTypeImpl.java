@@ -7,7 +7,7 @@ import at.scch.nodedoc.nodeset.UADataType;
 import at.scch.nodedoc.parser.rawModel.RawDataType;
 import lombok.Getter;
 
-import java.util.Set;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class UADataTypeImpl extends UATypeImpl<RawDataType> implements UADataType {
@@ -19,7 +19,7 @@ public class UADataTypeImpl extends UATypeImpl<RawDataType> implements UADataTyp
 
         this.definition = definitionFields.stream()
                 .map(DefinitionFieldImpl::new)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -28,6 +28,6 @@ public class UADataTypeImpl extends UATypeImpl<RawDataType> implements UADataTyp
     }
 
     @Getter
-    private final Set<DefinitionField> definition;
+    private final List<DefinitionField> definition;
 
 }

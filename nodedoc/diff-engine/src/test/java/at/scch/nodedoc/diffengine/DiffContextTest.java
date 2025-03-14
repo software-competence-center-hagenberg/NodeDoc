@@ -103,7 +103,7 @@ public class DiffContextTest {
         dataTypeC2 = createMock(UADataType.class, 3, "NewDataTypeC");
 
         dataTypeD1 = createMock(UADataType.class, 4, "DataTypeD");
-        var definitionFields1 = Set.of(
+        var definitionFields1 = List.of(
                 createDefinitionFieldMock("DefFieldA", dataTypeA1),
                 createDefinitionFieldMock("DefFieldB", dataTypeB),
                 createDefinitionFieldMock("DefFieldC", dataTypeC1),
@@ -111,7 +111,7 @@ public class DiffContextTest {
         );
         when(dataTypeD1.getDefinition()).thenReturn(definitionFields1);
         dataTypeD2 = createMock(UADataType.class, 4, "DataTypeD");
-        var definitionFields2 = Set.of(
+        var definitionFields2 = List.of(
                 createDefinitionFieldMock("DefFieldA", dataTypeA2),
                 createDefinitionFieldMock("DefFieldC", dataTypeC2),
                 createDefinitionFieldMock("DefFieldD", dataTypeA2),
@@ -231,9 +231,9 @@ public class DiffContextTest {
     @Test
     void getDefinitionFieldDiffSetForNode() {
         var diffNode = diffContext.getNodeById(nodeId(4), UADataType.class);
-        var definitionFields = diffNode.getDiffSetWithValues(UADataType::getDefinition, DefinitionField::getName, String.class);
+        var definitionFields = diffNode.getDiffListWithValues(UADataType::getDefinition, DefinitionField::getName, String.class);
 
-        assertThat(definitionFields).hasSize(5);
+        assertThat(definitionFields).hasSize(6);
         assertThat(definitionFields)
                 .extracting(
                         DiffContext.DiffCollectionEntry::getEntryDiffType,
@@ -241,7 +241,8 @@ public class DiffContextTest {
                 .containsExactlyInAnyOrder(
                         tuple(DiffContext.EntryDiffType.UNCHANGED, "DefFieldA"),
                         tuple(DiffContext.EntryDiffType.REMOVED, "DefFieldB"),
-                        tuple(DiffContext.EntryDiffType.UNCHANGED, "DefFieldC"),
+                        tuple(DiffContext.EntryDiffType.ADDED, "DefFieldC"),
+                        tuple(DiffContext.EntryDiffType.REMOVED, "DefFieldC"),
                         tuple(DiffContext.EntryDiffType.ADDED, "DefFieldD"),
                         tuple(DiffContext.EntryDiffType.UNCHANGED, "DefFieldE")
                 );

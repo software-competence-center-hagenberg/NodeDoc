@@ -39,7 +39,7 @@ public class SingleDisplayDataTypeTableSectionGenerator {
                 DefinitionField::getName,
                 definitionField -> definitionField.getDataType().getBrowseName(),
                 field -> generateEditorForField(type, field)
-        ), DefinitionField::getName);
+        ), null);
         return new SingleStructDataTypeTableSection(structRows);
     }
 
@@ -52,8 +52,11 @@ public class SingleDisplayDataTypeTableSectionGenerator {
     }
 
     private <T extends Comparable<T>> List<SingleTableRow> buildRows(UADataType type, List<Function<DefinitionField, Object>> cellValueExtractors, Function<DefinitionField, T> sortingKeyExtractor) {
-        return type.getDefinition().stream()
-                .sorted(Comparator.comparing(field -> sortingKeyExtractor.apply(field)))
+        var definitionFields = type.getDefinition().stream();
+        if (sortingKeyExtractor != null) {
+            definitionFields = definitionFields.sorted(Comparator.comparing(sortingKeyExtractor::apply));
+        }
+        return definitionFields
                 .map(field -> {
                     var cells = cellValueExtractors.stream()
                             .map(f -> new SingleTableCell<>(f.apply(field)))
