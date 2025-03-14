@@ -52,11 +52,14 @@ public class UAModelUtils {
     }
 
     public static String valueRankAsString(UAVariableType variableType) {
-        var valueRank = variableType.getValueRank();
+        return valueRankAsString(variableType.getValueRank());
+    }
+
+    public static String valueRankAsString(int valueRank) {
         if (valueRank > 1)
             return valueRank + " Dimensions";
         else if (valueRank == 1)
-            return valueRank + " Dimension";
+            return "OneDimension";
         else if (valueRank == 0)
             return "OneOrMoreDimensions";
         else if (valueRank == -1)

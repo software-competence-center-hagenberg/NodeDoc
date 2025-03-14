@@ -8,12 +8,14 @@ import at.scch.nodedoc.documentation.diff.table.DiffTableRow;
 import at.scch.nodedoc.documentation.diff.table.DiffTableUtils;
 import at.scch.nodedoc.documentation.displaymodel.DisplayMethod;
 import at.scch.nodedoc.documentation.displaymodel.table.MethodArgumentsTable;
+import at.scch.nodedoc.nodeset.UADataType;
 import at.scch.nodedoc.nodeset.UAMethod;
 import at.scch.nodedoc.nodeset.UANode;
 import at.scch.nodedoc.nodeset.UAVariable;
 import at.scch.nodedoc.uaStandard.BrowseNames;
 import at.scch.nodedoc.uaStandard.Nodes;
 import at.scch.nodedoc.util.StreamUtils;
+import at.scch.nodedoc.util.UAModelUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -98,6 +100,9 @@ public class DiffDisplayMethodGenerator {
                 .map(diffDisplayArgument -> {
                     return new DiffTableRow(DisplayDifferenceType.UNCHANGED, List.of(
                             DiffTableUtils.diffViewToTableCell(mode.apply(diffDisplayArgument.getArgument().getProperty(UAVariable.Argument::getName))),
+                            DiffTableUtils.diffViewToTableCell(mode.apply(diffDisplayArgument.getArgument().navigate(UAVariable.Argument::getDataType).getMergedProperty(UADataType::getBrowseName))),
+                            DiffTableUtils.diffViewToTableCell(mode.apply(diffDisplayArgument.getArgument().getProperty(a -> UAModelUtils.valueRankAsString(a.getValueRank())))),
+                            DiffTableUtils.diffViewToTableCell(mode.apply(diffDisplayArgument.getArgument().getProperty(UAVariable.Argument::getArrayDimension))),
                             DiffTableUtils.diffViewToTableCell(mode.apply(diffDisplayArgument.getArgument().getProperty(UAVariable.Argument::getDescription)))
                     ));
                 }).collect(Collectors.toList());

@@ -10,7 +10,10 @@ public interface MethodArgumentTableSection extends DisplayTable.Section {
     @Override
     default List<DisplayTable.ColumnDefinition> getColumnDefinitions() {
         return List.of(
-                new DisplayTable.ColumnDefinition("Argument", 2, getCellValueTemplateFunction()),
+                new DisplayTable.ColumnDefinition("Name", 1, getCellValueTemplateFunction()),
+                new DisplayTable.ColumnDefinition("DataType", 1, getCellValueTemplateFunction()),
+                new DisplayTable.ColumnDefinition("ValueRank", 1, getCellValueTemplateFunction()),
+                new DisplayTable.ColumnDefinition("ArrayDimensions", 1, getCellValueTemplateFunction()),
                 new DisplayTable.ColumnDefinition("Description", 4, getDescriptionCellTemplateFunction())
         );
     }
