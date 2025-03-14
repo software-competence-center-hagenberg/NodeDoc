@@ -6,7 +6,7 @@ import { getAllDocuments, loadDocuments, updateTextAndSaveDocument as storeUserT
 import { TextId, isTextIdEqual } from "./TextId";
 import { NodeSetVersion, VersionSelector } from "./VersionSelector";
 
-import { performDownload } from "./download";
+import { performDownload, performDownloadWithSvgToPngConversion } from "./download";
 
 type EditorEnvironmentProps = {
     namespaceUri: string,
@@ -148,7 +148,12 @@ export class EditorEnvironment extends React.Component <EditorEnvironmentProps, 
             .map(str => JSON.parse(str) as NodeSetVersion)
         return <>
             <div>
-                <button onClick={() => performDownload(this.props.namespaceUri, this.props.version)}>Download</button>
+                <p>
+                    <button onClick={() => performDownload(this.props.namespaceUri, this.props.version)}>Download</button>
+                </p>
+                <p>
+                    <button onClick={() => performDownloadWithSvgToPngConversion(this.props.namespaceUri, this.props.version)}>Download (Convert SVGs to PNGs)</button>
+                </p>
                 <h3>Text Import</h3>
                 <span>Select base version:&nbsp;</span>
                 <VersionSelector
